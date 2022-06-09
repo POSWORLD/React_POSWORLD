@@ -13,7 +13,7 @@
 
 2. git branch -b (사용자이니셜)
 ```
-git branch -b kjh 
+git checkout -b kjh 
 ```
 
 ## 깃헙에서 기능 생성 후 
