@@ -11,7 +11,7 @@
 ```
 - 이것만 해도 git clone 해서 프로젝트를 받을 수 있다 
 
-2. git branch -b (사용자이니셜)
+2. 깃 브랜치 생성하기 git checkout -b (사용자이니셜)
 ```
 git checkout -b kjh 
 ```
@@ -26,5 +26,6 @@ git push origin (브랜치명)
 
 ```
 
+## 주의 push 하고 나서 pull request 이후 merge 버튼 누르지 않기 
 
 
