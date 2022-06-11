@@ -10,12 +10,12 @@ function Login() {
   const handleInputPw = (e) =>{
     setPw(e.currentTarget.value);
   }
-  const onClickLogin = (e) =>{
+  const onSubmitLogin = (e) =>{
     e.preventDefault();
   }
   
   return (
-    <form name='loginForm'>
+    <form className='loginForm'>
       
       <div>
         <label htmlFor='id'>아이디 : </label>
@@ -23,10 +23,10 @@ function Login() {
       </div>
       <div>
         <label htmlFor='pw'>비밀번호 : </label>
-        <input type='text' name ='pw' value={pw} onChange={handleInputPw}/>
+        <input type='password' name ='pw' value={pw} onChange={handleInputPw}/>
       </div>
       <div>
-        <input type='button' name='loginBtn' onClick={onClickLogin} value='로그인'/>
+        <input type='submit' name='loginBtn' onSubmit={onSubmitLogin} value='로그인'/>
       </div>
       <div>
         <a href="/join">회원가입하러가기</a>
