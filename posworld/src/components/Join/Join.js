@@ -6,7 +6,7 @@ function Join() {
             <form className="joinForm">
                 <div>
                     <img
-                        src="https://github.com/POSWORLD/React_POSWORLD/blob/master/posworld/public/img/logo.png?raw=true"
+                        src="https://user-images.githubusercontent.com/46432606/173168317-0ab35773-8f28-4f0b-8dd3-e43b275ee529.png"
                         alt="logo"
                     ></img>
                 </div>
