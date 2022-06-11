@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 function Login() {
-  const [id,setId] = useState('')
-  const [pw,setPw] = useState('')
+  const [id,setId] = useState('');
+  const [pw,setPw] = useState('');
+
   const handleInputId = (e) =>{
-    setId(e.target.value)
+    setId(e.currentTarget.value);
   }
   const handleInputPw = (e) =>{
-    setPw(e.target.value)
+    setPw(e.currentTarget.value);
   }
-  const onClickLogin = () =>{
-    console.log('click login')
+  const onClickLogin = (e) =>{
+    e.preventDefault();
   }
   
   return (
@@ -25,7 +26,10 @@ function Login() {
         <input type='text' name ='pw' value={pw} onChange={handleInputPw}/>
       </div>
       <div>
-        <button type='button' onClick={onClickLogin}>로그인</button>
+        <input type='button' name='loginBtn' onClick={onClickLogin} value='로그인'/>
+      </div>
+      <div>
+        <a href="/join">회원가입하러가기</a>
       </div>
       
 
