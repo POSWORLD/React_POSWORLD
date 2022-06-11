@@ -1,5 +1,4 @@
 import "./Login.css";
-import Form from "./Form.js";
 function Login() {
   return (
     <div className="LoginPage">
@@ -10,7 +9,6 @@ function Login() {
         </div>
         <input type="submit" value="로그인"></input>
       </form>
-      <Form></Form>
     </div>
   );
 }
