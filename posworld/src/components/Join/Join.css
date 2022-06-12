@@ -1,0 +1,70 @@
+* {
+   margin-bottom: 0.2em;
+   padding: 0.4em;
+}
+
+body {
+   background-color: #c9dfe7;
+}
+
+.Join {
+   width: 80%;
+   height: 80%;
+}
+.logo {
+   margin: 0%;
+   margin-top: 8%;
+}
+img {
+   width: 50%;
+}
+.JoinPage {
+   top: 50%;
+   left: 50%;
+   position: fixed;
+   transform: translate(-50%, -50%);
+   background-color: white;
+   border-style: solid black;
+   border-radius: 50%;
+   padding: 4em;
+   text-align: center;
+}
+
+p {
+   margin: 0 0 0 15%;
+   font-size: 0.5em;
+   text-align: left;
+}
+
+input {
+   outline: none;
+   border-radius: 20px;
+   padding: 7px;
+}
+
+input[type='text'],
+input[type='password'] {
+   width: 70%;
+
+   margin: 0%;
+}
+
+#inputId {
+   width: 50%;
+   margin-right: 0.4em;
+}
+
+#joinBtn {
+   width: 70%;
+   background-color: black;
+   color: white;
+   margin-bottom: 10%;
+}
+
+button {
+   border-radius: 20px;
+   background-color: black;
+   color: white;
+   padding: 7px;
+   font-size: 0.8em;
+}
