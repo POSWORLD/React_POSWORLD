@@ -11,7 +11,6 @@ import {
   Label,
 } from "reactstrap";
 import { idCheck, insertUser } from "../../store/users";
-import { loginApi } from "../../store/usersApi";
 import AuthRouter from "../AuthRouter";
 import "./Join.css";
 
@@ -114,6 +113,7 @@ const Join = () => {
               type="radio"
               value="m"
               onChange={(e) => onChangeHandler(e)}
+              checked
             />{" "}
             <Label check>남</Label>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
