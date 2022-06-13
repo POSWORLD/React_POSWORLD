@@ -1,4 +1,10 @@
+import AuthRouter from "../AuthRouter";
+
 function Home() {
-  return <div>home</div>;
+  return (
+    <div>
+      <AuthRouter></AuthRouter>
+    </div>
+  );
 }
 export default Home;
