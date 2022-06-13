@@ -4,7 +4,6 @@ import Home from "./components/Home/Home";
 import Join from "./components/Join/Join";
 import Login from "./components/Login/Login";
 import "bootstrap/dist/css/bootstrap.css";
-import PhotoAdd from "./Photo/PhotoAdd";
 import Pcomment from "./components/Pcomment/Pcomment";
 
 function App() {
