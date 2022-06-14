@@ -11,7 +11,7 @@ function Home() {
   const { id, userId, name, gender, proPhoto } = useSelector(
     (state) => state.users.me
   );
-  const genderImg = gender == "m" ? "♀" : "♂";
+  const genderSign = gender == "m" ? "♀" : "♂";
 
   const [isOpen, setIsOpen] = useState(false);
   const modalClose = () => {
@@ -30,7 +30,7 @@ function Home() {
         <Input value={"TODAY IS..."} readOnly></Input>
       </Container>
       <Container>
-        이름: {name} / 성별: {genderImg}
+        이름: {name} / 성별: {genderSign}
         &nbsp;&nbsp;&nbsp;
         <Button onClick={modalOpen}>edit</Button>
         <br></br>

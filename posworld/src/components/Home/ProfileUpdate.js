@@ -6,17 +6,13 @@ import { updateUser } from "../../store/users";
 import "./HomeUpdate.css";
 
 const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     name: "",
     proPhoto: "",
     file: "",
   });
 
-  useEffect(() => {
-    setForm({ name, proPhoto });
-  }, [name, proPhoto]);
-
-  const dispatch = useDispatch();
   const onChangeFile = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -28,6 +24,10 @@ const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
       };
     });
   };
+
+  useEffect(() => {
+    setForm({ name, proPhoto });
+  }, [name, proPhoto]);
 
   const onChangeName = (e) => {
     const { value } = e.target;
@@ -84,7 +84,7 @@ const ProfileUpdateBody = ({ onChangeFile, onChangeName, form }) => {
         <div className="profileImgBox">
           <img
             className="profileImg"
-            src={`${IMG_PATH}${form.proPhoto}`}
+            src={`${form.proPhoto}`}
             alt="myProfileImg"
           ></img>
         </div>

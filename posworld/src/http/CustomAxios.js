@@ -17,3 +17,16 @@ export const customAxios = async (url, method, data) => {
     console.log(error.response.data);
   }
 };
+
+export const fileAxios = async (url, method, data) => {
+  const response = await axios({
+    url,
+    method,
+    data,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};

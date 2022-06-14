@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { fileAxios } from "../http/CustomAxios";
 import {
   idCheckApi,
   insertUserApi,
@@ -47,13 +48,29 @@ export const insertUser = createAsyncThunk(INSERT_USER, async (user) => {
   return await insertUserApi(user);
 });
 
-export const updateUser = createAsyncThunk(UPDATE_USERS, async (user) => {
-  const response = await updateUserApi(user);
-  if (response == 1) {
-    return user;
+export const updateUser = createAsyncThunk(
+  UPDATE_USERS,
+  async (payload, thunkAPI) => {
+    const { myToken } = thunkAPI.getState().users;
+
+    let filePath = "";
+    const { name, proPhoto, file } = payload;
+    let uploadFile = new FormData();
+    uploadFile.append("file", file);
+    if (file) {
+      filePath = await fileAxios("/upload", "post", uploadFile);
+    }
+    const user = {
+      name,
+      proPhoto: filePath ? filePath : proPhoto,
+    };
+    const response = await updateUserApi(user);
+    if (response == 1) {
+      return user;
+    }
+    return;
   }
-  return;
-});
+);
 
 // export const putUsers = async (users, user, id) => {
 //   const findUsersIndex = await users.findIndex((user) => user.id === id);
