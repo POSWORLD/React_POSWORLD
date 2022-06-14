@@ -5,6 +5,12 @@ import { IMG_PATH } from "../../http/CustomAxios";
 import AuthRouter from "../AuthRouter";
 import "./Profile.css";
 import ProfileUpdate from "./ProfileUpdate";
+import {
+  MdLink,
+  MdMailOutline,
+  MdLocationOn,
+  MdPhoneIphone,
+} from "react-icons/md";
 
 function Profile() {
   // console.log(useSelector((state) => state.users.me));
@@ -22,20 +28,20 @@ function Profile() {
   };
 
   return (
-    <div className="HomePage">
-      <Container>
-        <img src={`${IMG_PATH}${proPhoto}`} alt="proPhoto"></img>
-      </Container>
-      <Container>
-        <Input value={"TODAY IS..."} readOnly></Input>
-      </Container>
-      <Container>
-        이름: {name} / 성별: {genderSign}
-        &nbsp;&nbsp;&nbsp;
+    <div className="ProfileSection">
+      <img src={`${IMG_PATH}${proPhoto}`} alt="proPhoto"></img>
+      <p>
+        <input value={"TODAY IS..."} readOnly></input>
+      </p>
+      <p>
+        <span className="my-name">{name}</span>
+        <span className="my-sex">({genderSign})</span>
         <Button onClick={modalOpen}>edit</Button>
-        <br></br>
+      </p>
+      <p>
+        <MdMailOutline />
         {name}@posworld.com
-      </Container>
+      </p>
       <AuthRouter></AuthRouter>
       <ProfileUpdate
         name={name}

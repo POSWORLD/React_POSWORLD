@@ -7,6 +7,7 @@ import Pcomment from "./components/Pcomment/Pcomment";
 import Photo from "./components/Photo/Photo";
 import Home from "./components/Home/Home";
 import MiniRoom from "./components/Home/MiniRoom";
+import Profile from "./components/Home/Profile";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/pComment" element={<Pcomment></Pcomment>}></Route>
         <Route path="/Photo" element={<Photo></Photo>}></Route>
         <Route path="/MiniRoom" element={<MiniRoom></MiniRoom>}></Route>
+        <Route path="/Profile" element={<Profile></Profile>}></Route>
       </Routes>
     </BrowserRouter>
   );

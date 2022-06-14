@@ -1,9 +1,5 @@
 import { publicUrl } from "../../utils/utils";
 import styled from "styled-components";
-import Card from "../../styles/Layout/Card";
-import Content from "../../styles/Layout/Content";
-import Layout from "../../styles/Layout/Layout";
-import Profile from "./Profile";
 const ContentSection = styled.section`
   height: fit-content !important;
   h2 {
@@ -41,33 +37,29 @@ const ContentSection = styled.section`
 `;
 function MiniRoom() {
   return (
-    <Layout>
-      <Content>
-        <Card>
-          <ContentSection>
-            <div>
-              <h2>미니룸</h2>
-              <div>
-                <img
-                  src={publicUrl + "/resources/img/miniroom.gif"}
-                  alt="miniroom"
-                />
-              </div>
-            </div>
-          </ContentSection>
-          <ContentSection>
-            <h2>한 줄 감성</h2>
-            <ul>
-              <li>안녕</li>
-              <li>헤헤~☆</li>
-              <li>하하~☆</li>
-              <li></li>
-              <li></li>
-            </ul>
-          </ContentSection>
-        </Card>
-      </Content>
-    </Layout>
+    <>
+      <ContentSection>
+        <div>
+          <h2>미니룸</h2>
+          <div>
+            <img
+              src={publicUrl + "/resources/img/miniroom.gif"}
+              alt="miniroom"
+            />
+          </div>
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <h2>한 줄 감성</h2>
+        <ul>
+          <li>안녕</li>
+          <li>헤헤~☆</li>
+          <li>하하~☆</li>
+          <li></li>
+          <li></li>
+        </ul>
+      </ContentSection>
+    </>
   );
 }
 export default MiniRoom;
