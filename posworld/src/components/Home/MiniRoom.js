@@ -6,7 +6,7 @@ const ContentSection = styled.section`
     padding: 5px;
     margin-bottom: 10px;
     font-weight: bold;
-    color: ${(props) => props.color || "#20B2AA"};
+    color: ${(props) => props.color || "#238DB3"};
   }
   &:first-of-type {
     h6 {
@@ -32,6 +32,7 @@ const ContentSection = styled.section`
     li {
       height: 30px;
       border-bottom: 1px dashed #a5a5a5;
+      list-style: none;
     }
   }
 `;
@@ -55,8 +56,6 @@ function MiniRoom() {
           <li>안녕</li>
           <li>헤헤~☆</li>
           <li>하하~☆</li>
-          <li></li>
-          <li></li>
         </ul>
       </ContentSection>
     </>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import MainMenu from "../Menu/MainMenu";
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const Contents = ({ children }) => {
     <ContentWrapper>
       <h1>현민이의 미니룸</h1>
       {children}
+      <MainMenu></MainMenu>
     </ContentWrapper>
   );
 };
