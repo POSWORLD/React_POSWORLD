@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { idCheckApi, loginApi, loginCheckApi, postUser } from "./usersApi";
+import {
+  idCheckApi,
+  insertUserApi,
+  loginApi,
+  loginCheckApi,
+  updateUserApi,
+} from "./usersApi";
 
 const initialState = {
   myToken: localStorage.getItem("token"),
@@ -17,20 +23,36 @@ const LOGOUT = "LOGOUT";
 const UPDATE_USERS = "UPDATE_USERS";
 const SELECT_USER_BY_KEY = "SELECT_USER_BY_KEY";
 
-export const login = createAsyncThunk(LOGIN, async (user, thunkAPI) => {
+export const login = createAsyncThunk(LOGIN, async (user) => {
   return await loginApi(user);
 });
 
-export const loginCheck = createAsyncThunk(LOGIN_CHECK, async () => {
-  return await loginCheckApi();
-});
+export const loginCheck = createAsyncThunk(
+  LOGIN_CHECK,
+  async (user, thunkAPI) => {
+    const myToken = thunkAPI.getState().users;
+    if (myToken) {
+      const me = await loginCheckApi();
+      return me;
+    }
+    return;
+  }
+);
 
 export const idCheck = createAsyncThunk(CHECK_ID, async (user) => {
   return await idCheckApi(user);
 });
 
 export const insertUser = createAsyncThunk(INSERT_USER, async (user) => {
-  return await postUser(user);
+  return await insertUserApi(user);
+});
+
+export const updateUser = createAsyncThunk(UPDATE_USERS, async (user) => {
+  const response = await updateUserApi(user);
+  if (response == 1) {
+    return user;
+  }
+  return;
 });
 
 // export const selectUserById = createAsyncThunk(
@@ -81,7 +103,7 @@ export const usersSlice = createSlice({
       })
       .addCase(loginCheck.fulfilled, (state, { payload }) => {
         if (payload) {
-          return { ...state, isLogin: true };
+          return { ...state, isLogin: true, me: payload };
         } else {
           return { ...state, isLogin: false };
         }
@@ -91,6 +113,10 @@ export const usersSlice = createSlice({
       })
       .addCase(insertUser.fulfilled, (state, { payload }) => {
         return { ...state, users: payload };
+      })
+      .addCase(updateUser.fulfilled, (state, { payload }) => {
+        const user = payload;
+        return { ...state, me: { ...state.me, ...user } };
       });
     // .addCase(logout.fulfilled, (state, { payload }) => {
     //   localStorage.removeItem("token");
@@ -108,26 +134,5 @@ export const usersSlice = createSlice({
 //   const isLogout = await logoutApi(myId);
 //   return isLogout;
 // });
-
-export const putUsers = async (users, user, id) => {
-  const findUsersIndex = await users.findIndex((user) => user.id === id);
-  const { name, img } = user;
-  if (findUsersIndex === -1) {
-    console.error("not found");
-    return;
-  }
-  const newUsers = [...users];
-  newUsers.splice(findUsersIndex, 1, { ...users[findUsersIndex], name, img });
-  return newUsers;
-};
-
-export const updateUsers = createAsyncThunk(
-  UPDATE_USERS,
-  async (user, thunkAPI) => {
-    const { myId, users } = thunkAPI.getState().users;
-    const newUsers = await putUsers(users, user, myId);
-    return { newUsers, user };
-  }
-);
 
 export default usersSlice.reducer;
