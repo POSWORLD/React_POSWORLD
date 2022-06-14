@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { Button, Container, Input } from "reactstrap";
 import { IMG_PATH } from "../../http/CustomAxios";
 import AuthRouter from "../AuthRouter";
-import "./Home.css";
+import "./Profile.css";
 import ProfileUpdate from "./ProfileUpdate";
 
-function Home() {
+function Profile() {
   // console.log(useSelector((state) => state.users.me));
   const { id, userId, name, gender, proPhoto } = useSelector(
     (state) => state.users.me
@@ -46,4 +46,4 @@ function Home() {
     </div>
   );
 }
-export default Home;
+export default Profile;
