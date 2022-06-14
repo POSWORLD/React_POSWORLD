@@ -21,7 +21,7 @@ const Join = () => {
     userId: "",
     pw: "",
     name: "",
-    gender: "",
+    gender: "m",
   });
 
   const onChangeHandler = (e) => {

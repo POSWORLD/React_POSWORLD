@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Button, Input, InputGroup, InputGroupText, Modal } from "reactstrap";
 import { IMG_PATH } from "../../http/CustomAxios";
 import { updateUser } from "../../store/users";
-import "./HomeUpdate.css";
+import "./ProfileUpdate.css";
 
 const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
   const dispatch = useDispatch();
@@ -84,8 +84,11 @@ const ProfileUpdateBody = ({ onChangeFile, onChangeName, form }) => {
         <div className="profileImgBox">
           <img
             className="profileImg"
-            src={`${form.proPhoto}`}
+            src={form.proPhoto}
             alt="myProfileImg"
+            onError={(e) => {
+              e.target.src = "/img/uploadImg.png";
+            }}
           ></img>
         </div>
       </label>
