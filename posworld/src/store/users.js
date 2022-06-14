@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { fileAxios } from "../http/CustomAxios";
 import {
   idCheckApi,
   insertUserApi,
@@ -47,20 +48,46 @@ export const insertUser = createAsyncThunk(INSERT_USER, async (user) => {
   return await insertUserApi(user);
 });
 
-export const updateUser = createAsyncThunk(UPDATE_USERS, async (user) => {
-  const response = await updateUserApi(user);
-  if (response == 1) {
-    return user;
-  }
-  return;
-});
+export const updateUser = createAsyncThunk(
+  UPDATE_USERS,
+  async (payload, thunkAPI) => {
+    const { myToken } = thunkAPI.getState().users;
 
-// export const selectUserById = createAsyncThunk(
+    let filePath = "";
+    const { name, proPhoto, file } = payload;
+    let uploadFile = new FormData();
+    uploadFile.append("file", file);
+    if (file) {
+      filePath = await fileAxios("/upload", "post", uploadFile);
+    }
+    const user = {
+      name,
+      proPhoto: filePath ? filePath : proPhoto,
+    };
+    const response = await updateUserApi(user);
+    if (response == 1) {
+      return user;
+    }
+    return;
+  }
+);
+
+// export const putUsers = async (users, user, id) => {
+//   const findUsersIndex = await users.findIndex((user) => user.id === id);
+//   const { name, img } = user;
+//   if (findUsersIndex === -1) {
+//     console.error("not found");
+//     return;
+//   }
+//   const newUsers = [...users];
+//   newUsers.splice(findUsersIndex, 1, { ...users[findUsersIndex], name, img });
+//   return newUsers;
+// };
+
+// export const selectUserByToken = createAsyncThunk(
 //   SELECT_USER_BY_ID,
-//   async (id, thunkAPI) => {
-//     const { users } = thunkAPI.getState().users;
-//     const newUser = await getUserById(users, id);
-//     return newUser;
+//   async () => {
+//     return await getUserByToken();
 //   }
 // );
 // export const selectUserByUserId = createAsyncThunk(
@@ -121,10 +148,6 @@ export const usersSlice = createSlice({
     // .addCase(logout.fulfilled, (state, { payload }) => {
     //   localStorage.removeItem("token");
     //   return { ...state, isLogin: false, me: {}, myId: "" };
-    // })
-    // .addCase(updateUsers.fulfilled, (state, { payload }) => {
-    //   const { newUsers, user } = payload;
-    //   return { ...state, me: { ...state.me, ...user }, users: newUsers };
     // });
   },
 });

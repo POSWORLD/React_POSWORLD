@@ -54,13 +54,11 @@ export const updateUserApi = async (user) => {
   });
   return response.data;
 };
-// export const getUserById = async (id) => {
-//   return await customAxios(`/user/${id}`, "get");
+
 // };
 
-// export const getUserByUserId = async (users, userId) => {
-//   const findUserByUserId = await users.find((user) => user.userId === userId);
-//   return findUserByUserId;
+// export const getUserById = async (id) => {
+//   return await customAxios(`/user/${id}`, "get");
 // };
 
 // export const logoutApi = async (userId) => {
