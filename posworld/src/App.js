@@ -6,6 +6,8 @@ import Login from "./components/Login/Login";
 import "bootstrap/dist/css/bootstrap.css";
 import Pcomment from "./components/Pcomment/Pcomment";
 import Photo from "./components/Photo/Photo";
+import PhotoUpdate from "./components/Photo/PhotoUpdate";
+import PhotoAdd from "./components/Photo/PhotoAdd";
 
 function App() {
   return (
@@ -16,6 +18,11 @@ function App() {
         <Route path="/Login" element={<Login></Login>}></Route>
         <Route path="/pComment" element={<Pcomment></Pcomment>}></Route>
         <Route path="/Photo" element={<Photo></Photo>}></Route>
+        <Route
+          path="/PhotoUpdate"
+          element={<PhotoUpdate></PhotoUpdate>}
+        ></Route>
+        <Route path="/PhotoAdd" element={<PhotoAdd></PhotoAdd>}></Route>
       </Routes>
     </BrowserRouter>
   );
