@@ -55,12 +55,6 @@ export const updateUserApi = async (user) => {
   return response.data;
 };
 
-// export const getUserByToken = async () => {
-//   const response = await axios({
-//     url: "http://localhost:8001/user/me",
-//     method: "get",
-//   });
-//   return response;
 // };
 
 // export const getUserById = async (id) => {
