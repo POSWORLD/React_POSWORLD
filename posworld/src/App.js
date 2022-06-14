@@ -5,6 +5,7 @@ import Join from "./components/Join/Join";
 import Login from "./components/Login/Login";
 import "bootstrap/dist/css/bootstrap.css";
 import Pcomment from "./components/Pcomment/Pcomment";
+import Photo from "./components/Photo/Photo";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/Join" element={<Join></Join>}></Route>
         <Route path="/Login" element={<Login></Login>}></Route>
         <Route path="/pComment" element={<Pcomment></Pcomment>}></Route>
+        <Route path="/Photo" element={<Photo></Photo>}></Route>
       </Routes>
     </BrowserRouter>
   );
