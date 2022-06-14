@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/Join" element={<Join></Join>}></Route>
         <Route path="/Login" element={<Login></Login>}></Route>
-        <Route path="/Pcomment" element={<Pcomment></Pcomment>}></Route>
+        <Route path="/pComment" element={<Pcomment></Pcomment>}></Route>
       </Routes>
     </BrowserRouter>
   );

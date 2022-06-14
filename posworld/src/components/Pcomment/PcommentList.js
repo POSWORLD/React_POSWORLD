@@ -1,18 +1,14 @@
-import { Button, Table } from "reactstrap";
+import { Button, Card } from "reactstrap";
 
-function PcommentList() {
+function PcommentList({ comment }) {
   return (
     <>
-      <Table>
-        <tbody>
-          <tr>
-            <td>
-              이름 : content(date)
-              <Button>x</Button>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+      <Card className="commentCard">
+        <div className="commentOne">
+          {comment?.name} : {comment?.content}({comment?.wdate})
+          <Button>x</Button>
+        </div>
+      </Card>
     </>
   );
 }

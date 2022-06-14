@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { customAxios, fileAxios } from "../http/CustomAxios";
-import { insertComment } from "./pCommentsApi";
+import { getCommentByPid, insertComment } from "./pCommentsApi";
 const initialState = {
-  allComments: {
+  allPComment: {
     comments: [],
     loading: false,
     message: "",
@@ -10,6 +9,7 @@ const initialState = {
 };
 
 const INSERT_PCOMMENT = "INSERT_PCOMMENT";
+const SELECT_PCOMMENT = "SELECT_PCOMMENT";
 
 export const insertComments = createAsyncThunk(
   INSERT_PCOMMENT,
@@ -28,14 +28,47 @@ export const insertComments = createAsyncThunk(
   }
 );
 
+export const selectComments = createAsyncThunk(
+  SELECT_PCOMMENT,
+  async (payload, thunkAPI) => {
+    const pid = "1"; // {pid} = thunkAPI.getState().posts or token something;
+    if (pid) {
+      const comments = await getCommentByPid(Number(pid));
+      return comments;
+    }
+  }
+);
+
 export const commentSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(insertComments.fulfilled, (state, { payload }) => {
-      return { ...state, comments: payload };
-    });
+    builder
+      .addCase(insertComments.fulfilled, (state, { payload }) => {
+        return { ...state, comments: payload };
+      })
+      .addCase(selectComments.pending, (state, { payload }) => {
+        const newComment = { ...state.allPComment };
+        newComment.loading = true;
+        return { ...state, allPComment: newComment };
+      })
+      .addCase(selectComments.fulfilled, (state, { payload }) => {
+        const newComment = { ...state.allPComment };
+        newComment.loading = false;
+        if (payload) {
+          newComment.comments = payload;
+        } else {
+          newComment.message = "댓글이 없습니다.";
+        }
+        return { ...state, allPComment: newComment };
+      })
+      .addCase(selectComments.rejected, (state, { error }) => {
+        const newComment = { ...state.allPComment };
+        newComment.loading = false;
+        newComment.message = error.message;
+        return { ...state, allPComment: newComment };
+      });
   },
 });
 
