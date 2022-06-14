@@ -5,17 +5,19 @@ import Login from "./components/Login/Login";
 import "bootstrap/dist/css/bootstrap.css";
 import Pcomment from "./components/Pcomment/Pcomment";
 import Photo from "./components/Photo/Photo";
-import Profile from "./components/Home/Profile";
+import Home from "./components/Home/Home";
+import MiniRoom from "./components/Home/MiniRoom";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Profile></Profile>}></Route>
+        <Route path="/" element={<Home></Home>}></Route>
         <Route path="/Join" element={<Join></Join>}></Route>
         <Route path="/Login" element={<Login></Login>}></Route>
         <Route path="/pComment" element={<Pcomment></Pcomment>}></Route>
         <Route path="/Photo" element={<Photo></Photo>}></Route>
+        <Route path="/MiniRoom" element={<MiniRoom></MiniRoom>}></Route>
       </Routes>
     </BrowserRouter>
   );
