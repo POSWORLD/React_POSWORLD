@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Input, Container, Button } from "reactstrap";
-import { insertPhoto } from "../../store/photos";
-import "./PhotoAdd.css";
+import { updatePhoto } from "../../store/photos";
 
-function PhotoAdd() {
+function PhotoUpdate() {
   const dispatch = useDispatch();
   const [form, setForm] = useState({
     title: "",
@@ -27,7 +26,7 @@ function PhotoAdd() {
   };
 
   const onSubmit = async () => {
-    await dispatch(insertPhoto(form));
+    await dispatch(updatePhoto(form));
   };
 
   return (
@@ -35,8 +34,8 @@ function PhotoAdd() {
       <div></div>
       <Container>
         <hr style={{ height: 2 }} />
-        <div className="photoInsertForm">
-          <Input type="text" placeholder="제목입력" id="title"></Input>
+        <div className="photoUpdateForm">
+          <Input type="text" placeholder="제목" id="title"></Input>
           <div className="profileImgBox">
             <label htmlFor="imgUpload">이미지</label>
             {/* <img className="profileImg" src="" alt="photoImg"></img> */}
@@ -56,7 +55,7 @@ function PhotoAdd() {
             <Button id="listBtn">목록</Button>
           </Link>
           <Button type="submit" onClick={onSubmit} id="submitBtn">
-            확인
+            수정
           </Button>
         </div>
       </Container>
@@ -64,4 +63,4 @@ function PhotoAdd() {
   );
 }
 
-export default PhotoAdd;
+export default PhotoUpdate;
