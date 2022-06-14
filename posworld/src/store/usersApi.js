@@ -18,7 +18,7 @@ export const loginApi = async (user) => {
 export const loginCheckApi = async () => {
   try {
     const response = await axios({
-      url: "http://localhost:8001/user/loginCheck",
+      url: "http://localhost:8001/user/me",
       method: "get",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -26,7 +26,7 @@ export const loginCheckApi = async () => {
     });
     return response.data;
   } catch {
-    return false;
+    return;
   }
 };
 
@@ -39,17 +39,32 @@ export const idCheckApi = async (user) => {
   return response.data;
 };
 
-export const postUser = async (user) => {
+export const insertUserApi = async (user) => {
   return await customAxios("/user/join", "post", user);
 };
 
-// export const getUserById = async (id) => {
-//   return await customAxios(`/user/${id}`, "get");
+export const updateUserApi = async (user) => {
+  const response = await axios({
+    url: "http://localhost:8001/user/update",
+    method: "put",
+    data: user,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
+};
+
+// export const getUserByToken = async () => {
+//   const response = await axios({
+//     url: "http://localhost:8001/user/me",
+//     method: "get",
+//   });
+//   return response;
 // };
 
-// export const getUserByUserId = async (users, userId) => {
-//   const findUserByUserId = await users.find((user) => user.userId === userId);
-//   return findUserByUserId;
+// export const getUserById = async (id) => {
+//   return await customAxios(`/user/${id}`, "get");
 // };
 
 // export const logoutApi = async (userId) => {
