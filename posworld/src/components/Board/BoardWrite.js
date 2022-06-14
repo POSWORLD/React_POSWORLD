@@ -1,39 +1,61 @@
-import { useState } from 'react';
+import { getValue } from '@testing-library/user-event/dist/utils';
+import { Axios } from 'axios';
+import { useEffect, useState } from 'react';
 import { GoDiffAdded } from 'react-icons/go';
 import { useDispatch } from 'react-redux';
 import { Button, Container, Input, Modal } from 'reactstrap';
 import { insertBoards, selectMyBoard } from '../../store/boards';
+import { getMyBoards } from '../../store/boardsApi';
 
 const BoardWrite = () => {
+   const [content, setContent] = useState('');
+   const [viewContent, setViewContent] = useState([]);
    const dispatch = useDispatch();
-   const [form, setForm] = useState({
-      content: '',
-      wDate: '20',
-      userId: 1,
-   });
-   const [isOpen, setIsOpen] = useState(false);
-   const closeModal = () => {
-      setIsOpen(false);
+   const getValue = e => {
+      const { name, value } = e.target;
+      setContent({
+         ...content,
+         [name]: value,
+      });
+      console.log(name, value);
    };
-   const openModal = () => {
-      setIsOpen(true);
-   };
-
-   const onChangeName = e => {
-      const { value } = e.target;
-      setForm({ ...form, content: value });
-   };
-   const onSubmit = async () => {
-      await dispatch(insertBoards(form));
-      await dispatch(selectMyBoard());
-      closeModal();
+   //    useEffect(() => {
+   //       Axios.get('http://localhost:8001/boards/').then(response => {
+   //          setViewContent(response.data);
+   //       });
+   //    }, [viewContent]);
+   const submitBoard = async () => {
+      dispatch(insertBoards(content));
+      alert('등록완료');
    };
 
-   const modeHandler = () => {
-      const nowMode = null;
-   };
    return (
-      <div>
+      <div className="board-write">
+         <h2> 방명록 작성</h2>
+         <div className="boardContainer">
+            <h3>
+               <label>
+                  <p>닉네임</p>의 방명록
+               </label>
+            </h3>
+            <div>내용</div>
+            {viewContent.map(element => (
+               <div>{element.content}</div>
+            ))}
+         </div>
+         <div className="board-wrapper">
+            <input
+               className="text-area"
+               type="text"
+               placeholder="남기고 싶은 말을 작성해주세요"
+               onChange={getValue}
+               name="content"></input>
+         </div>
+         <button className="submit-button" onClick={submitBoard}>
+            저장
+         </button>
+      </div>
+      /*  <div>
          <form
             onSubmit={function (e) {
                e.preventDefault();
@@ -62,7 +84,7 @@ const BoardWrite = () => {
                <input type="submit" value="등록"></input>
             </p>
          </form>
-      </div>
+      </div>*/
       //   <>
       //      <Button outline onClick={openModal}>
       //         <GoDiffAdded size={30}></GoDiffAdded>
