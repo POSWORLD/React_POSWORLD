@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   height: 96%;
   margin-top: 10px;
   padding: 20px;
-  border: 1px solid ${(props) => props.color || "green"};
+  border: 1px solid ${(props) => props.color || "black"};
   border-radius: 10px;
   background: ${(props) => props.color || "white"};
   section {
