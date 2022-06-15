@@ -1,13 +1,8 @@
 import { useState } from "react";
-import { Spinner } from "reactstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { IMG_PATH } from "../../http/CustomAxios";
-import { deleteBoard, selectMyBoard } from "../../store/boards";
-import users from "../../store/users";
+
 import BoardWrite from "./BoardWrite";
 
-function Boards(props) {
+function Boards() {
   const [mode, setMode] = useState("read");
   const [contents, setContents] = useState([
     {

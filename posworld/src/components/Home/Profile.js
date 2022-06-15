@@ -86,6 +86,9 @@ function Profile() {
           <MdMailOutline color="#EB8F11" />
           {name}@posworld.com
         </p>
+        <p>
+          <button>파도타기</button>
+        </p>
         <AuthRouter></AuthRouter>
         <ProfileUpdate
           name={name}

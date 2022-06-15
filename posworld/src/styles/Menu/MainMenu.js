@@ -9,7 +9,7 @@ const Nav = styled.nav`
   right: -70px;
   ul {
     a {
-      &.selected {
+      &selected {
         background: #fff;
         color: #333;
       }

@@ -8,6 +8,8 @@ import Photo from "./components/Photo/Photo";
 import Home from "./components/Home/Home";
 import MiniRoom from "./components/Home/MiniRoom";
 import Profile from "./components/Home/Profile";
+import PhotoAdd from "./components/Photo/PhotoAdd";
+import PhotoUpdate from "./components/Photo/PhotoUpdate";
 
 function App() {
   return (
@@ -18,6 +20,11 @@ function App() {
         <Route path="/Login" element={<Login></Login>}></Route>
         <Route path="/pComment" element={<Pcomment></Pcomment>}></Route>
         <Route path="/Photo" element={<Photo></Photo>}></Route>
+        <Route path="/PhotoAdd" element={<PhotoAdd></PhotoAdd>}></Route>
+        <Route
+          path="/PhotoUpdate"
+          element={<PhotoUpdate></PhotoUpdate>}
+        ></Route>
         <Route path="/MiniRoom" element={<MiniRoom></MiniRoom>}></Route>
         <Route path="/Profile" element={<Profile></Profile>}></Route>
       </Routes>
