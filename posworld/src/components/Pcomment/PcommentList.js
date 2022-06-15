@@ -29,13 +29,13 @@ const Wrap = styled.section`
     justify-content: flex-start: 
   }
 `;
-function PcommentList({ comment, onClickDelete }) {
+function PcommentList({ comment, onClickDelete, pid }) {
   return (
     <>
       <Wrap>
         <div className="commentOne">
           {comment?.name} : {comment?.content} ({changeTime(comment?.wdate)})
-          <button id="delete" onClick={() => onClickDelete(comment?.id)}>
+          <button id="delete" onClick={() => onClickDelete(comment?.id, pid)}>
             x
           </button>
         </div>

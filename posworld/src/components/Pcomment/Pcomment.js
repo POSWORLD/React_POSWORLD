@@ -4,6 +4,7 @@ import PcommentAdd from "./PcommentAdd";
 import PcommentList from "./PcommentList";
 import pComments, {
   deleteComments,
+  insertComments,
   selectComments,
 } from "../../store/pComments";
 import { Container, Spinner } from "reactstrap";
@@ -19,19 +20,22 @@ const Wrap = styled.div`
   overflow-y: inherit;
 `;
 
-function Pcomment() {
+function Pcomment({ pid }) {
   const myComments = useSelector((state) => state.pComments.allPComment);
-  console.log(myComments);
   const dispatch = useDispatch();
-  const onClickDelete = async (commentID) => {
-    await dispatch(deleteComments(commentID));
-    await dispatch(selectComments());
+  const onClickDelete = async (ids) => {
+    await dispatch(deleteComments(ids));
+    await dispatch(selectComments(pid));
   };
-  const commentPatch = async () => {
-    await dispatch(selectComments());
+  const commentPatch = async (pid) => {
+    await dispatch(selectComments(pid));
+  };
+  const onSubmit = async (form, pid) => {
+    await dispatch(insertComments(form));
+    await dispatch(selectComments(pid));
   };
   useEffect(() => {
-    commentPatch();
+    commentPatch(pid);
   }, []);
   return (
     <>
@@ -48,11 +52,12 @@ function Pcomment() {
                 key={comment.id}
                 comment={comment}
                 onClickDelete={onClickDelete}
+                pid={pid}
               ></PcommentList>
             ))
           )}
 
-          <PcommentAdd></PcommentAdd>
+          <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
         </Container>
       </Wrap>
     </>

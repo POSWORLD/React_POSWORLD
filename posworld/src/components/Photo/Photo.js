@@ -11,7 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPhoto, deletePhoto } from "../../store/photos";
 import { useEffect, useState } from "react";
 import { loginCheck } from "../../store/users";
+import Pcomment from "../Pcomment/Pcomment";
 import AuthRouter from "../AuthRouter";
+import styled from "styled-components";
 
 function Photo() {
   const dispatch = useDispatch();
@@ -23,7 +25,6 @@ function Photo() {
   };
 
   const onClickDelete = async (id) => {
-    console.log("야");
     await dispatch(deletePhoto(id));
     await dispatch(selectPhoto(myId.id));
   };
@@ -53,11 +54,13 @@ function Photo() {
               <Spinner>loading...</Spinner>
             ) : (
               myPhoto.photos.map((photo) => (
-                <PhotoList
-                  key={photo.id}
-                  photo={photo}
-                  onClickDelete={onClickDelete}
-                ></PhotoList>
+                <>
+                  <PhotoList
+                    key={photo.id}
+                    photo={photo}
+                    onClickDelete={onClickDelete}
+                  ></PhotoList>
+                </>
               ))
             )}
           </Card>

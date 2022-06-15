@@ -1,9 +1,10 @@
 import { Button } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Pcomment from "../Pcomment/Pcomment";
 import changeTime from "../Pcomment/changeTime";
 import { IMG_PATH } from "../../http/CustomAxios";
+import PcommentAdd from "../Pcomment/PcommentAdd";
+import Pcomment from "../Pcomment/Pcomment";
 const Title = styled.div`
   margin-top: 1rem;
   height: auto;
@@ -41,17 +42,18 @@ const PhotoSection = styled.section`
     margin-bottom: 30px;
   }
 `;
-
 const PcommentSection = styled.section`
   height: auto;
   margin-top: 40px;
 `;
 
-function PhotoList({ photo, onClickDelete }) {
+function PhotoList({ photo, onClickDelete, onSubmit }) {
   const navigate = useNavigate();
   const moveTo = () => {
     navigate("/PhotoUpdate");
   };
+
+  console.log(photo?.id);
   return (
     <>
       <PhotoSection>
@@ -71,7 +73,7 @@ function PhotoList({ photo, onClickDelete }) {
         </p>
       </PhotoSection>
       <PcommentSection>
-        <Pcomment></Pcomment>
+        <Pcomment pid={photo?.id}></Pcomment>
       </PcommentSection>
     </>
   );

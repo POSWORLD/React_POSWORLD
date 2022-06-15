@@ -17,10 +17,9 @@ const DELETE_PCOMMENT = "DELETE_PCOMMENT";
 export const insertComments = createAsyncThunk(
   INSERT_PCOMMENT,
   async (payload, thunkAPI) => {
-    const myId = "1"; //thunkAPI.getState().users;
-    const pid = "1";
-    const { photo } = thunkAPI.getState().photos.allPhoto.photos;
-    const { content } = payload;
+    const myId = thunkAPI.getState().users.me.id;
+    const pid = payload.pid;
+    const content = payload.content;
     const pComment = {
       content,
       userId: Number(myId),
@@ -31,13 +30,16 @@ export const insertComments = createAsyncThunk(
   }
 );
 
-export const selectComments = createAsyncThunk(SELECT_PCOMMENT, async () => {
-  const pid = "1"; // {pid} = thunkAPI.getState().posts or token something;
-  if (pid) {
-    const comments = await getCommentByPid(Number(pid));
-    return comments;
+export const selectComments = createAsyncThunk(
+  SELECT_PCOMMENT,
+  async (pid, thunkAPI) => {
+    if (pid) {
+      const comments = await getCommentByPid(Number(pid));
+      console.log(comments);
+      return comments;
+    }
   }
-});
+);
 
 export const deleteComments = createAsyncThunk(
   DELETE_PCOMMENT,
