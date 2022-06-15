@@ -1,47 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import { Spinner } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { IMG_PATH } from '../../http/CustomAxios';
+import { deleteBoard, selectBoards, selectMyBoard } from '../../store/boards';
+import users from '../../store/users';
+import BoardWrite from './BoardWrite';
+import BoardList from './BoardList';
+import AuthRouter from '../AuthRouter';
 
-import BoardWrite from "./BoardWrite";
+const Boards = ({ boardState, boards }) => {
+   const homeBoards = useSelector(state => state.boards.allBoard);
+   const myId = useSelector(state => state.users.me);
+   const boardPatch = async () => {
+      await dispatch(selectBoards());
+   };
+   useEffect(() => {
+      boardPatch();
+   }, []);
 
-function Boards() {
-  const [mode, setMode] = useState("read");
-  const [contents, setContents] = useState([
-    {
-      title: "공지사항",
-      content: "공지입니다.",
-      id: "관리자",
-      write_date: "2020. 7. 8. 오전 9:49:23",
-      pw: "1",
-    },
-  ]);
-  const modeHandler = async (e) => {
-    e.preventDefault();
-    const nowMode = null;
+   const dispatch = useDispatch();
+   const [mode, setMode] = useState('read');
 
-    if (mode === "read") {
-      setMode("write");
-      nowMode = <Boards></Boards>;
-    } else {
-      setMode("read");
-      nowMode = <BoardWrite></BoardWrite>;
-    }
-    return nowMode;
-  };
-  const onClickwrite = () => {};
+   const boardDelete = async boardNum => {
+      await dispatch(deleteBoard(boardNum));
+      await dispatch(selectBoards());
+   };
 
-  return (
-    <div className="Boards">
-      <h1>방명록</h1>
-      <p>
-        <input type="button" value="작성하기" onClick={onClickwrite}></input>
-      </p>
+   // const boardUpdate = () => {
+   //    navigate('/boardUpdate');
+   // };
 
-      <div className="Boards">
-        <div className="PostsImgBox">
-          <img className="PostsImg"></img>
-        </div>
-      </div>
-    </div>
-  );
-}
+   const modeHandler = async e => {
+      e.preventDefault();
+      const nowMode = null;
+
+      if (mode === 'read') {
+         setMode('write');
+         nowMode = <Boards></Boards>;
+      } else {
+         setMode('read');
+         nowMode = <BoardWrite></BoardWrite>;
+      }
+      return nowMode;
+   };
+   return (
+      <>
+         <div className="Boards">
+            <h1>{myId.name} 님의 방명록</h1>
+            <BoardWrite></BoardWrite>
+            {homeBoards.loading ? (
+               <Spinner>loading...</Spinner>
+            ) : (
+               homeBoards.boards.map(board => (
+                  <BoardList key={board.num} board={board} boardDelete={boardDelete}></BoardList>
+               ))
+            )}
+         </div>
+         <AuthRouter></AuthRouter>
+      </>
+   );
+};
 
 export default Boards;
