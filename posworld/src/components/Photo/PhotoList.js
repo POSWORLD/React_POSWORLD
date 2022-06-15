@@ -2,7 +2,8 @@ import { Button } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Pcomment from "../Pcomment/Pcomment";
-
+import changeTime from "../Pcomment/changeTime";
+import { IMG_PATH } from "../../http/CustomAxios";
 const Title = styled.div`
   margin-top: 1rem;
   height: auto;
@@ -46,7 +47,7 @@ const PcommentSection = styled.section`
   margin-top: 40px;
 `;
 
-function PhotoList() {
+function PhotoList({ photo }) {
   const navigate = useNavigate();
   const moveTo = () => {
     navigate("/PhotoUpdate");
@@ -54,12 +55,12 @@ function PhotoList() {
   return (
     <>
       <PhotoSection>
-        <Title>[스크랩] 직장인 ver </Title>
-        <p id="editDate">2022.06.22 22:27</p>
+        <Title>{photo?.title} </Title>
+        <p id="editDate">{changeTime(photo?.wdate)}</p>
         <p>
-          <img src="" alt="이미지"></img>
+          <img src={`${IMG_PATH}${photo?.img}`} alt="이미지"></img>
         </p>
-        <div className="contents"> content 집에 가고싶다...</div>
+        <div className="contents"> {photo?.content}</div>
         <p>
           <Button id="editBtn" onClick={moveTo}>
             수정

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "reactstrap";
+import { Button, Spinner } from "reactstrap";
 import Card from "../../styles/Layout/Card";
 import Layout from "../../styles/Layout/Layout";
 import Sidebar from "../../styles/Layout/Sidebar";
@@ -46,8 +46,13 @@ function Photo() {
         <Contents>
           <Card>
             <Button onClick={moveTo}>사진등록</Button>
-
-            <PhotoList></PhotoList>
+            {myPhoto.loading ? (
+              <Spinner>loading...</Spinner>
+            ) : (
+              myPhoto.photos.map((photo) => (
+                <PhotoList key={photo.id} photo={photo}></PhotoList>
+              ))
+            )}
           </Card>
         </Contents>
       </Layout>
