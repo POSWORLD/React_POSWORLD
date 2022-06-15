@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCommentByPid, insertComment } from "./pCommentsApi";
+import { getCommentByPid, insertComment, deleteComment } from "./pCommentsApi";
+import { deletePhoto } from "./photosApi";
 const initialState = {
+  comments: {},
   allPComment: {
     comments: [],
     loading: false,
@@ -10,13 +12,14 @@ const initialState = {
 
 const INSERT_PCOMMENT = "INSERT_PCOMMENT";
 const SELECT_PCOMMENT = "SELECT_PCOMMENT";
+const DELETE_PCOMMENT = "DELETE_PCOMMENT";
 
 export const insertComments = createAsyncThunk(
   INSERT_PCOMMENT,
-  async (payload) => {
+  async (payload, thunkAPI) => {
     const myId = "1"; //thunkAPI.getState().users;
     const pid = "1";
-    //const { photo } = thunkAPI.getState().photos;
+    const { photo } = thunkAPI.getState().photos.allPhoto.photos;
     const { content } = payload;
     const pComment = {
       content,
@@ -36,6 +39,14 @@ export const selectComments = createAsyncThunk(SELECT_PCOMMENT, async () => {
   }
 });
 
+export const deleteComments = createAsyncThunk(
+  DELETE_PCOMMENT,
+  async (payload, thunkAPI) => {
+    const { comments } = thunkAPI.getState().pComments.allPComment.comments;
+    return await deleteComment(comments, payload);
+  }
+);
+
 export const commentSlice = createSlice({
   name: "comments",
   initialState,
@@ -48,7 +59,7 @@ export const commentSlice = createSlice({
       .addCase(selectComments.pending, (state, { payload }) => {
         const newComment = { ...state.allPComment };
         newComment.loading = true;
-        return { ...state, allPComment: newComment };
+        return { ...state, comments: newComment };
       })
       .addCase(selectComments.fulfilled, (state, { payload }) => {
         const newComment = { ...state.allPComment };
@@ -64,6 +75,14 @@ export const commentSlice = createSlice({
         const newComment = { ...state.allPComment };
         newComment.loading = false;
         newComment.message = error.message;
+        return { ...state, allPComment: newComment };
+      })
+      .addCase(deleteComments.fulfilled, (state, { payload }) => {
+        const newComment = { ...state.allPComment };
+        newComment.loading = false;
+        if (payload) {
+          newComment.comments = payload;
+        }
         return { ...state, allPComment: newComment };
       });
   },

@@ -5,6 +5,7 @@ import Contents from "../../styles/Layout/Contents";
 import styled from "styled-components";
 import Profile from "./Profile";
 import MiniRoom from "./MiniRoom";
+import AuthRouter from "../AuthRouter";
 const FlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,6 +30,7 @@ function Home() {
           </Card>
         </Contents>
       </Layout>
+      <AuthRouter></AuthRouter>
     </>
   );
 }

@@ -1,4 +1,4 @@
-function chnageTime(timestamp) {
+function changeTime(timestamp) {
   let d = new Date(timestamp), // Convert the passed timestamp to milliseconds
     yyyy = d.getFullYear(),
     mm = ("0" + (d.getMonth() + 1)).slice(-2), // Months are zero based. Add leading 0.
@@ -15,4 +15,4 @@ function chnageTime(timestamp) {
   return time;
 }
 
-export default chnageTime;
+export default changeTime;

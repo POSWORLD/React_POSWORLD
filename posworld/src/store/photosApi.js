@@ -40,10 +40,26 @@ export const putPhoto = async (photos, photo, id) => {
     } */
 };
 
-export const deletePhoto = async (photos, id) => {
-  const delPhoto = await photos.filter((photo) => photo.id !== id);
-  console.log(delPhoto);
-  return [...delPhoto];
-  /* const { data } = await customAxios('delete', `/post/${id}`);
-    return data; */
+export const deletePhotos = async (photos, id) => {
+  try {
+    console.log("이건");
+    const photoId = Number(id);
+    console.log("PHOTOID" + photoId);
+    const response = await customAxios(`photo/${photoId}`, "delete");
+    if (response === true) {
+      const delPhoto = await photos.filter((photo) => photo.id != id);
+      return [...delPhoto];
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPhotoById = async (id) => {
+  try {
+    const response = await customAxios(`photo/${id}`, "get");
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };

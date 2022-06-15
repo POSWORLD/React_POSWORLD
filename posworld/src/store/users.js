@@ -27,10 +27,9 @@ const SELECT_USER_BY_KEY = "SELECT_USER_BY_KEY";
 export const login = createAsyncThunk(LOGIN, async (user) => {
   return await loginApi(user);
 });
-
 export const loginCheck = createAsyncThunk(
   LOGIN_CHECK,
-  async (user, thunkAPI) => {
+  async (payload, thunkAPI) => {
     const myToken = thunkAPI.getState().users;
     if (myToken) {
       const me = await loginCheckApi();
