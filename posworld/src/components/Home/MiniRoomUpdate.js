@@ -5,9 +5,10 @@ import { updateHome } from '../../store/home';
 import { loginCheck } from '../../store/users';
 import './ProfileUpdate.css';
 
-const HomeUpdate = ({ photo, content, isOpen, modalClose }) => {
+const HomeUpdate = ({ title, photo, content, isOpen, modalClose }) => {
     const dispatch = useDispatch();
     const [form, setForm] = useState({
+        title: '',
         photo: '',
         content: '',
         file: '',
@@ -26,9 +27,13 @@ const HomeUpdate = ({ photo, content, isOpen, modalClose }) => {
     };
 
     useEffect(() => {
-        setForm({ photo, content });
-    }, [photo, content]);
+        setForm({ title, photo, content });
+    }, [title, photo, content]);
 
+    const onChangeTitle = (e) => {
+        const { value } = e.target;
+        setForm({ ...form, title: value });
+    };
     const onChangeContent = (e) => {
         const { value } = e.target;
         setForm({ ...form, content: value });
@@ -44,7 +49,13 @@ const HomeUpdate = ({ photo, content, isOpen, modalClose }) => {
         <div className="profileUpdatePage">
             <Modal isOpen={isOpen}>
                 <HomeUpdateHeader modalClose={modalClose} onSubmit={onSubmit}></HomeUpdateHeader>
-                <HomeUpdateBody onChangeContent={onChangeContent} onChangeFile={onChangeFile} form={form}></HomeUpdateBody>
+
+                <HomeUpdateBody
+                    onChangeTitle={onChangeTitle}
+                    onChangeContent={onChangeContent}
+                    onChangeFile={onChangeFile}
+                    form={form}
+                ></HomeUpdateBody>
             </Modal>
         </div>
     );
@@ -64,7 +75,7 @@ const HomeUpdateHeader = ({ modalClose, onSubmit }) => {
     );
 };
 
-const HomeUpdateBody = ({ onChangeFile, onChangeContent, form }) => {
+const HomeUpdateBody = ({ onChangeTitle, onChangeFile, onChangeContent, form }) => {
     return (
         <div className="profileUpdateForm">
             <Input type="file" hidden accept="image/*" id="imgUpload" onChange={(e) => onChangeFile(e)}></Input>
@@ -82,6 +93,8 @@ const HomeUpdateBody = ({ onChangeFile, onChangeContent, form }) => {
             </label>
 
             <InputGroup>
+                <InputGroupText>홈피 제목</InputGroupText>
+                <Input type="text" value={form.title} onChange={(e) => onChangeTitle(e)}></Input>
                 <InputGroupText>한 줄 감성</InputGroupText>
                 <Input type="text" value={form.content} onChange={(e) => onChangeContent(e)}></Input>
             </InputGroup>

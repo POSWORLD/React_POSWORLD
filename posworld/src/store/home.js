@@ -1,28 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fileAxios } from '../http/CustomAxios';
-import { updateHomeApi } from './homeApi';
+
+import { getHomeApi, updateHomeApi } from './homeApi';
 
 const initialState = {
-    home: [],
-    loading: false,
-    message: '',
+    home: {},
 };
-
+const SELECT_HOME = 'SELECT_HOME';
 const UPDATE_HOME = 'UPDATE_HOME';
 
+export const getHome = createAsyncThunk(SELECT_HOME, async (id) => {
+    return await getHomeApi(id);
+});
 export const updateHome = createAsyncThunk(
     UPDATE_HOME,
     async (payload, thunkAPI) => {
-        const { myToken } = thunkAPI.getState().users;
-
         let filePath = '';
-        const { content, photo, file } = payload;
+        const { title, content, photo, file } = payload;
         // let uploadFile = new FormData();
         // uploadFile.append("file", file);
         // if (file) {
         //   filePath = await fileAxios("/upload", "post", uploadFile);
         // }
         const home = {
+            title,
             content,
             // photo: filePath ? filePath : photo,
             photo: photo,
@@ -48,13 +48,18 @@ export const updateHome = createAsyncThunk(
     // return Home;
 );
 export const homeSlice = createSlice({
-    name: 'home',
+    name: 'homes',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(updateHome.fulfilled, (state, { payload }) => {
-            return { ...state, home: payload };
-        });
+        builder
+            .addCase(getHome.fulfilled, (state, { payload }) => {
+                console.log('홈바뀜', payload);
+                return { ...state, home: payload };
+            })
+            .addCase(updateHome.fulfilled, (state, { payload }) => {
+                return { ...state, home: payload };
+            });
     },
 });
 export default homeSlice.reducer;

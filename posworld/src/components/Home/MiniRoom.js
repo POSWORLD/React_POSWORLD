@@ -1,7 +1,7 @@
 import { publicUrl } from '../../utils/utils';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { IMG_PATH } from '../../http/CustomAxios';
 import { Button } from 'reactstrap';
 import HomeUpdate from './MiniRoomUpdate';
@@ -42,8 +42,20 @@ const ContentSection = styled.section`
         }
     }
 `;
-function MiniRoom() {
-    const { photo, content } = useSelector((state) => state.home.home);
+function MiniRoom(title, content, photo) {
+    const home = useSelector((state) => state.homes.home);
+    console.log(home);
+    const dispatch = useDispatch();
+    const [form, setForm] = useState({
+        title: '',
+        content: '',
+        photo: '',
+    });
+
+    useEffect(() => {
+        setForm({ title, content, photo });
+    }, [title, photo, content]);
+
     const [isOpen, setIsOpen] = useState(false);
     const modalClose = () => {
         setIsOpen(false);
@@ -62,18 +74,18 @@ function MiniRoom() {
                         </Button>
                     </p>
                     <div>
-                        <img src={`${IMG_PATH}${photo}`} alt="miniroom"></img>
+                        <img src={`${IMG_PATH}${home.photo}`} alt="miniroom"></img>
                     </div>
                 </div>
             </ContentSection>
             <ContentSection>
                 <h6>한 줄 감성</h6>
                 <ul>
-                    <li>{content}</li>
+                    <li>{home.content}</li>
                 </ul>
             </ContentSection>
             <AuthRouter></AuthRouter>
-            <HomeUpdate photo={photo} content={content} isOpen={isOpen} modalClose={modalClose}></HomeUpdate>
+            <HomeUpdate title={home.title} photo={home.photo} content={home.content} isOpen={isOpen} modalClose={modalClose}></HomeUpdate>
         </>
     );
 }

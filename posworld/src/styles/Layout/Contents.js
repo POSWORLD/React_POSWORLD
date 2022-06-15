@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
 import MainMenu from '../Menu/MainMenu';
@@ -15,9 +16,10 @@ const ContentWrapper = styled.div`
 `;
 
 const Contents = ({ children }) => {
+    const home = useSelector((state) => state.homes.home);
     return (
         <ContentWrapper>
-            <h1>현민이의 미니룸</h1>
+            <h1>{home.title}</h1>
 
             {children}
             <MainMenu></MainMenu>

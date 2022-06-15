@@ -1,12 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import users from './users';
-import home from './home';
+import homes from './home';
 import pComments from './pComments';
 
 const reducer = combineReducers({
     users,
     pComments,
-    home,
+    homes,
 });
 export default configureStore({
     reducer,
