@@ -2,6 +2,8 @@ import { Button, Card } from "reactstrap";
 import changeTime from "./changeTime";
 import { IoIosClose } from "react-icons/io";
 import styled from "styled-components";
+import { deleteComments, selectComments } from "../../store/pComments";
+import { useDispatch } from "react-redux";
 const Wrap = styled.section`
   display: flex;
   flex-direction: column;
@@ -27,13 +29,13 @@ const Wrap = styled.section`
     justify-content: flex-start: 
   }
 `;
-function PcommentList({ comment }) {
+function PcommentList({ comment, onClickDelete }) {
   return (
     <>
       <Wrap>
         <div className="commentOne">
           {comment?.name} : {comment?.content} ({changeTime(comment?.wdate)})
-          <button id="delete" onClick="onDelete">
+          <button id="delete" onClick={() => onClickDelete(comment?.id)}>
             x
           </button>
         </div>

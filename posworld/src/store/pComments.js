@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCommentByPid, insertComment } from "./pCommentsApi";
+import { getCommentByPid, insertComment, deleteComment } from "./pCommentsApi";
+import { deletePhoto } from "./photosApi";
 const initialState = {
+  comments: {},
   allPComment: {
     comments: [],
     loading: false,
@@ -10,6 +12,7 @@ const initialState = {
 
 const INSERT_PCOMMENT = "INSERT_PCOMMENT";
 const SELECT_PCOMMENT = "SELECT_PCOMMENT";
+const DELETE_PCOMMENT = "DELETE_PCOMMENT";
 
 export const insertComments = createAsyncThunk(
   INSERT_PCOMMENT,
@@ -36,6 +39,15 @@ export const selectComments = createAsyncThunk(SELECT_PCOMMENT, async () => {
   }
 });
 
+export const deleteComments = createAsyncThunk(
+  DELETE_PCOMMENT,
+  async (payload, thunkAPI) => {
+    console.log("여기까지 가니");
+    const { comments } = thunkAPI.getState().pComments.allPComment.comments;
+    return await deleteComment(comments, payload);
+  }
+);
+
 export const commentSlice = createSlice({
   name: "comments",
   initialState,
@@ -48,7 +60,7 @@ export const commentSlice = createSlice({
       .addCase(selectComments.pending, (state, { payload }) => {
         const newComment = { ...state.allPComment };
         newComment.loading = true;
-        return { ...state, allPComment: newComment };
+        return { ...state, comments: newComment };
       })
       .addCase(selectComments.fulfilled, (state, { payload }) => {
         const newComment = { ...state.allPComment };
@@ -65,6 +77,9 @@ export const commentSlice = createSlice({
         newComment.loading = false;
         newComment.message = error.message;
         return { ...state, allPComment: newComment };
+      })
+      .addCase(deleteComments.fulfilled, (state, { payload }) => {
+        return { ...state, comments: payload };
       });
   },
 });

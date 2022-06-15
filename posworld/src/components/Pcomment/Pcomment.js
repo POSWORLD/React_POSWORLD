@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PcommentAdd from "./PcommentAdd";
 import PcommentList from "./PcommentList";
-import pComments, { selectComments } from "../../store/pComments";
+import pComments, {
+  deleteComments,
+  selectComments,
+} from "../../store/pComments";
 import { Container, Spinner } from "reactstrap";
 import { ImPencil } from "react-icons/im";
 import styled from "styled-components";
@@ -18,7 +21,12 @@ const Wrap = styled.div`
 
 function Pcomment() {
   const myComments = useSelector((state) => state.pComments.allPComment);
+  console.log(myComments);
   const dispatch = useDispatch();
+  const onClickDelete = (commentID) => {
+    dispatch(deleteComments(commentID));
+    dispatch(selectComments());
+  };
   const commentPatch = async () => {
     await dispatch(selectComments());
   };
@@ -36,7 +44,11 @@ function Pcomment() {
             <Spinner>loading...</Spinner>
           ) : (
             myComments.comments.map((comment) => (
-              <PcommentList key={comment.id} comment={comment}></PcommentList>
+              <PcommentList
+                key={comment.id}
+                comment={comment}
+                onClickDelete={onClickDelete}
+              ></PcommentList>
             ))
           )}
 

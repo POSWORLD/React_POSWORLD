@@ -3,6 +3,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { insertComments } from "../../store/pComments";
 import styled from "styled-components";
+const AddComment = styled.section`
+  margin-top: 1rem;
+  #inputs {
+    margin-left: 0.5rem;
+  }
+  #confirm {
+    margin-left: 0.5rem;
+  }
+`;
 function PcommentAdd() {
   const myUser = useSelector((state) => state.users.me);
   const dispatch = useDispatch();
@@ -18,15 +27,6 @@ function PcommentAdd() {
     setForm({ ...form, content: value });
   };
 
-  const AddComment = styled.div`
-    margin-top: 1rem;
-    #inputs {
-      margin-left: 0.5rem;
-    }
-    #confirm {
-      margin-left: 0.5rem;
-    }
-  `;
   return (
     <>
       <AddComment>
