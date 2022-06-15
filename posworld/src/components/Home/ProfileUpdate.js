@@ -36,6 +36,7 @@ const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
 
   const onSubmit = async () => {
     await dispatch(updateUser(form));
+    await dispatch(loginCheck());
     modalClose();
   };
 

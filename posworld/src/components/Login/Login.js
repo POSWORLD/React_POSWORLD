@@ -69,6 +69,7 @@ const Login = () => {
           <Button
             type="submit"
             color="secondary"
+            id="submit"
             style={{ borderRadius: 20 }}
             block
           >

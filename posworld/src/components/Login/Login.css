@@ -15,3 +15,7 @@
   flex-direction: column;
   gap: 1em;
 }
+
+#submit {
+  background-color: #303030 !important;
+}
