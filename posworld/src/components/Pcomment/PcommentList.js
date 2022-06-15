@@ -1,12 +1,12 @@
 import { Button, Card } from "reactstrap";
-import chnageTime from "./changeTime";
+import changeTime from "./changeTime";
 
 function PcommentList({ comment }) {
   return (
     <>
-      <Card className="commentCard">
+      <Card>
         <div className="commentOne">
-          {comment?.name} : {comment?.content} ({chnageTime(comment?.wdate)})
+          {comment?.name} : {comment?.content} ({changeTime(comment?.wdate)})
           <Button>x</Button>
         </div>
       </Card>

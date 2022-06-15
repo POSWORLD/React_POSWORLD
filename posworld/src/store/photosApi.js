@@ -47,3 +47,12 @@ export const deletePhoto = async (photos, id) => {
   /* const { data } = await customAxios('delete', `/post/${id}`);
     return data; */
 };
+
+export const getPhotoById = async (id) => {
+  try {
+    const response = await customAxios(`photo/${id}`, "get");
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

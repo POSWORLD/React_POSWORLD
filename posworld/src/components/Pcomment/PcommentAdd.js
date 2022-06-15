@@ -19,15 +19,17 @@ function PcommentAdd() {
   return (
     <>
       <div className="addComment">
-        <p>사용자 이름</p>
-        <Input
-          type="text"
-          value={form.content}
-          onChange={(e) => onChangeContent(e)}
-        ></Input>
-        <Button type="button" outline onClick={onSubmit}>
-          확인
-        </Button>
+        <p>
+          사용자 이름
+          <input
+            type="text"
+            value={form.content}
+            onChange={(e) => onChangeContent(e)}
+          ></input>
+          <Button type="button" outline onClick={onSubmit}>
+            확인
+          </Button>
+        </p>
       </div>
     </>
   );

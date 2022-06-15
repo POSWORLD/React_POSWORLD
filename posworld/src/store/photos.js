@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { customAxios } from "../http/CustomAxios";
-import { postPhoto } from "./photosApi";
+import { getPhotoById, postPhoto } from "./photosApi";
 
 const initialState = {
   myPhoto: {
@@ -8,11 +8,17 @@ const initialState = {
     img: "",
     content: "",
   },
+  allPhoto: {
+    photos: [],
+    loading: false,
+    message: "",
+  },
 };
 
 const INSERT_PHOTO = "INSERT_PHOTO";
 const UPDATE_PHOTO = "UPDATE_PHOTO";
 const DELETE_PHOTO = "DELETE_PHOTO";
+const SELECT_PHOTO = "SELECT_PHOTO";
 
 export const insertPhoto = createAsyncThunk(
   INSERT_PHOTO,
@@ -79,6 +85,20 @@ export const deletePhoto = createAsyncThunk(
   }
 );
 
+export const selectPhoto = createAsyncThunk(
+  SELECT_PHOTO,
+  async (payload, thunkAPI) => {
+    console.log("payload" + payload);
+    if (payload) {
+      const allPhoto = await getPhotoById(Number(payload));
+      return allPhoto;
+    } else if (payload === undefined) {
+      const allPhoto = await getPhotoById(1);
+      return allPhoto;
+    }
+  }
+);
+
 export const photosSlice = createSlice({
   name: "photos",
   initialState,
@@ -94,6 +114,22 @@ export const photosSlice = createSlice({
       })
       .addCase(deletePhoto.fulfilled, (state, { payload }) => {
         return { ...state, photos: payload };
+      })
+      .addCase(selectPhoto.fulfilled, (state, { payload }) => {
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        if (payload) {
+          newPhoto.photos = payload;
+        } else {
+          newPhoto.message = "사진이 없습니다";
+        }
+        return { ...state, allPhoto: newPhoto };
+      })
+      .addCase(selectPhoto.rejected, (state, { error }) => {
+        const newComment = { ...state.allPComment };
+        newComment.loading = false;
+        newComment.message = error.message;
+        return { ...state, allPComment: newComment };
       });
   },
 });
