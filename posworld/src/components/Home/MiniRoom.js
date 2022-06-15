@@ -1,19 +1,15 @@
 import { publicUrl } from "../../utils/utils";
 import styled from "styled-components";
-import Card from "../../styles/Layout/Card";
-import Content from "../../styles/Layout/Content";
-import Layout from "../../styles/Layout/Layout";
-import Profile from "./Profile";
 const ContentSection = styled.section`
   height: fit-content !important;
-  h2 {
+  h6 {
     padding: 5px;
     margin-bottom: 10px;
     font-weight: bold;
-    color: ${(props) => props.color || "#20B2AA"};
+    color: ${(props) => props.color || "#238DB3"};
   }
   &:first-of-type {
-    h2 {
+    h6 {
       margin-bottom: 5px;
     }
     div {
@@ -26,7 +22,7 @@ const ContentSection = styled.section`
   }
   &:last-of-type {
     margin-top: 20px;
-    h2 {
+    h6 {
       margin-bottom: 15px;
       border-bottom: 2px solid #eee;
     }
@@ -36,38 +32,33 @@ const ContentSection = styled.section`
     li {
       height: 30px;
       border-bottom: 1px dashed #a5a5a5;
+      list-style: none;
     }
   }
 `;
 function MiniRoom() {
   return (
-    <Layout>
-      <Content>
-        <Card>
-          <ContentSection>
-            <div>
-              <h2>미니룸</h2>
-              <div>
-                <img
-                  src={publicUrl + "/resources/img/miniroom.gif"}
-                  alt="miniroom"
-                />
-              </div>
-            </div>
-          </ContentSection>
-          <ContentSection>
-            <h2>한 줄 감성</h2>
-            <ul>
-              <li>안녕</li>
-              <li>헤헤~☆</li>
-              <li>하하~☆</li>
-              <li></li>
-              <li></li>
-            </ul>
-          </ContentSection>
-        </Card>
-      </Content>
-    </Layout>
+    <>
+      <ContentSection>
+        <div>
+          <h6>미니룸</h6>
+          <div>
+            <img
+              src={publicUrl + "/resources/img/miniroom.gif"}
+              alt="miniroom"
+            />
+          </div>
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <h6>한 줄 감성</h6>
+        <ul>
+          <li>안녕</li>
+          <li>헤헤~☆</li>
+          <li>하하~☆</li>
+        </ul>
+      </ContentSection>
+    </>
   );
 }
 export default MiniRoom;

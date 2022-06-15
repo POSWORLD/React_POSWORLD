@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import MainMenu from "../Menu/MainMenu";
 
@@ -13,14 +12,14 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const Content = ({ children }) => {
+const Contents = ({ children }) => {
   return (
     <ContentWrapper>
       <h1>현민이의 미니룸</h1>
       {children}
-      <MainMenu />
+      <MainMenu></MainMenu>
     </ContentWrapper>
   );
 };
 
-export default Content;
+export default Contents;

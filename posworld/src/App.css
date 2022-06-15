@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "DungGuenMo";
+  src: url("../public/font/DungGeunMo.woff") format("woff"),
+    url("../public/font/DungGeunMo.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "DungGuenMo", "Courier New", Courier, monospace !important;
+}
