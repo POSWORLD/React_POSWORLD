@@ -16,10 +16,10 @@ const DELETE_PCOMMENT = "DELETE_PCOMMENT";
 
 export const insertComments = createAsyncThunk(
   INSERT_PCOMMENT,
-  async (payload) => {
+  async (payload, thunkAPI) => {
     const myId = "1"; //thunkAPI.getState().users;
     const pid = "1";
-    //const { photo } = thunkAPI.getState().photos;
+    const { photo } = thunkAPI.getState().photos.allPhoto.photos;
     const { content } = payload;
     const pComment = {
       content,
