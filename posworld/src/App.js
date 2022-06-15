@@ -1,20 +1,26 @@
-import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./components/Home/Home";
-import Join from "./components/Join/Join";
-import Login from "./components/Login/Login";
-import "bootstrap/dist/css/bootstrap.css";
+import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './components/Home/Home';
+import Join from './components/Join/Join';
+import Login from './components/Login/Login';
+import 'bootstrap/dist/css/bootstrap.css';
+
+import BoardWrite from './components/Board/BoardWrite';
+import Boards from './components/Board/Boards';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home></Home>}></Route>
-        <Route path="/Join" element={<Join></Join>}></Route>
-        <Route path="/Login" element={<Login></Login>}></Route>
-      </Routes>
-    </BrowserRouter>
-  );
+   return (
+      <BrowserRouter>
+         <Routes>
+            <Route path="/" element={<Home></Home>}></Route>
+            <Route path="/Join" element={<Join></Join>}></Route>
+            <Route path="/Login" element={<Login></Login>}></Route>
+            <Route path="/board" element={<Boards></Boards>}></Route>
+            <Route path="/write" element={<BoardWrite></BoardWrite>}></Route>
+            <Route path="/boardUpdate" element={<></>}></Route>
+         </Routes>
+      </BrowserRouter>
+   );
 }
 
 export default App;
