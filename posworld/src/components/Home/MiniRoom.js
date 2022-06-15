@@ -1,5 +1,7 @@
 import { publicUrl } from "../../utils/utils";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 const ContentSection = styled.section`
   height: fit-content !important;
   h6 {
@@ -36,26 +38,34 @@ const ContentSection = styled.section`
     }
   }
 `;
-function MiniRoom() {
+function MiniRoom({ title, content }) {
+  const home = useSelector((state) => state.homes.myhome);
+  console.log(home);
+
+  const dispatch = useDispatch();
+  const [form, setForm] = useState({
+    title: "",
+    content: "",
+  });
+
+  useEffect(() => {
+    setForm({ title, content });
+  }, [title, content]);
+
   return (
     <>
       <ContentSection>
         <div>
-          <h6>미니룸</h6>
+          <h6>미니홈</h6>
           <div>
-            <img
-              src={publicUrl + "/resources/img/miniroom.gif"}
-              alt="miniroom"
-            />
+            <img src={"img/uploadImg.png"} alt="miniroom" />
           </div>
         </div>
       </ContentSection>
       <ContentSection>
         <h6>한 줄 감성</h6>
         <ul>
-          <li>안녕</li>
-          <li>헤헤~☆</li>
-          <li>하하~☆</li>
+          <li>{home.content}</li>
         </ul>
       </ContentSection>
     </>

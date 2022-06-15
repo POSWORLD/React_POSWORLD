@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fileAxios } from "../http/CustomAxios";
 import {
+  getUserCountApi,
   idCheckApi,
   insertUserApi,
   loginApi,
@@ -23,6 +24,7 @@ const SELECT_USER_BY_USERID = "SELECT_USER_BY_USERID";
 const LOGOUT = "LOGOUT";
 const UPDATE_USERS = "UPDATE_USERS";
 const SELECT_USER_BY_KEY = "SELECT_USER_BY_KEY";
+const SELECT_COUNT_USER = "SELECT_COUNT_USER";
 
 export const login = createAsyncThunk(LOGIN, async (user) => {
   return await loginApi(user);
@@ -71,6 +73,10 @@ export const updateUser = createAsyncThunk(
     return;
   }
 );
+
+export const countUser = createAsyncThunk(SELECT_COUNT_USER, async () => {
+  return await getUserCountApi();
+});
 
 // export const putUsers = async (users, user, id) => {
 //   const findUsersIndex = await users.findIndex((user) => user.id === id);
@@ -137,9 +143,6 @@ export const usersSlice = createSlice({
       })
       .addCase(loginCheck.rejected, (state, { payload }) => {
         return { ...state, isLogin: false };
-      })
-      .addCase(insertUser.fulfilled, (state, { payload }) => {
-        return { ...state, users: payload };
       })
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         const user = payload;

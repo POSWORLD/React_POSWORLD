@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import MainMenu from "../Menu/MainMenu";
+import { useSelector } from "react-redux";
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -13,9 +14,11 @@ const ContentWrapper = styled.div`
 `;
 
 const Contents = ({ children }) => {
+  const home = useSelector((state) => state.homes.myhome);
+
   return (
     <ContentWrapper>
-      <h1>현민이의 미니룸</h1>
+      <h1>{home.title}</h1>
       {children}
       <MainMenu></MainMenu>
     </ContentWrapper>
