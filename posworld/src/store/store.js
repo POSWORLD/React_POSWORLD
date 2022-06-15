@@ -1,13 +1,15 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import users from "./users";
-import pComments from "./pComments";
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import users from './users';
+import home from './home';
+import pComments from './pComments';
 
 const reducer = combineReducers({
-  users,
-  pComments,
+    users,
+    pComments,
+    home,
 });
 export default configureStore({
-  reducer,
-  devTools: true,
-  middleware: (getDefaultMiddleWare) => [...getDefaultMiddleWare()],
+    reducer,
+    devTools: true,
+    middleware: (getDefaultMiddleWare) => [...getDefaultMiddleWare()],
 });
