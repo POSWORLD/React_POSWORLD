@@ -79,7 +79,12 @@ export const commentSlice = createSlice({
         return { ...state, allPComment: newComment };
       })
       .addCase(deleteComments.fulfilled, (state, { payload }) => {
-        return { ...state, comments: payload };
+        const newComment = { ...state.allPComment };
+        newComment.loading = false;
+        if (payload) {
+          newComment.comments = payload;
+        }
+        return { ...state, allPComment: newComment };
       });
   },
 });
