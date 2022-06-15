@@ -7,9 +7,8 @@ import FlexWrapper from "../../styles/Layout/FlexWrapper";
 import PhotoList from "./PhotoList";
 import Profile from "../Home/Profile";
 import Contents from "../../styles/Layout/Contents";
-import photos from "../../store/photos";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPhoto } from "../../store/photos";
+import { selectPhoto, deletePhoto } from "../../store/photos";
 import { useEffect, useState } from "react";
 import { loginCheck } from "../../store/users";
 import AuthRouter from "../AuthRouter";
@@ -20,14 +19,18 @@ function Photo() {
   const myPhoto = useSelector((state) => state.photos.allPhoto);
 
   const photoDispatch = async () => {
-    console.log(myId.id);
+    await dispatch(selectPhoto(myId.id));
+  };
+
+  const onClickDelete = async (id) => {
+    console.log("야");
+    await dispatch(deletePhoto(id));
     await dispatch(selectPhoto(myId.id));
   };
 
   useEffect(() => {
     photoDispatch();
   }, []);
-  console.log(myPhoto);
 
   const navigate = useNavigate();
   const moveTo = () => {
@@ -50,7 +53,11 @@ function Photo() {
               <Spinner>loading...</Spinner>
             ) : (
               myPhoto.photos.map((photo) => (
-                <PhotoList key={photo.id} photo={photo}></PhotoList>
+                <PhotoList
+                  key={photo.id}
+                  photo={photo}
+                  onClickDelete={onClickDelete}
+                ></PhotoList>
               ))
             )}
           </Card>

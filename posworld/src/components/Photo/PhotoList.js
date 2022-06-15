@@ -47,7 +47,7 @@ const PcommentSection = styled.section`
   margin-top: 40px;
 `;
 
-function PhotoList({ photo }) {
+function PhotoList({ photo, onClickDelete }) {
   const navigate = useNavigate();
   const moveTo = () => {
     navigate("/PhotoUpdate");
@@ -65,7 +65,9 @@ function PhotoList({ photo }) {
           <Button id="editBtn" onClick={moveTo}>
             수정
           </Button>
-          <Button id="removeBtn">삭제</Button>
+          <Button id="removeBtn" onClick={() => onClickDelete(photo?.id)}>
+            삭제
+          </Button>
         </p>
       </PhotoSection>
       <PcommentSection>

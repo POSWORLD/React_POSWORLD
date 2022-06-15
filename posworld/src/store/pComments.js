@@ -42,7 +42,6 @@ export const selectComments = createAsyncThunk(SELECT_PCOMMENT, async () => {
 export const deleteComments = createAsyncThunk(
   DELETE_PCOMMENT,
   async (payload, thunkAPI) => {
-    console.log("여기까지 가니");
     const { comments } = thunkAPI.getState().pComments.allPComment.comments;
     return await deleteComment(comments, payload);
   }

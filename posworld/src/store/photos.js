@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { customAxios } from "../http/CustomAxios";
-import { getPhotoById, postPhoto } from "./photosApi";
+import { deletePhotos, getPhotoById, postPhoto } from "./photosApi";
 
 const initialState = {
+  photos: {},
   myPhoto: {
     title: "",
     img: "",
@@ -80,7 +81,10 @@ export const updatePhoto = createAsyncThunk(
 export const deletePhoto = createAsyncThunk(
   DELETE_PHOTO,
   async (payload, thunkAPI) => {
-    return await deletePhoto(payload);
+    console.log("하니?");
+    const { photos } = thunkAPI.getState().photos.allPhoto.photos;
+    console.log("photos" + photos);
+    return await deletePhotos(photos, payload);
     /* const isDelete = await deletePhoto(payload); */
   }
 );
@@ -88,7 +92,6 @@ export const deletePhoto = createAsyncThunk(
 export const selectPhoto = createAsyncThunk(
   SELECT_PHOTO,
   async (payload, thunkAPI) => {
-    console.log("payload" + payload);
     if (payload) {
       const allPhoto = await getPhotoById(Number(payload));
       return allPhoto;
@@ -106,14 +109,24 @@ export const photosSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(insertPhoto.fulfilled, (state, { payload }) => {
-        return { ...state, photos: payload };
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        if (payload) {
+          newPhoto.photos = payload;
+        }
+        return { ...state, allPhoto: newPhoto };
       })
       .addCase(updatePhoto.fulfilled, (state, { payload }) => {
         const { newPhoto } = payload;
         return { ...state, myPhoto: newPhoto };
       })
       .addCase(deletePhoto.fulfilled, (state, { payload }) => {
-        return { ...state, photos: payload };
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        if (payload) {
+          newPhoto.photos = payload;
+        }
+        return { ...state, allPhoto: newPhoto };
       })
       .addCase(selectPhoto.fulfilled, (state, { payload }) => {
         const newPhoto = { ...state.allPhoto };
@@ -126,10 +139,10 @@ export const photosSlice = createSlice({
         return { ...state, allPhoto: newPhoto };
       })
       .addCase(selectPhoto.rejected, (state, { error }) => {
-        const newComment = { ...state.allPComment };
-        newComment.loading = false;
-        newComment.message = error.message;
-        return { ...state, allPComment: newComment };
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        newPhoto.message = error.message;
+        return { ...state, allPhoto: newPhoto };
       });
   },
 });

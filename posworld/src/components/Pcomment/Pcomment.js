@@ -23,9 +23,9 @@ function Pcomment() {
   const myComments = useSelector((state) => state.pComments.allPComment);
   console.log(myComments);
   const dispatch = useDispatch();
-  const onClickDelete = (commentID) => {
-    dispatch(deleteComments(commentID));
-    dispatch(selectComments());
+  const onClickDelete = async (commentID) => {
+    await dispatch(deleteComments(commentID));
+    await dispatch(selectComments());
   };
   const commentPatch = async () => {
     await dispatch(selectComments());
