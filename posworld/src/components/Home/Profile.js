@@ -8,7 +8,6 @@ import styled from "styled-components";
 import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
 import { countUser } from "../../store/users";
-import { getHome, getOtherHome } from "../../store/homes";
 
 const ProfileSection = styled.section`
   height: fit-content !important;
@@ -73,9 +72,6 @@ function Profile() {
     const userNum = countUserNum.payload;
     const rand = Math.floor(Math.random() * userNum) + 1;
     alert(rand);
-
-    const data = await dispatch(getOtherHome(rand));
-    console.log(data);
   };
 
   return (
