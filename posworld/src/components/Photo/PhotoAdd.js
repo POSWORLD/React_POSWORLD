@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Input, Container, Button, Card } from 'reactstrap';
 import { insertPhoto } from '../../store/photos';
 import Contents from '../../styles/Layout/Contents';
@@ -14,11 +14,15 @@ import './PhotoAdd.css';
 function PhotoAdd() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    const userId = location.state;
+
     const [form, setForm] = useState({
         title: '',
         content: '',
         img: '/img/image1.jpg',
         file: '',
+        userId: userId,
     });
 
     const onChangeFile = (e) => {

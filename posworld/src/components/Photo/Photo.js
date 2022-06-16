@@ -32,7 +32,7 @@ function Photo() {
     }, []);
 
     const moveTo = () => {
-        return navigate('/PhotoAdd');
+        return navigate('/PhotoAdd', { state: myId.id });
     };
     return (
         <>
