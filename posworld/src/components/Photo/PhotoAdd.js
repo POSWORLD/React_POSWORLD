@@ -1,67 +1,92 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { Input, Container, Button } from "reactstrap";
-import { insertPhoto } from "../../store/photos";
-import "./PhotoAdd.css";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { Input, Container, Button, Card } from 'reactstrap';
+import { insertPhoto } from '../../store/photos';
+import Contents from '../../styles/Layout/Contents';
+import FlexWrapper from '../../styles/Layout/FlexWrapper';
+import Layout from '../../styles/Layout/Layout';
+import Sidebar from '../../styles/Layout/Sidebar';
+import AuthRouter from '../AuthRouter';
+import Profile from '../Home/Profile';
+import './PhotoAdd.css';
 
 function PhotoAdd() {
-  const dispatch = useDispatch();
-  const [form, setForm] = useState({
-    title: "",
-    content: "",
-    img: "/img/image1.jpg",
-    file: "",
-  });
-
-  const onChangeFile = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    return new Promise((resolve) => {
-      reader.onoad = () => {
-        setForm({ ...form, img: reader.result, file });
-        resolve();
-      };
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        title: '',
+        content: '',
+        img: '/img/image1.jpg',
+        file: '',
     });
-  };
 
-  const onSubmit = async () => {
-    await dispatch(insertPhoto(form));
-  };
+    const onChangeFile = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        return new Promise((resolve) => {
+            reader.onload = () => {
+                setForm({ ...form, img: reader.result, file });
+                resolve();
+            };
+        });
+    };
 
-  return (
-    <>
-      <div></div>
-      <Container>
-        <hr style={{ height: 2 }} />
-        <div className="photoInsertForm">
-          <Input type="text" placeholder="제목입력" id="title"></Input>
-          <div className="profileImgBox">
-            <label htmlFor="imgUpload">이미지</label>
-            {/* <img className="profileImg" src="" alt="photoImg"></img> */}
-            <Input
-              type="file"
-              id="img"
-              onChange={(e) => onChangeFile(e)}
-            ></Input>
-          </div>
-          <br></br>
-          <div>
-            <textarea id="content"></textarea>
-          </div>
-        </div>
-        <div>
-          <Link to="">
-            <Button id="listBtn">목록</Button>
-          </Link>
-          <Button type="submit" onClick={onSubmit} id="submitBtn">
-            확인
-          </Button>
-        </div>
-      </Container>
-    </>
-  );
+    const onSubmit = async () => {
+        await dispatch(insertPhoto(form));
+        alert('사진이 등록되었습니다.');
+        navigate('/photo');
+    };
+
+    const onChangeContent = (e) => {
+        const { value } = e.target;
+        setForm({ ...form, content: value });
+    };
+
+    const onChangeTitle = (e) => {
+        const { value } = e.target;
+        setForm({ ...form, title: value });
+    };
+
+    return (
+        <>
+            <Layout>
+                <Sidebar>
+                    <Card>
+                        <FlexWrapper>
+                            <Profile></Profile>
+                        </FlexWrapper>
+                    </Card>
+                </Sidebar>
+                <Contents>
+                    <Card>
+                        <hr style={{ height: 2 }} />
+                        <div className="photoInsertForm">
+                            <Input type="text" placeholder="제목입력" id="title" onChange={(e) => onChangeTitle(e)}></Input>
+                            <div className="profileImgBox">
+                                <label htmlFor="imgUpload">이미지</label>
+                                <Input type="file" id="img" onChange={(e) => onChangeFile(e)}></Input>
+                            </div>
+                            <br></br>
+                            <div>
+                                <textarea id="content" onChange={(e) => onChangeContent(e)}></textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <Link to="">
+                                <Button id="listBtn">목록</Button>
+                            </Link>
+                            <Button type="submit" onClick={onSubmit} id="submitBtn">
+                                확인
+                            </Button>
+                        </div>
+                    </Card>
+                </Contents>
+            </Layout>
+            <AuthRouter></AuthRouter>
+        </>
+    );
 }
 
 export default PhotoAdd;
