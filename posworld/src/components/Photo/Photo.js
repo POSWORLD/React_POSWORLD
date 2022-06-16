@@ -27,7 +27,6 @@ function Photo() {
         await dispatch(deletePhoto(id));
         await dispatch(selectPhoto(myId.id));
     };
-
     useEffect(() => {
         photoDispatch();
     }, []);
