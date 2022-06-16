@@ -12,7 +12,7 @@ export const getHomeApi = async (id) => {
 };
 export const updateHomeApi = async (home) => {
     try {
-        const response = await customAxios('/home/', 'put', home);
+        const response = await customAxios('/home/up', 'put', home);
         return response;
     } catch (error) {
         throw error;
