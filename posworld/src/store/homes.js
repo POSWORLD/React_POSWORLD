@@ -22,39 +22,17 @@ export const updateHome = createAsyncThunk(
     const { title, content, photo, file } = payload;
     let uploadFile = new FormData();
     uploadFile.append("file", file);
-    console.log(file);
     if (file) {
       filePath = await fileAxios("/upload", "post", uploadFile);
     }
-    // let uploadFile = new FormData();
-    // uploadFile.append("file", file);
-    // if (file) {
-    //   filePath = await fileAxios("/upload", "post", uploadFile);
-    // }
     const home = {
       title,
       content,
       photo: filePath ? filePath : photo,
     };
-    console.log("들어가는거", home);
     const response = await updateHomeApi(home, Number(id));
     return response;
   }
-
-  // const { myId } = thunkAPI.getState().users;
-  // const { home } = thunkAPI.getState().home;
-  // let filePath = '';
-  // const { content, photo, file } = payload;
-  // let uploadFile = new FormData();
-  // uploadFile.append('file', file);
-
-  // if (file) {
-  //     filePath = await fileAxios('/upload', 'post', uploadFile);
-  // }
-
-  // const homes = { content, photo: filePath ? filePath : photo, userId: Number(myId) };
-  // const Home = await updateHomeApi(home, homes, myId);
-  // return Home;
 );
 export const homeSlice = createSlice({
   name: "homes",
@@ -63,8 +41,6 @@ export const homeSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getHome.fulfilled, (state, { payload }) => {
-        console.log("홈바뀜", payload);
-        console.log(payload);
         return { ...state, home: payload };
       })
       .addCase(updateHome.fulfilled, (state, { payload }) => {

@@ -34,7 +34,6 @@ export const selectComments = createAsyncThunk(
   async (pid, thunkAPI) => {
     if (pid) {
       const comments = await getCommentByPid(Number(pid));
-      console.log("지금 받아온것 " + comments);
       return comments;
     }
   }
@@ -64,7 +63,6 @@ export const commentSlice = createSlice({
         const isExist = newComment.find(
           (x) => JSON.stringify(x) === JSON.stringify(payload)
         );
-        console.log("isExist", isExist);
         if (isExist) {
           return { ...state, comments: newComment };
         } else {
