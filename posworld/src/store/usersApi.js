@@ -24,7 +24,6 @@ export const loginCheckApi = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    // console.log(response.data);
     return response.data;
   } catch {
     return;

@@ -1,7 +1,6 @@
-import { Button, Input } from "reactstrap";
+import { Button } from "reactstrap";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { insertComments } from "../../store/pComments";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 const AddComment = styled.section`
   margin-top: 1rem;
@@ -12,15 +11,12 @@ const AddComment = styled.section`
     margin-left: 0.5rem;
   }
 `;
-function PcommentAdd() {
+function PcommentAdd({ onSubmit, pid }) {
   const myUser = useSelector((state) => state.users.me);
-  const dispatch = useDispatch();
   const [form, setForm] = useState({
     content: "",
+    pid: pid,
   });
-  const onSubmit = async () => {
-    await dispatch(insertComments(form));
-  };
 
   const onChangeContent = (e) => {
     const { value } = e.target;
@@ -39,7 +35,12 @@ function PcommentAdd() {
               value={form.content}
               onChange={(e) => onChangeContent(e)}
             ></input>
-            <Button id="confirm" type="button" outline onClick={onSubmit}>
+            <Button
+              id="confirm"
+              type="button"
+              outline
+              onClick={() => onSubmit(form)}
+            >
               확인
             </Button>
           </p>
