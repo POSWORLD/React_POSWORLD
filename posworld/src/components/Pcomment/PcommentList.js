@@ -42,5 +42,6 @@ function PcommentList({ comment, onClickDelete }) {
       </Wrap>
     </>
   );
+
 }
 export default PcommentList;
