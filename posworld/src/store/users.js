@@ -22,9 +22,11 @@ export const login = createAsyncThunk(LOGIN, async user => {
    return await loginApi(user);
 });
 
-export const loginCheck = createAsyncThunk(LOGIN_CHECK, async (user, thunkAPI) => {
-   const myToken = thunkAPI.getState().users;
-   if (myToken) {
+export const loginCheck = createAsyncThunk(
+  LOGIN_CHECK,
+  async (payload, thunkAPI) => {
+    const myToken = thunkAPI.getState().users;
+    if (myToken) {
       const me = await loginCheckApi();
       return me;
    }
