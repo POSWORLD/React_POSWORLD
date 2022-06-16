@@ -17,8 +17,9 @@ function BoardList({ board, boardDelete, index }) {
    //console.log(list);
 
    // console.log(myId);
-   const boardUpdate = () => {
-      navigate('/BoardUpdate');
+   // const boardUpdate = () => {};
+   const moveTo = () => {
+      return navigate('/BoardUpdate', { state: board.num });
    };
 
    return (
@@ -28,7 +29,12 @@ function BoardList({ board, boardDelete, index }) {
                {board?.friendId === myId ? (
                   <>
                      <input type="button" className="btn" onClick={() => boardDelete(board?.num)} value="삭제" />
-                     <input type="button" className="btn" onClick={boardUpdate} value="수정" />
+                     <input
+                        type="button"
+                        className="btn"
+                        onClick={moveTo}
+                        value="수정" /*onClick={() => boardUpdate(board?.num)} value="수정" */
+                     />
                   </>
                ) : (
                   <div></div>

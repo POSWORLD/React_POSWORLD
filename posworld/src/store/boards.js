@@ -26,7 +26,7 @@ export const selectBoards = createAsyncThunk(SELECT_BOARD, async (payload, thunk
 export const insertBoards = createAsyncThunk(
    INSERT_BOARD, //
    async (payload, thunkAPI) => {
-      const myId = thunkAPI.getState().users;
+      const myId = thunkAPI.getState().users.me.id;
       const homeId = '2';
       //const { boards } = thunkAPI.getState().boards;
       const { content } = payload;
@@ -44,10 +44,13 @@ export const deleteBoard = createAsyncThunk(DELETE_BOARD, async (payload, thunkA
    console.log(thunkAPI.getState().boards.allBoard.boards);
    return deleteBoardByNum(boards, payload);
 });
-export const updateBoard = createAsyncThunk(UPDATE_BOARD, async (board, thunkAPI) => {
-   const { myId, boards } = thunkAPI.getState().boards.allBoard.boards;
-   const newBoard = await putBoards(boards, board, myId);
-   return { newBoard, board };
+export const updateBoard = createAsyncThunk(UPDATE_BOARD, async (payload, thunkAPI) => {
+   //const { boards } = thunkAPI.getState().boards.allBoard.boards;
+   //const { f } = thunkAPI.getState().users.me.id;
+   const { content, num, friendId } = payload;
+   const board = { content, num, friendId };
+   const newBoard = await putBoards(board, friendId);
+   return { newBoard };
 });
 
 export const boardSlice = createSlice({
