@@ -70,5 +70,6 @@ function Pcomment({ pid, comment, deleteComments }) {
       )}
     </>
   );
+
 }
 export default Pcomment;

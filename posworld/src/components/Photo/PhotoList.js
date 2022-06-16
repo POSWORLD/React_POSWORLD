@@ -1,3 +1,4 @@
+
 import { Button, Spinner } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -7,47 +8,49 @@ import PcommentAdd from "../Pcomment/PcommentAdd";
 import Pcomment from "../Pcomment/Pcomment";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComments, selectComments } from "../../store/pComments";
+import AuthRouter from '../AuthRouter';
 import { useEffect } from "react";
+
 const Title = styled.div`
-  margin-top: 1rem;
-  height: auto;
-  width: 100%;
-  padding: 1px;
-  background: ${(props) => props.color || "#F0F0F0"};
-  text-align: center;
-  font-weight: bold;
+    margin-top: 1rem;
+    height: auto;
+    width: 100%;
+    padding: 1px;
+    background: ${(props) => props.color || '#F0F0F0'};
+    text-align: center;
+    font-weight: bold;
 `;
 
 const PhotoSection = styled.section`
-  height: fit-content !important;
-  justify-content: space-between;
-  height: 100%;
-  img {
-    margin: 0.5rem;
-  }
-  Button {
-    border: 1px solid black;
-    color: black;
-    background: white;
-  }
-  .contents {
-    width: 100%;
-    height: auto;
-  }
+    height: fit-content !important;
+    justify-content: space-between;
+    height: 100%;
+    img {
+        margin: 0.5rem;
+    }
+    Button {
+        border: 1px solid black;
+        color: black;
+        background: white;
+    }
+    .contents {
+        width: 100%;
+        height: auto;
+    }
 
-  #editBtn {
-    float: left;
-    margin-bottom: 30px;
-  }
+    #editBtn {
+        float: left;
+        margin-bottom: 30px;
+    }
 
-  #removeBtn {
-    float: right;
-    margin-bottom: 30px;
-  }
+    #removeBtn {
+        float: right;
+        margin-bottom: 30px;
+    }
 `;
 const PcommentSection = styled.section`
-  height: auto;
-  margin-top: 40px;
+    height: auto;
+    margin-top: 40px;
 `;
 
 function PhotoList({ photo, onClickDelete, onSubmit }) {
@@ -97,6 +100,7 @@ function PhotoList({ photo, onClickDelete, onSubmit }) {
       </PcommentSection>
     </>
   );
+
 }
 
 export default PhotoList;

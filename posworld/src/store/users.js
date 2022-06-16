@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fileAxios } from "../http/CustomAxios";
 import {
+  getUserCountApi,
   idCheckApi,
   insertUserApi,
   loginApi,
@@ -9,9 +10,9 @@ import {
 } from "./usersApi";
 
 const initialState = {
-  myToken: localStorage.getItem("token"),
-  isLogin: localStorage.getItem("token") === undefined ? true : false,
-  me: {},
+   myToken: localStorage.getItem('token'),
+   isLogin: localStorage.getItem('token') === undefined ? true : false,
+   me: {},
 };
 
 const LOGIN = "LOGIN";
@@ -23,10 +24,13 @@ const SELECT_USER_BY_USERID = "SELECT_USER_BY_USERID";
 const LOGOUT = "LOGOUT";
 const UPDATE_USERS = "UPDATE_USERS";
 const SELECT_USER_BY_KEY = "SELECT_USER_BY_KEY";
+const SELECT_COUNT_USER = "SELECT_COUNT_USER";
 
-export const login = createAsyncThunk(LOGIN, async (user) => {
-  return await loginApi(user);
+
+export const login = createAsyncThunk(LOGIN, async user => {
+   return await loginApi(user);
 });
+
 export const loginCheck = createAsyncThunk(
   LOGIN_CHECK,
   async (payload, thunkAPI) => {
@@ -34,42 +38,42 @@ export const loginCheck = createAsyncThunk(
     if (myToken) {
       const me = await loginCheckApi();
       return me;
-    }
-    return;
-  }
-);
-
-export const idCheck = createAsyncThunk(CHECK_ID, async (user) => {
-  return await idCheckApi(user);
+   }
+   return;
 });
 
-export const insertUser = createAsyncThunk(INSERT_USER, async (user) => {
-  return await insertUserApi(user);
+export const idCheck = createAsyncThunk(CHECK_ID, async user => {
+   return await idCheckApi(user);
 });
 
-export const updateUser = createAsyncThunk(
-  UPDATE_USERS,
-  async (payload, thunkAPI) => {
-    const { myToken } = thunkAPI.getState().users;
+export const insertUser = createAsyncThunk(INSERT_USER, async user => {
+   return await insertUserApi(user);
+});
 
-    let filePath = "";
-    const { name, proPhoto, file } = payload;
-    let uploadFile = new FormData();
-    uploadFile.append("file", file);
-    if (file) {
-      filePath = await fileAxios("/upload", "post", uploadFile);
-    }
-    const user = {
+export const updateUser = createAsyncThunk(UPDATE_USERS, async (payload, thunkAPI) => {
+   const { myToken } = thunkAPI.getState().users;
+
+   let filePath = '';
+   const { name, proPhoto, file } = payload;
+   let uploadFile = new FormData();
+   uploadFile.append('file', file);
+   if (file) {
+      filePath = await fileAxios('/upload', 'post', uploadFile);
+   }
+   const user = {
       name,
       proPhoto: filePath ? filePath : proPhoto,
-    };
-    const response = await updateUserApi(user);
-    if (response == 1) {
+   };
+   const response = await updateUserApi(user);
+   if (response == 1) {
       return user;
-    }
-    return;
-  }
-);
+   }
+   return;
+});
+
+export const countUser = createAsyncThunk(SELECT_COUNT_USER, async () => {
+  return await getUserCountApi();
+});
 
 // export const putUsers = async (users, user, id) => {
 //   const findUsersIndex = await users.findIndex((user) => user.id === id);
@@ -137,9 +141,6 @@ export const usersSlice = createSlice({
       .addCase(loginCheck.rejected, (state, { payload }) => {
         return { ...state, isLogin: false };
       })
-      .addCase(insertUser.fulfilled, (state, { payload }) => {
-        return { ...state, users: payload };
-      })
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         const user = payload;
         return { ...state, me: { ...state.me, ...user } };
@@ -149,6 +150,7 @@ export const usersSlice = createSlice({
     //   return { ...state, isLogin: false, me: {}, myId: "" };
     // });
   },
+
 });
 
 // export const logout = createAsyncThunk(LOGOUT, async (payload, thunkAPI) => {
