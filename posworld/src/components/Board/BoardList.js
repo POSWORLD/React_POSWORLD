@@ -6,8 +6,8 @@ import { deleteBoard } from '../../store/boards';
 import { useLocation } from 'react-router-dom';
 import changeTime from '../Pcomment/changeTime';
 import AuthRouter from '../AuthRouter';
-
-function BoardList({ board, boardDelete }) {
+import './BoardList.css';
+function BoardList({ board, boardDelete, index }) {
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const location = useLocation();
@@ -18,26 +18,32 @@ function BoardList({ board, boardDelete }) {
 
    // console.log(myId);
    const boardUpdate = () => {
-      navigate('/boardUpdate');
+      navigate('/BoardUpdate');
    };
 
    return (
       <>
-         <div className="BoardHeader">
-            <div>num</div>
-            <div>작성자 : {board?.friendName}</div>
-            <div>작성일 :{changeTime(board?.wdate)}</div>
+         <div className="row4">
+            <div className="comment">
+               {board?.friendId === myId ? (
+                  <>
+                     <input type="button" className="btn" onClick={() => boardDelete(board?.num)} value="삭제" />
+                     <input type="button" className="btn" onClick={boardUpdate} value="수정" />
+                  </>
+               ) : (
+                  <div></div>
+               )}
+               <div className="date">
+                  <span id="s1">No.{index + 1}</span> <span id="s2">{board?.friendName}</span>{' '}
+                  <img id="home_img" src="img/logo.png"></img> <span id="s3">( {changeTime(board?.wdate)})</span>
+               </div>
+               <div className="main">
+                  <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
+                  <div className="main_text">{board?.content}</div>
+                  {/* 이거 이미지에 넣기 <div className="FriendImg">{board?.friendImg}</div> */}
+               </div>
+            </div>
          </div>
-         <div className="FriendImg">{board?.friendImg}</div>
-         <div>내용 : {board?.content}</div>
-         {board?.friendId === myId ? (
-            <>
-               <Button onClick={boardUpdate}>수정</Button>
-               <Button onClick={() => boardDelete(board?.num)}>삭제</Button>
-            </>
-         ) : (
-            <div></div>
-         )}
 
          <AuthRouter></AuthRouter>
       </>

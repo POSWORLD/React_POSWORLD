@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { deleteBoardById, deleteBoardByNum, getBoardByHomeId, getMyBoards, insertBoard, postBoard } from './boardsApi';
+import { deleteBoardByNum, getBoardByHomeId, insertBoard, putBoards } from './boardsApi';
 
 const initialState = {
    allBoard: {
@@ -12,6 +12,7 @@ const initialState = {
 const SELECT_BOARD = 'SELECT_BOARD';
 const INSERT_BOARD = 'INSERT_BOARD';
 const DELETE_BOARD = 'DELETE_BOARD';
+const UPDATE_BOARD = 'UPDATE_BOARD';
 
 export const selectBoards = createAsyncThunk(SELECT_BOARD, async (payload, thunkAPI) => {
    const homeId = 2;
@@ -42,6 +43,11 @@ export const deleteBoard = createAsyncThunk(DELETE_BOARD, async (payload, thunkA
    const { boards } = thunkAPI.getState().boards.allBoard.boards;
    console.log(thunkAPI.getState().boards.allBoard.boards);
    return deleteBoardByNum(boards, payload);
+});
+export const updateBoard = createAsyncThunk(UPDATE_BOARD, async (board, thunkAPI) => {
+   const { myId, boards } = thunkAPI.getState().boards.allBoard.boards;
+   const newBoard = await putBoards(boards, board, myId);
+   return { newBoard, board };
 });
 
 export const boardSlice = createSlice({
@@ -78,6 +84,10 @@ export const boardSlice = createSlice({
                newBoard.boards = payload;
             }
             return { ...state, allBoard: newBoard };
+         })
+         .addCase(updateBoard.fulfilled, (state, { payload }) => {
+            const { newBoard, board } = payload;
+            return { ...state, allBoard: { ...state.allBoard, ...board }, boards: newBoard };
          });
    },
 });

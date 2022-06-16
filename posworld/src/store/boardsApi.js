@@ -12,6 +12,20 @@ export const deleteBoardByNum = async (boards, num) => {
       throw error;
    }
 };
+export const putBoards = async (boards, board, num) => {
+   try {
+      const boardnum = Number(num);
+      const response = await customAxios(`/board/${boardnum}`, 'put', board);
+      if (response == true) {
+         const updateBoards = await boards.filter(board => board.num !== num);
+         return [...updateBoards];
+      }
+      console.log(response);
+      return response;
+   } catch (error) {
+      throw error;
+   }
+};
 
 export const insertBoard = async board => {
    try {

@@ -2,12 +2,24 @@ import { useEffect, useState } from 'react';
 import { Spinner } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IMG_PATH } from '../../http/CustomAxios';
-import { deleteBoard, selectBoards, selectMyBoard } from '../../store/boards';
-import users from '../../store/users';
+import { deleteBoard, insertBoards, selectBoards } from '../../store/boards';
+import users, { idCheck } from '../../store/users';
 import BoardWrite from './BoardWrite';
 import BoardList from './BoardList';
 import AuthRouter from '../AuthRouter';
+import Layout from '../../styles/Layout/Layout';
+import Sidebar from '../../styles/Layout/Sidebar';
+import Profile from '../Home/Profile';
+import Card from '../../styles/Layout/Card';
+import Contents from '../../styles/Layout/Contents';
+import styled from 'styled-components';
+import './BoardList.css';
+const FlexWrapper = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   height: 100%;
+`;
 
 const Boards = ({ boardState, boards }) => {
    const homeBoards = useSelector(state => state.boards.allBoard);
@@ -26,38 +38,55 @@ const Boards = ({ boardState, boards }) => {
       await dispatch(deleteBoard(boardNum));
       await dispatch(selectBoards());
    };
-
    // const boardUpdate = () => {
    //    navigate('/boardUpdate');
    // };
-
-   const modeHandler = async e => {
-      e.preventDefault();
-      const nowMode = null;
-
-      if (mode === 'read') {
-         setMode('write');
-         nowMode = <Boards></Boards>;
-      } else {
-         setMode('read');
-         nowMode = <BoardWrite></BoardWrite>;
-      }
-      return nowMode;
-   };
+   const [visible, setVisible] = useState(false);
    return (
       <>
-         <div className="Boards">
-            <h1>{myId.name} 님의 방명록</h1>
-            <BoardWrite></BoardWrite>
-            {homeBoards.loading ? (
-               <Spinner>loading...</Spinner>
-            ) : (
-               homeBoards.boards.map(board => (
-                  <BoardList key={board.num} board={board} boardDelete={boardDelete}></BoardList>
-               ))
-            )}
-         </div>
-         <AuthRouter></AuthRouter>
+         <Layout>
+            <Sidebar>
+               <Card>
+                  <FlexWrapper>
+                     <Profile></Profile>
+                  </FlexWrapper>
+               </Card>
+            </Sidebar>
+            <Contents>
+               <Card>
+                  <>
+                     <span className="tap"></span>
+                     <span className="boards">{myId.name} 님의 방명록</span>
+                     <span>
+                        <button
+                           className="btn2"
+                           onClick={() => {
+                              setVisible(!visible);
+                           }}>
+                           {visible ? '취소' : '작성'}
+                        </button>
+                     </span>
+                     {visible && <BoardWrite />}
+
+                     {homeBoards.loading ? (
+                        <Spinner>loading...</Spinner>
+                     ) : (
+                        homeBoards.boards
+                           .slice(0)
+                           .reverse()
+                           .map((board, index) => (
+                              <BoardList
+                                 key={board.num}
+                                 board={board}
+                                 boardDelete={boardDelete}
+                                 index={index}></BoardList>
+                           ))
+                     )}
+                     <AuthRouter></AuthRouter>
+                  </>
+               </Card>
+            </Contents>
+         </Layout>
       </>
    );
 };
