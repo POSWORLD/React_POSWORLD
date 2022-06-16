@@ -1,3 +1,4 @@
+
 import Layout from '../../styles/Layout/Layout';
 import Sidebar from '../../styles/Layout/Sidebar';
 import Card from '../../styles/Layout/Card';
@@ -16,27 +17,29 @@ const FlexWrapper = styled.div`
 `;
 
 function Home() {
-    const dispatch = useDispatch();
-    const { id } = useSelector((state) => state.users.me);
-    dispatch(getHome(id));
-    return (
-        <>
-            <Layout>
-                <Sidebar>
-                    <Card>
-                        <FlexWrapper>
-                            <Profile></Profile>
-                        </FlexWrapper>
-                    </Card>
-                </Sidebar>
-                <Contents>
-                    <Card>
-                        <MiniRoom></MiniRoom>
-                    </Card>
-                </Contents>
-            </Layout>
-            <AuthRouter></AuthRouter>
-        </>
-    );
+  const dispatch = useDispatch();
+  const { id } = useSelector((state) => state.users.me);
+  dispatch(getHome(id));
+
+  return (
+    <>
+      <Layout>
+        <Sidebar>
+          <Card>
+            <FlexWrapper>
+              <Profile></Profile>
+            </FlexWrapper>
+          </Card>
+        </Sidebar>
+        <Contents>
+          <Card>
+            <MiniRoom></MiniRoom>
+          </Card>
+        </Contents>
+      </Layout>
+      <AuthRouter></AuthRouter>
+    </>
+  );
+
 }
 export default Home;

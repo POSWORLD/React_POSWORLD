@@ -56,6 +56,17 @@ export const updateUserApi = async (user) => {
   return response.data;
 };
 
+export const getUserCountApi = async () => {
+  const response = await axios({
+    url: "http://localhost:8001/user/count",
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
+};
+
 // };
 
 // export const getUserById = async (id) => {

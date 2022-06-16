@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import { customAxios } from '../http/CustomAxios';
 export const getHomeApi = async (id) => {
@@ -17,4 +18,5 @@ export const updateHomeApi = async (home) => {
     } catch (error) {
         throw error;
     }
+
 };

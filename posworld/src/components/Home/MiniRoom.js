@@ -1,3 +1,4 @@
+
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -41,6 +42,7 @@ const ContentSection = styled.section`
         }
     }
 `;
+
 function MiniRoom(title, content, photo) {
     const home = useSelector((state) => state.homes.home);
     console.log(home);
@@ -87,5 +89,6 @@ function MiniRoom(title, content, photo) {
             <HomeUpdate title={home.title} photo={home.photo} content={home.content} isOpen={isOpen} modalClose={modalClose}></HomeUpdate>
         </>
     );
+
 }
 export default MiniRoom;

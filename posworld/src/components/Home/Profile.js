@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, Container, Input } from "reactstrap";
 import { IMG_PATH } from "../../http/CustomAxios";
 import AuthRouter from "../AuthRouter";
@@ -7,6 +7,8 @@ import "./Profile.css";
 import styled from "styled-components";
 import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
+import { countUser } from "../../store/users";
+import { getHome, getOtherHome } from "../../store/homes";
 
 const ProfileSection = styled.section`
   height: fit-content !important;
@@ -52,7 +54,7 @@ const ProfileSection = styled.section`
   }
 `;
 function Profile() {
-  // console.log(useSelector((state) => state.users.me));
+  const dispatch = useDispatch();
   const { id, userId, name, gender, proPhoto } = useSelector(
     (state) => state.users.me
   );
@@ -64,6 +66,16 @@ function Profile() {
   };
   const modalOpen = () => {
     setIsOpen(true);
+  };
+
+  const wave = async () => {
+    const countUserNum = await dispatch(countUser());
+    const userNum = countUserNum.payload;
+    const rand = Math.floor(Math.random() * userNum) + 1;
+    alert(rand);
+
+    const data = await dispatch(getOtherHome(rand));
+    console.log(data);
   };
 
   return (
@@ -87,7 +99,7 @@ function Profile() {
           {name}@posworld.com
         </p>
         <p>
-          <button>파도타기</button>
+          <button onClick={wave}>파도타기</button>
         </p>
         <AuthRouter></AuthRouter>
         <ProfileUpdate

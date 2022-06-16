@@ -1,6 +1,7 @@
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import MainMenu from '../Menu/MainMenu';
+
+import styled from "styled-components";
+import MainMenu from "../Menu/MainMenu";
+import { useSelector } from "react-redux";
 
 const ContentWrapper = styled.div`
     display: flex;
@@ -14,15 +15,16 @@ const ContentWrapper = styled.div`
 `;
 
 const Contents = ({ children }) => {
-    const home = useSelector((state) => state.homes.home);
-    return (
-        <ContentWrapper>
-            <h1>{home.title}</h1>
+  const home = useSelector((state) => state.homes.myhome);
 
-            {children}
-            <MainMenu></MainMenu>
-        </ContentWrapper>
-    );
+  return (
+    <ContentWrapper>
+      <h1>{home.title}</h1>
+      {children}
+      <MainMenu></MainMenu>
+    </ContentWrapper>
+  );
+
 };
 
 export default Contents;

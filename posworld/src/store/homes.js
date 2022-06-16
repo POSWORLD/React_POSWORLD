@@ -1,13 +1,16 @@
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { customAxios, fileAxios } from '../http/CustomAxios';
 
 import { getHomeApi, updateHomeApi } from './homesApi';
 
 const initialState = {
-    home: {},
+   home: {},
+  otherhome: {},
 };
 const SELECT_HOME = 'SELECT_HOME';
 const UPDATE_HOME = 'UPDATE_HOME';
+const SELECT_OHTER_HOME = "SELECT_OHTER_HOME";
 
 export const getHome = createAsyncThunk(SELECT_HOME, async (id) => {
     return await getHomeApi(id);
@@ -69,3 +72,4 @@ export const homeSlice = createSlice({
     },
 });
 export default homeSlice.reducer;
+
