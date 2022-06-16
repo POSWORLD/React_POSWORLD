@@ -17,3 +17,16 @@ export const getCommentByPid = async (pid) => {
     throw error;
   }
 };
+
+export const deleteComment = async (comments, id) => {
+  try {
+    const commnetid = Number(id);
+    const response = await customAxios(`pComment/${commnetid}`, "delete");
+    if (response === true) {
+      const delComment = await comments.filter((comment) => comment.id !== id);
+      return [...delComment];
+    }
+  } catch (error) {
+    throw error;
+  }
+};

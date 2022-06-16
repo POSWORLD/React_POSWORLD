@@ -1,20 +1,19 @@
-import Layout from "../../styles/Layout/Layout";
-import Sidebar from "../../styles/Layout/Sidebar";
-import Card from "../../styles/Layout/Card";
-import Contents from "../../styles/Layout/Contents";
-import styled from "styled-components";
-import Profile from "./Profile";
-import MiniRoom from "./MiniRoom";
-import AuthRouter from "../AuthRouter";
-import { useDispatch, useSelector } from "react-redux";
-import { string } from "i/lib/util";
-import { useEffect } from "react";
-import { getHome } from "../../store/homes";
+
+import Layout from '../../styles/Layout/Layout';
+import Sidebar from '../../styles/Layout/Sidebar';
+import Card from '../../styles/Layout/Card';
+import Contents from '../../styles/Layout/Contents';
+import styled from 'styled-components';
+import Profile from './Profile';
+import MiniRoom from './MiniRoom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getHome } from '../../store/homes';
+import AuthRouter from '../AuthRouter';
 const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 `;
 
 function Home() {
@@ -41,5 +40,6 @@ function Home() {
       <AuthRouter></AuthRouter>
     </>
   );
+
 }
 export default Home;

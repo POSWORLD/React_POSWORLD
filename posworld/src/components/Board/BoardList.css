@@ -1,0 +1,70 @@
+.row4 {
+   display: flex;
+   flex-direction: column;
+   overflow: auto;
+}
+.comment {
+   margin: 15px;
+   margin-bottom: 15px;
+}
+.date {
+   background-color: rgb(231, 231, 231);
+   padding: 5px;
+   margin-bottom: 10px;
+   flex: 0.1;
+}
+.btn {
+   float: right;
+}
+.submit-button {
+   float: right;
+}
+.boards {
+   display: inline-block;
+   width: 87%;
+}
+.tap {
+   display: inline-block;
+   width: 1em;
+}
+
+.main {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+
+#main_img1 {
+   background-size: contain;
+   width: 12em;
+}
+#home_img {
+   background-size: contain;
+   width: 5%;
+}
+#s1 {
+   display: inline-block;
+   width: 40px;
+}
+#s2 {
+   display: inline-block;
+   width: 50px;
+   text-align: center;
+}
+#s3 {
+   display: inline-block;
+   width: 300px;
+}
+
+.main_text {
+   font-size: 15px;
+   margin-left: 20px;
+   margin-right: 20px;
+}
+.text-area {
+   width: 100%;
+   height: 8em;
+   margin-left: 20px;
+   margin-right: 20px;
+   resize: none;
+}
