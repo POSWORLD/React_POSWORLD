@@ -88,13 +88,13 @@ function PhotoList({ photo, onClickDelete, onSubmit }) {
           </Button>
         </p>
       </PhotoSection>
-      {comment.map((index) => (
-        <>
-          <PcommentSection>
+      <PcommentSection>
+        {comment.map((index) => (
+          <>
             <Pcomment pid={photo?.id} comment={index}></Pcomment>
-          </PcommentSection>
-        </>
-      ))}
+          </>
+        ))}
+      </PcommentSection>
     </>
   );
 }

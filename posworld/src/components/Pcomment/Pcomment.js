@@ -12,6 +12,7 @@ import { ImPencil } from "react-icons/im";
 import styled from "styled-components";
 
 const Wrap = styled.div`
+  margin-top: 10px;
   z-index: 10;
   border: 1px solid black;
   margin-top: 10px;
@@ -22,6 +23,8 @@ const Wrap = styled.div`
 
 function Pcomment({ pid, comment, deleteComments }) {
   const dispatch = useDispatch();
+
+  const [idx, setIdx] = useState(0);
 
   const commentPatch = async (pid) => {
     await dispatch(selectComments(pid));
@@ -35,18 +38,18 @@ function Pcomment({ pid, comment, deleteComments }) {
   }, []);
   return (
     <>
-      <Wrap>
-        <div>
-          <ImPencil></ImPencil> 댓글 {comment.length}
-        </div>
-        <Container>
-          {comment.loading ? (
-            <Spinner>loading...</Spinner>
-          ) : (
-            <>
-              {comment.map((coms) => (
+      {comment[idx].pid === pid ? (
+        <>
+          <Wrap>
+            <div>
+              <ImPencil></ImPencil> 댓글 {comment.length}
+            </div>
+            <Container>
+              {comment.loading ? (
+                <Spinner>loading...</Spinner>
+              ) : (
                 <>
-                  {coms.pid === pid ? (
+                  {comment.map((coms) => (
                     <>
                       <PcommentList
                         key={coms.id}
@@ -55,16 +58,16 @@ function Pcomment({ pid, comment, deleteComments }) {
                         pid={pid}
                       ></PcommentList>
                     </>
-                  ) : (
-                    <></>
-                  )}
+                  ))}
                 </>
-              ))}
-            </>
-          )}
-          <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
-        </Container>
-      </Wrap>
+              )}
+              <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
+            </Container>
+          </Wrap>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 }
