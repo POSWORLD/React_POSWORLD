@@ -25,18 +25,18 @@ export const insertPhoto = createAsyncThunk(INSERT_PHOTO, async (payload, thunkA
     const { myId } = thunkAPI.getState().users.me;
     const { photos } = thunkAPI.getState().photos.allPhoto.photos;
     let filePath = '';
-    const { title, content, img, file } = payload;
+    const { title, content, img, file, userId } = payload;
     let uploadFile = new FormData();
     uploadFile.append('file', file);
     if (file) {
-        filePath = await customAxios('/upload', 'post', file);
+        filePath = await fileAxios('/upload', 'post', uploadFile);
     }
 
     const photo = {
         title,
         content,
         img: filePath ? filePath : img,
-        userId: Number(myId),
+        userId,
     };
     const myPhoto = await postPhoto(photo);
     return myPhoto;
@@ -53,7 +53,6 @@ export const updatePhoto = createAsyncThunk(UPDATE_PHOTO, async (payload, thunkA
     if (file) {
         filePath = await fileAxios('/upload', 'post', uploadFile);
     }
-    console.log('filePath : ' + filePath);
 
     const photo = {
         id,
