@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { customAxios, fileAxios } from '../http/CustomAxios';
 
 import { getHomeApi, updateHomeApi } from './homeApi';
 
@@ -16,6 +17,12 @@ export const updateHome = createAsyncThunk(
     async (payload, thunkAPI) => {
         let filePath = '';
         const { title, content, photo, file } = payload;
+        let uploadFile = new FormData();
+        uploadFile.append('file', file);
+        console.log(file);
+        if (file) {
+            filePath = await fileAxios('/upload', 'post', uploadFile);
+        }
         // let uploadFile = new FormData();
         // uploadFile.append("file", file);
         // if (file) {
@@ -24,8 +31,7 @@ export const updateHome = createAsyncThunk(
         const home = {
             title,
             content,
-            // photo: filePath ? filePath : photo,
-            photo: photo,
+            photo: filePath ? filePath : photo,
         };
         console.log('들어가는거', home);
         const response = await updateHomeApi(home);
