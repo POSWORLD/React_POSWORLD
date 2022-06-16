@@ -1,10 +1,13 @@
-import { Button } from "reactstrap";
+import { Button, Spinner } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import changeTime from "../Pcomment/changeTime";
 import { IMG_PATH } from "../../http/CustomAxios";
 import PcommentAdd from "../Pcomment/PcommentAdd";
 import Pcomment from "../Pcomment/Pcomment";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComments, selectComments } from "../../store/pComments";
+import { useEffect } from "react";
 const Title = styled.div`
   margin-top: 1rem;
   height: auto;
@@ -48,12 +51,25 @@ const PcommentSection = styled.section`
 `;
 
 function PhotoList({ photo, onClickDelete, onSubmit }) {
+  const comment = useSelector((state) => state.pComments.comments);
+  console.log("comment", comment);
+  const dispatch = useDispatch();
+  const commentPatch = async (pid) => {
+    await dispatch(selectComments(pid));
+  };
+  const commentsDelete = async (ids) => {
+    await dispatch(deleteComments(ids));
+    await dispatch(selectComments(ids.pid));
+  };
+  useEffect(() => {
+    commentPatch(photo.id);
+    console.log("실행");
+  }, []);
+
   const navigate = useNavigate();
   const moveTo = () => {
     navigate("/PhotoUpdate");
   };
-
-  console.log(photo?.id);
   return (
     <>
       <PhotoSection>
@@ -72,9 +88,13 @@ function PhotoList({ photo, onClickDelete, onSubmit }) {
           </Button>
         </p>
       </PhotoSection>
-      <PcommentSection>
-        <Pcomment pid={photo?.id}></Pcomment>
-      </PcommentSection>
+      {comment.map((index) => (
+        <>
+          <PcommentSection>
+            <Pcomment pid={photo?.id} comment={index}></Pcomment>
+          </PcommentSection>
+        </>
+      ))}
     </>
   );
 }

@@ -20,13 +20,9 @@ const Wrap = styled.div`
   overflow-y: inherit;
 `;
 
-function Pcomment({ pid }) {
-  const myComments = useSelector((state) => state.pComments.allPComment);
+function Pcomment({ pid, comment, deleteComments }) {
   const dispatch = useDispatch();
-  const onClickDelete = async (ids) => {
-    await dispatch(deleteComments(ids));
-    await dispatch(selectComments(pid));
-  };
+
   const commentPatch = async (pid) => {
     await dispatch(selectComments(pid));
   };
@@ -41,22 +37,31 @@ function Pcomment({ pid }) {
     <>
       <Wrap>
         <div>
-          <ImPencil></ImPencil> 댓글 {myComments.comments.length}
+          <ImPencil></ImPencil> 댓글 {comment.length}
         </div>
         <Container>
-          {myComments.loading ? (
+          {comment.loading ? (
             <Spinner>loading...</Spinner>
           ) : (
-            myComments.comments.map((comment) => (
-              <PcommentList
-                key={comment.id}
-                comment={comment}
-                onClickDelete={onClickDelete}
-                pid={pid}
-              ></PcommentList>
-            ))
+            <>
+              {comment.map((coms) => (
+                <>
+                  {coms.pid === pid ? (
+                    <>
+                      <PcommentList
+                        key={coms.id}
+                        comment={coms}
+                        onClickDelete={deleteComments}
+                        pid={pid}
+                      ></PcommentList>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ))}
+            </>
           )}
-
           <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
         </Container>
       </Wrap>

@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCommentByPid, insertComment, deleteComment } from "./pCommentsApi";
-import { deletePhoto } from "./photosApi";
 const initialState = {
-  comments: {},
+  comments: [],
   allPComment: {
     comments: [],
     loading: false,
@@ -35,7 +34,7 @@ export const selectComments = createAsyncThunk(
   async (pid, thunkAPI) => {
     if (pid) {
       const comments = await getCommentByPid(Number(pid));
-      console.log(comments);
+      console.log("지금 받아온것 " + comments);
       return comments;
     }
   }
@@ -56,22 +55,22 @@ export const commentSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(insertComments.fulfilled, (state, { payload }) => {
-        return { ...state, comments: payload };
-      })
-      .addCase(selectComments.pending, (state, { payload }) => {
-        const newComment = { ...state.allPComment };
-        newComment.loading = true;
-        return { ...state, comments: newComment };
-      })
-      .addCase(selectComments.fulfilled, (state, { payload }) => {
         const newComment = { ...state.allPComment };
         newComment.loading = false;
-        if (payload) {
-          newComment.comments = payload;
-        } else {
-          newComment.message = "댓글이 없습니다.";
-        }
         return { ...state, allPComment: newComment };
+      })
+      .addCase(selectComments.fulfilled, (state, { payload }) => {
+        const newComment = [...state.comments];
+        const isExist = newComment.find(
+          (x) => JSON.stringify(x) === JSON.stringify(payload)
+        );
+        console.log("isExist", isExist);
+        if (isExist) {
+          return { ...state, comments: newComment };
+        } else {
+          newComment.push(payload);
+          return { ...state, comments: newComment };
+        }
       })
       .addCase(selectComments.rejected, (state, { error }) => {
         const newComment = { ...state.allPComment };

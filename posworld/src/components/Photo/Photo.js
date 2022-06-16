@@ -14,12 +14,16 @@ import { loginCheck } from "../../store/users";
 import Pcomment from "../Pcomment/Pcomment";
 import AuthRouter from "../AuthRouter";
 import styled from "styled-components";
-
+const PcommentSection = styled.section`
+  height: auto;
+  margin-top: 40px;
+`;
 function Photo() {
   const dispatch = useDispatch();
   const myId = useSelector((state) => state.users.me);
   const myPhoto = useSelector((state) => state.photos.allPhoto);
-
+  const comment = useSelector((state) => state.pComments.comments);
+  console.log(comment);
   const photoDispatch = async () => {
     await dispatch(selectPhoto(myId.id));
   };
