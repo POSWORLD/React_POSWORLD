@@ -40,7 +40,7 @@ function PhotoAdd() {
     const onSubmit = async () => {
         await dispatch(insertPhoto(form));
         alert('사진이 등록되었습니다.');
-        navigate('/photo');
+        navigate('/Photo');
     };
 
     const onChangeContent = (e) => {

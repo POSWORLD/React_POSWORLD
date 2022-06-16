@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Input, Container, Button, Card } from 'reactstrap';
-import { updatePhoto } from '../../store/photos';
+import { selectPhoto, updatePhoto } from '../../store/photos';
 import Contents from '../../styles/Layout/Contents';
 import FlexWrapper from '../../styles/Layout/FlexWrapper';
 import Layout from '../../styles/Layout/Layout';
@@ -40,8 +40,9 @@ const PhotoUpdate = () => {
 
     const onSubmit = async () => {
         await dispatch(updatePhoto(form));
+        await dispatch(selectPhoto(userId.id));
         alert('사진이 수정되었습니다.');
-        navigate('/photo');
+        navigate('/Photo');
     };
 
     const onChangeContent = (e) => {
