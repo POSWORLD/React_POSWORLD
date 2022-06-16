@@ -28,32 +28,44 @@ const Nav = styled.nav`
 `;
 
 function MainMenu() {
-   const [isSelect, setSelect] = useState([true, false, false]);
-   console.log(isSelect[1] ? 'selected' : 'no');
-   const toggleMenu = () => {
-      setSelect(isSelect => !isSelect);
-   };
-   return (
-      <Nav>
-         <ul>
-            <li>
-               <NavLink exact to="/" onClick={toggleMenu} activeClassName={isSelect[0] ? 'selected' : 'no'}>
-                  홈
-               </NavLink>
-            </li>
-            <li>
-               <NavLink to="/Photo" onClick={toggleMenu} activeClassName={isSelect[1] ? 'selected' : 'no'}>
-                  사진첩
-               </NavLink>
-            </li>
-            <li>
-               <NavLink to="/Board" onClick={toggleMenu} activeClassName={isSelect[2] ? 'selected' : 'no'}>
-                  방명록
-               </NavLink>
-            </li>
-         </ul>
-      </Nav>
-   );
+  const [isSelect, setSelect] = useState([true, false, false]);
+  const toggleMenu = () => {
+    setSelect((isSelect) => !isSelect);
+  };
+  return (
+    <Nav>
+      <ul>
+        <li>
+          <NavLink
+            exact
+            to="/"
+            onClick={toggleMenu}
+            activeClassName={isSelect[0] ? "selected" : "no"}
+          >
+            홈
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/Photo"
+            onClick={toggleMenu}
+            activeClassName={isSelect[1] ? "selected" : "no"}
+          >
+            사진첩
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/Board"
+            onClick={toggleMenu}
+            activeClassName={isSelect[2] ? "selected" : "no"}
+          >
+            방명록
+          </NavLink>
+        </li>
+      </ul>
+    </Nav>
+  );
 }
 
 export default MainMenu;
