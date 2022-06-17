@@ -29,7 +29,6 @@ const Nav = styled.nav`
 
 function MainMenu() {
    const [isSelect, setSelect] = useState([true, false, false]);
-   console.log(isSelect[1] ? 'selected' : 'no');
    const toggleMenu = () => {
       setSelect(isSelect => !isSelect);
    };

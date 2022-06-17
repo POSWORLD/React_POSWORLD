@@ -1,3 +1,4 @@
+import Boards from '../components/Board/Boards';
 import { customAxios } from '../http/CustomAxios';
 
 export const deleteBoardByNum = async (boards, num) => {
@@ -14,14 +15,7 @@ export const deleteBoardByNum = async (boards, num) => {
 };
 export const putBoards = async board => {
    try {
-      const boardnum = Number(board.num);
-      const response = await customAxios(`/board/${boardnum}`, 'put', board);
-      console.log(board);
-      if (response == true) {
-         const updateBoards = await board.filter(board => board.num !== boardnum);
-         return [...updateBoards];
-      }
-      console.log(response);
+      const response = await customAxios(`/board/${board.num}`, 'put', board);
       return response;
    } catch (error) {
       throw error;
@@ -42,7 +36,6 @@ export const insertBoard = async board => {
 export const getBoardByHomeId = async homeId => {
    try {
       const response = await customAxios(`/board/${homeId}`, 'get');
-      //console.log(response);
       return response;
    } catch (error) {
       throw error;

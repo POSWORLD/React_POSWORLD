@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { deleteBoardByNum, getBoardByHomeId, insertBoard, putBoards } from './boardsApi';
 
 const initialState = {
+   board: {},
    allBoard: {
       boards: [],
       loading: false,
@@ -28,7 +29,6 @@ export const insertBoards = createAsyncThunk(
    async (payload, thunkAPI) => {
       const myId = thunkAPI.getState().users.me.id;
       const homeId = '2';
-      //const { boards } = thunkAPI.getState().boards;
       const { content } = payload;
       const board = {
          friendId: Number(myId),
@@ -40,17 +40,24 @@ export const insertBoards = createAsyncThunk(
    },
 );
 export const deleteBoard = createAsyncThunk(DELETE_BOARD, async (payload, thunkAPI) => {
-   const { boards } = thunkAPI.getState().boards.allBoard.boards;
-   console.log(thunkAPI.getState().boards.allBoard.boards);
+   const boards = thunkAPI.getState().boards;
+   // console.log(payload);
    return deleteBoardByNum(boards, payload);
 });
 export const updateBoard = createAsyncThunk(UPDATE_BOARD, async (payload, thunkAPI) => {
-   //const { boards } = thunkAPI.getState().boards.allBoard.boards;
-   //const { f } = thunkAPI.getState().users.me.id;
-   const { content, num, friendId } = payload;
-   const board = { content, num, friendId };
-   const newBoard = await putBoards(board, friendId);
-   return { newBoard };
+   const { myId } = thunkAPI.getState().users.me.id;
+   const { boards } = thunkAPI.getState().boards.allBoard.boards;
+   const homeId = '2';
+   const { num, content } = payload;
+   const board = {
+      num,
+      homeId: Number(homeId),
+      content,
+   };
+   console.log(payload);
+   //const board = { content, num, friendId };
+   const newBoard = await putBoards(board, payload.num);
+   return newBoard;
 });
 
 export const boardSlice = createSlice({
@@ -89,8 +96,12 @@ export const boardSlice = createSlice({
             return { ...state, allBoard: newBoard };
          })
          .addCase(updateBoard.fulfilled, (state, { payload }) => {
-            const { newBoard, board } = payload;
-            return { ...state, allBoard: { ...state.allBoard, ...board }, boards: newBoard };
+            const newBoard = { ...state.allBoard };
+            newBoard.loading = false;
+            if (payload) {
+               newBoard.boards = payload;
+            }
+            return { ...state, allBoard: newBoard };
          });
    },
 });

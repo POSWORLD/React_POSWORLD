@@ -2,58 +2,86 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Modal, InputGroup, Input, InputGroupText } from 'reactstrap';
-import { insertBoards, updateBoard } from '../../store/boards';
+import { insertBoards, selectBoards, updateBoard } from '../../store/boards';
 import AuthRouter from '../AuthRouter';
-
-function BoardUpdate() {
+import Layout from '../../styles/Layout/Layout';
+import Sidebar from '../../styles/Layout/Sidebar';
+import Profile from '../Home/Profile';
+import Card from '../../styles/Layout/Card';
+import Contents from '../../styles/Layout/Contents';
+import styled from 'styled-components';
+import './BoardList.css';
+const FlexWrapper = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   height: 100%;
+`;
+const BoardUpdate = () => {
    const location = useLocation();
-   const myId = useSelector(state => state.users.me);
-   const [form, setForm] = useState({
-      content: '',
-      num: location.state,
-      friendId: myId.id,
-   });
    const dispatch = useDispatch();
    const navigate = useNavigate();
+   const myId = useSelector(state => state.users.me.id);
+   const myBoard = useSelector(state => state.boards.allBoard.boards);
+   const num = location.state;
+   const [form, setForm] = useState({
+      num,
+      content: '',
+      friendId: myId,
+   });
 
    const onChangeContent = e => {
       const { value } = e.target;
       setForm({ ...form, content: value });
    };
-   const onSubmit = () => {
-      dispatch(updateBoard(form));
-   };
+   const onSubmit = async () => {
+      await dispatch(updateBoard(form));
 
+      alert('방명록이 수정되었습니다.');
+      navigate('/Board');
+      await dispatch(selectBoards());
+   };
    return (
       <>
-         <div className="row4">
-            <div className="comment">
-               {/* {viewContent.map(element => (
-                  <div>{element.content}</div>
-               ))} */}
-               <div className="main">
-                  <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
+         <Layout>
+            <Sidebar>
+               <Card>
+                  <FlexWrapper>
+                     <Profile></Profile>
+                  </FlexWrapper>
+               </Card>
+            </Sidebar>
+            <Contents>
+               <Card>
+                  <>
+                     <div className="row4">
+                        <div className="comment">
+                           {/* {viewContent.map(element => (
+               <div>{element.content}</div>
+            ))} */}
+                           <div className="main">
+                              <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
 
-                  <textarea
-                     className="text-area"
-                     type="text"
-                     placeholder="남기고 싶은 말을 작성해주세요"
-                     onChange={onChangeContent}
-                     name="content"></textarea>
-               </div>
-               <button type="submit" className="submit-button" onClick={onSubmit}>
-                  저장
-               </button>
-            </div>
-         </div>
-         <AuthRouter></AuthRouter>
+                              <textarea
+                                 className="text-area"
+                                 type="text"
+                                 placeholder="남기고 싶은 말을 작성해주세요"
+                                 onChange={e => onChangeContent(e)}
+                                 name="content"></textarea>
+                           </div>
+                           <button type="submit" className="submit-button" onClick={onSubmit}>
+                              저장
+                           </button>
+                        </div>
+                     </div>
+                     <AuthRouter></AuthRouter>
+                  </>
+               </Card>
+            </Contents>
+         </Layout>
       </>
-      // <Modal fullscreen isOpen={isOpen}>
-      //    <BoardUpdateHeader modalClose={modalClose} onSubmit={onSubmit}></BoardUpdateHeader>
-      //    <BoardUpdateBody onChangeContent={onChangeContent} form={form}></BoardUpdateBody>
-      // </Modal>
    );
-}
+};
 export default BoardUpdate;
 
 const BoardUpdateHeader = ({ modalClose, onSubmit }) => {

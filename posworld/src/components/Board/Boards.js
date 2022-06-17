@@ -38,6 +38,9 @@ const Boards = ({ boardState, boards }) => {
       await dispatch(deleteBoard(boardNum));
       await dispatch(selectBoards());
    };
+   // const boardUpdate = async (content, num) => {
+   //    await dispatch(updateBoard(content, num));
+   // };
 
    const [visible, setVisible] = useState(false);
    return (
@@ -76,7 +79,9 @@ const Boards = ({ boardState, boards }) => {
                               <BoardList
                                  key={board.num}
                                  board={board}
+                                 num={board.num}
                                  boardDelete={boardDelete}
+                                 //boardUpdate={boardUpdate}
                                  index={index}></BoardList>
                            ))
                      )}
