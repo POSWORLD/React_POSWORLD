@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import { deleteBoard } from '../../store/boards';
+import { deleteBoard, updateBoard } from '../../store/boards';
 import { useLocation } from 'react-router-dom';
 import changeTime from '../Pcomment/changeTime';
 import AuthRouter from '../AuthRouter';
 import './BoardList.css';
-function BoardList({ board, boardDelete, index }) {
+import BoardUpdate from './BoardUpdate';
+function BoardList({ board, boardDelete, /* boardUpdate, */ index }) {
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const location = useLocation();
    const [clickBoard, setClickBoard] = useState();
    const list = useSelector(state => state.boards.allBoard.boards);
    const myId = useSelector(state => state.users.me.id);
-   //console.log(list);
-
-   // console.log(myId);
-   const boardUpdate = () => {
-      navigate('/BoardUpdate');
+   const [visible, setVisible] = useState(false);
+   const moveTo = () => {
+      //setVisible(!visible);
+      navigate('/BoardUpdate', { state: board.num });
    };
 
    return (
@@ -28,7 +28,14 @@ function BoardList({ board, boardDelete, index }) {
                {board?.friendId === myId ? (
                   <>
                      <input type="button" className="btn" onClick={() => boardDelete(board?.num)} value="삭제" />
-                     <input type="button" className="btn" onClick={boardUpdate} value="수정" />
+                     <input
+                        type="button"
+                        className="btn"
+                        onClick={() => moveTo()}
+                        value="수정"
+                        /* onClick={() => boardUpdate(board?.content , board?.num)} */
+                     />
+                     {visible && <BoardUpdate />}
                   </>
                ) : (
                   <div></div>

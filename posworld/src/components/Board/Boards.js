@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Spinner } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { deleteBoard, insertBoards, selectBoards } from '../../store/boards';
+import { deleteBoard, insertBoards, selectBoards, updateBoard } from '../../store/boards';
 import users, { idCheck } from '../../store/users';
 import BoardWrite from './BoardWrite';
 import BoardList from './BoardList';
@@ -38,9 +38,10 @@ const Boards = ({ boardState, boards }) => {
       await dispatch(deleteBoard(boardNum));
       await dispatch(selectBoards());
    };
-   // const boardUpdate = () => {
-   //    navigate('/boardUpdate');
+   // const boardUpdate = async (content, num) => {
+   //    await dispatch(updateBoard(content, num));
    // };
+
    const [visible, setVisible] = useState(false);
    return (
       <>
@@ -78,7 +79,9 @@ const Boards = ({ boardState, boards }) => {
                               <BoardList
                                  key={board.num}
                                  board={board}
+                                 num={board.num}
                                  boardDelete={boardDelete}
+                                 //boardUpdate={boardUpdate}
                                  index={index}></BoardList>
                            ))
                      )}
