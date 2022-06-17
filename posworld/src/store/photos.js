@@ -1,6 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { customAxios, fileAxios } from "../http/CustomAxios";
-import { deletePhotos, getPhotoById, postPhoto, putPhoto } from "./photosApi";
+import { fileAxios } from "../http/CustomAxios";
+import {
+  deletePhotos,
+  getPhotoById,
+  getPhotoByPhotoId,
+  postPhoto,
+  putPhoto,
+} from "./photosApi";
 
 const initialState = {
   photos: {},
@@ -20,11 +26,12 @@ const INSERT_PHOTO = "INSERT_PHOTO";
 const UPDATE_PHOTO = "UPDATE_PHOTO";
 const DELETE_PHOTO = "DELETE_PHOTO";
 const SELECT_PHOTO = "SELECT_PHOTO";
+const SELECT_PHOTO_BY_ID = "SELECT_PHOTO_BY_ID";
 
 export const insertPhoto = createAsyncThunk(
   INSERT_PHOTO,
   async (payload, thunkAPI) => {
-    const { myId } = thunkAPI.getState().users.me;
+    const { myToken } = thunkAPI.getState().users;
     const { photos } = thunkAPI.getState().photos.allPhoto.photos;
     let filePath = "";
     const { title, content, img, file, userId } = payload;
@@ -39,7 +46,7 @@ export const insertPhoto = createAsyncThunk(
       title,
       content,
       img: filePath ? filePath : img,
-      userId,
+      userId: Number(myToken),
     };
     const myPhoto = await postPhoto(photo);
     return myPhoto;
@@ -49,7 +56,7 @@ export const insertPhoto = createAsyncThunk(
 export const updatePhoto = createAsyncThunk(
   UPDATE_PHOTO,
   async (payload, thunkAPI) => {
-    const { myId } = thunkAPI.getState().users.me.id;
+    const { myToken } = thunkAPI.getState().users;
     const { photos } = thunkAPI.getState().photos.allPhoto.photos;
 
     let filePath = "";
@@ -65,10 +72,10 @@ export const updatePhoto = createAsyncThunk(
       title,
       content,
       img: filePath ? filePath : img,
-      userId,
+      userId: Number(myToken),
     };
 
-    const myPhoto = await putPhoto(photo, payload);
+    const myPhoto = await putPhoto(photos, photo);
     return myPhoto;
   }
 );
@@ -84,10 +91,20 @@ export const deletePhoto = createAsyncThunk(
 export const selectPhoto = createAsyncThunk(
   SELECT_PHOTO,
   async (payload, thunkAPI) => {
-    const id = thunkAPI.getState().users.me.id;
-    if (id) {
-      const allPhoto = await getPhotoById(Number(id));
+    const { myToken } = thunkAPI.getState().users;
+    if (myToken) {
+      const allPhoto = await getPhotoById(Number(myToken));
       return allPhoto;
+    }
+  }
+);
+
+export const selectPhotoById = createAsyncThunk(
+  SELECT_PHOTO_BY_ID,
+  async (payload, thunkAPI) => {
+    if (payload) {
+      const onePhoto = await getPhotoByPhotoId(Number(payload));
+      return onePhoto;
     }
   }
 );
@@ -104,7 +121,7 @@ export const photosSlice = createSlice({
         if (payload) {
           newPhoto.photos = payload;
         }
-        return { ...state, allPhoto: newPhoto };
+        return { ...state, photos: payload };
       })
       .addCase(updatePhoto.fulfilled, (state, { payload }) => {
         const newPhoto = { ...state.allPhoto };
@@ -123,7 +140,6 @@ export const photosSlice = createSlice({
         return { ...state, allPhoto: newPhoto };
       })
       .addCase(selectPhoto.fulfilled, (state, { payload }) => {
-        console.log("success");
         const newPhoto = { ...state.allPhoto };
         newPhoto.loading = false;
         if (payload) {
@@ -135,11 +151,13 @@ export const photosSlice = createSlice({
         return { ...state, allPhoto: newPhoto };
       })
       .addCase(selectPhoto.rejected, (state, { error }) => {
-        console.log("rejected");
         const newPhoto = { ...state.allPhoto };
         newPhoto.loading = false;
         newPhoto.message = error.message;
         return { ...state, allPhoto: newPhoto };
+      })
+      .addCase(selectPhotoById.fulfilled, (state, { payload }) => {
+        return { ...state, photos: payload };
       });
   },
 });

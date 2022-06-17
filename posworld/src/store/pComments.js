@@ -33,7 +33,8 @@ export const insertComments = createAsyncThunk(
 
 export const selectComments = createAsyncThunk(
   SELECT_PCOMMENT,
-  async (pid, thunkAPI) => {
+  async (payload, thunkAPI) => {
+    const pid = thunkAPI.getState().pComments.pid;
     if (pid) {
       const comments = await getCommentByPid(Number(pid));
       return comments;
@@ -44,7 +45,7 @@ export const selectComments = createAsyncThunk(
 export const deleteComments = createAsyncThunk(
   DELETE_PCOMMENT,
   async (payload, thunkAPI) => {
-    const { comments } = thunkAPI.getState().pComments.allPComment.comments;
+    const comments = thunkAPI.getState().pComments.comments;
     return await deleteComment(comments, payload);
   }
 );
@@ -66,16 +67,9 @@ export const commentSlice = createSlice({
         return { ...state, allPComment: newComment };
       })
       .addCase(selectComments.fulfilled, (state, { payload }) => {
-        const newComment = [...state.comments];
-        const isExist = newComment.find(
-          (x) => JSON.stringify(x) === JSON.stringify(payload)
-        );
-        if (isExist) {
-          return { ...state, comments: newComment };
-        } else {
-          const array1 = newComment.concat(payload);
-          return { ...state, comments: array1 };
-        }
+        const newComment = payload;
+
+        return { ...state, comments: newComment };
       })
       .addCase(selectComments.rejected, (state, { error }) => {
         const newComment = { ...state.allPComment };
@@ -89,7 +83,7 @@ export const commentSlice = createSlice({
         if (payload) {
           newComment.comments = payload;
         }
-        return { ...state, allPComment: newComment };
+        return { ...state, comments: payload };
       })
       .addCase(setPids.fulfilled, (state, { payload }) => {
         return { ...state, pid: payload };

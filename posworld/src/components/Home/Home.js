@@ -9,21 +9,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { getHome } from "../../store/homes";
 import AuthRouter from "../AuthRouter";
 import { useEffect } from "react";
-const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
+import { loginCheck } from "../../store/users";
+import FlexWrapper from "../../styles/Layout/FlexWrapper";
 
 function Home() {
   const dispatch = useDispatch();
-  // const { id } = useSelector((state) => state.users.me);
-  //dispatch(getHome(id));
-  const getHomeCommand = async () => {
-    await dispatch(getHome());
+  const getHomeCommand = () => {
+    dispatch(loginCheck())
+      .unwrap()
+      .then((data) => {
+        dispatch(getHome(data.id));
+      });
   };
   useEffect(() => {
+    console.log("되었댜");
     getHomeCommand();
   }, []);
 

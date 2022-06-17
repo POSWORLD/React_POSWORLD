@@ -11,15 +11,22 @@ const SELECT_HOME = "SELECT_HOME";
 const UPDATE_HOME = "UPDATE_HOME";
 const SELECT_OHTER_HOME = "SELECT_OHTER_HOME";
 
-export const getHome = createAsyncThunk(SELECT_HOME, async (thunkAPI) => {
-  const id = thunkAPI.getState().users.me.id;
-  return await getHomeApi(id);
-});
+export const getHome = createAsyncThunk(
+  SELECT_HOME,
+  async (payload, thunkAPI) => {
+    console.log("시작해볼까", payload);
+    if (payload) {
+      const myhome = await getHomeApi(Number(payload));
+      console.log("myhome", myhome);
+      return myhome;
+    }
+  }
+);
 export const updateHome = createAsyncThunk(
   UPDATE_HOME,
   async (payload, thunkAPI) => {
     let filePath = "";
-    const id = thunkAPI.getState().users.me.id;
+    const { myToken } = thunkAPI.getState().users;
     const { title, content, photo, file } = payload;
     let uploadFile = new FormData();
     uploadFile.append("file", file);
@@ -31,7 +38,7 @@ export const updateHome = createAsyncThunk(
       content,
       photo: filePath ? filePath : photo,
     };
-    const response = await updateHomeApi(home, Number(id));
+    const response = await updateHomeApi(home, Number(myToken));
     return response;
   }
 );
