@@ -11,7 +11,7 @@ export const insertComment = async (pComment) => {
 
 export const getCommentByPid = async (pid) => {
   try {
-    const response = await customAxios(`pComment/${pid}`, "get");
+    const response = await customAxios(`pComment/${Number(pid)}`, "get");
     return response;
   } catch (error) {
     throw error;
@@ -20,8 +20,8 @@ export const getCommentByPid = async (pid) => {
 
 export const deleteComment = async (comments, id) => {
   try {
-    const commnetid = Number(id);
-    const response = await customAxios(`pComment/${commnetid}`, "delete");
+    const commentid = Number(id);
+    const response = await customAxios(`pComment/${commentid}`, "delete");
     if (response === true) {
       const delComment = await comments.filter((comment) => comment.id !== id);
       return [...delComment];

@@ -1,9 +1,5 @@
-import { Button, Card } from "reactstrap";
 import changeTime from "./changeTime";
-import { IoIosClose } from "react-icons/io";
 import styled from "styled-components";
-import { deleteComments, selectComments } from "../../store/pComments";
-import { useDispatch } from "react-redux";
 const Wrap = styled.section`
   display: flex;
   flex-direction: column;
@@ -42,6 +38,5 @@ function PcommentList({ comment, onClickDelete, pid }) {
       </Wrap>
     </>
   );
-
 }
 export default PcommentList;

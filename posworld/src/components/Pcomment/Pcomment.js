@@ -21,55 +21,50 @@ const Wrap = styled.div`
   overflow-y: inherit;
 `;
 
-function Pcomment({ pid, comment, deleteComments }) {
+function Pcomment() {
   const dispatch = useDispatch();
+  const pid = useSelector((state) => state.pComments.pid);
+  const pcomment = useSelector((state) => state.pComments.comments);
 
-  const [idx, setIdx] = useState(0);
-
-  const commentPatch = async (pid) => {
-    await dispatch(selectComments(pid));
+  const commentPatch = () => {
+    dispatch(selectComments());
   };
-  const onSubmit = async (form, pid) => {
+
+  const commentsDelete = async (ids) => {
+    await dispatch(deleteComments(ids));
+    await dispatch(selectComments(ids.pid));
+  };
+
+  const onSubmit = async (form) => {
     await dispatch(insertComments(form));
-    await dispatch(selectComments(pid));
+    await dispatch(selectComments());
   };
   useEffect(() => {
-    commentPatch(pid);
+    commentPatch();
   }, []);
   return (
     <>
-      {comment[idx].pid === pid ? (
-        <>
-          <Wrap>
-            <div>
-              <ImPencil></ImPencil> 댓글 {comment.length}
-            </div>
-            <Container>
-              {comment.loading ? (
-                <Spinner>loading...</Spinner>
-              ) : (
-                <>
-                  {comment.map((coms) => (
-                    <>
-                      <PcommentList
-                        key={coms.id}
-                        comment={coms}
-                        onClickDelete={deleteComments}
-                        pid={pid}
-                      ></PcommentList>
-                    </>
-                  ))}
-                </>
-              )}
-              <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
-            </Container>
-          </Wrap>
-        </>
-      ) : (
-        <></>
-      )}
+      <Wrap>
+        <div>
+          <ImPencil></ImPencil> 댓글
+        </div>
+        <Container>
+          {pcomment !== undefined ? (
+            pcomment.map((coms) => (
+              <PcommentList
+                key={coms.id}
+                comment={coms}
+                onClickDelete={commentsDelete}
+                pid={pid}
+              ></PcommentList>
+            ))
+          ) : (
+            <></>
+          )}
+          <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
+        </Container>
+      </Wrap>
     </>
   );
-
 }
 export default Pcomment;

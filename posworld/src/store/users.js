@@ -33,9 +33,10 @@ export const login = createAsyncThunk(LOGIN, async (user) => {
 export const loginCheck = createAsyncThunk(
   LOGIN_CHECK,
   async (payload, thunkAPI) => {
-    const myToken = thunkAPI.getState().users;
+    const { myToken } = thunkAPI.getState().users;
     if (myToken) {
       const me = await loginCheckApi();
+      console.log(me);
       return me;
     }
     return;
@@ -78,44 +79,6 @@ export const countUser = createAsyncThunk(SELECT_COUNT_USER, async () => {
   return await getUserCountApi();
 });
 
-// export const putUsers = async (users, user, id) => {
-//   const findUsersIndex = await users.findIndex((user) => user.id === id);
-//   const { name, img } = user;
-//   if (findUsersIndex === -1) {
-//     console.error("not found");
-//     return;
-//   }
-//   const newUsers = [...users];
-//   newUsers.splice(findUsersIndex, 1, { ...users[findUsersIndex], name, img });
-//   return newUsers;
-// };
-
-// export const selectUserByToken = createAsyncThunk(
-//   SELECT_USER_BY_ID,
-//   async () => {
-//     return await getUserByToken();
-//   }
-// );
-// export const selectUserByUserId = createAsyncThunk(
-//   SELECT_USER_BY_USERID,
-//   async (id, thunkAPI) => {
-//     const { users } = thunkAPI.getState().users;
-//     const newUser = await getUserByUserId(users, id);
-//     return newUser;
-//   }
-// );
-
-// export const selectUserByKey = createAsyncThunk(
-//   SELECT_USER_BY_KEY,
-//   async (key, thunkAPI) => {
-//     const { users } = thunkAPI.getState().users;
-//     const reg = new RegExp(key, "g");
-//     const newUsers = await getUserByKey(users, reg);
-
-//     return newUsers.id;
-//   }
-// );
-
 export const usersSlice = createSlice({
   name: "users",
   initialState,
@@ -125,6 +88,7 @@ export const usersSlice = createSlice({
       .addCase(login.fulfilled, (state, { payload }) => {
         if (payload.isLogin) {
           localStorage.setItem("token", payload.user.token);
+          console.log(payload.user);
           return { ...state, isLogin: payload.login, me: payload.user };
         } else {
           return { ...state, isLogin: false };
