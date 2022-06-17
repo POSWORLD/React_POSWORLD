@@ -1,49 +1,47 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { customAxios } from "../http/CustomAxios";
-import { postPhoto } from "./photosApi";
+import { customAxios, fileAxios } from "../http/CustomAxios";
+import { deletePhotos, getPhotoById, postPhoto, putPhoto } from "./photosApi";
 
 const initialState = {
+  photos: {},
   myPhoto: {
     title: "",
     img: "",
     content: "",
+  },
+  allPhoto: {
+    photos: [],
+    loading: false,
+    message: "",
   },
 };
 
 const INSERT_PHOTO = "INSERT_PHOTO";
 const UPDATE_PHOTO = "UPDATE_PHOTO";
 const DELETE_PHOTO = "DELETE_PHOTO";
+const SELECT_PHOTO = "SELECT_PHOTO";
 
 export const insertPhoto = createAsyncThunk(
   INSERT_PHOTO,
-  /*  async (payload, thunkAPI) => {
-        let formData = new FormData();
-        formData.append("file", payload.file);
-        await fileUpload("post", "/upload", formData);
-        const removeFilePost = { ...payload, file: "", img: `/${payload.file.name}` };
-        const isInsert = await postPost(removeFilePost);
-        console.log(isInsert);
-        if (isInsert === 1) {
-            console.log(isInsert);
-            useDispatch(selectMyPost());
-        }
-    } */
   async (payload, thunkAPI) => {
-    const { myId } = thunkAPI.getState().users;
-    const { photos } = thunkAPI.getState().photos;
-    let filePath = "";
-    const { content, img, file } = payload;
+    const { myId } = thunkAPI.getState().users.me;
+    const { photos } = thunkAPI.getState().photos.allPhoto.photos;
+    let filePath = '';
+    const { title, content, img, file, userId } = payload;
+
+    let uploadFile = new FormData();
+    uploadFile.append("file", file);
     if (file) {
-      filePath = await customAxios("/upload", "photo", file);
+        filePath = await fileAxios('/upload', 'post', uploadFile);
     }
 
     const photo = {
-      content,
-      img: filePath ? filePath : img,
-      userId: Number(myId),
+        title,
+        content,
+        img: filePath ? filePath : img,
+        userId,
     };
-
-    const myPhoto = await postPhoto(photos, photo);
+    const myPhoto = await postPhoto(photo);
     return myPhoto;
   }
 );
@@ -51,22 +49,26 @@ export const insertPhoto = createAsyncThunk(
 export const updatePhoto = createAsyncThunk(
   UPDATE_PHOTO,
   async (payload, thunkAPI) => {
-    const { myId } = thunkAPI.getState().users;
-    const { photos } = thunkAPI.getState().photos;
+    const { myId } = thunkAPI.getState().users.me.id;
+    const { photos } = thunkAPI.getState().photos.allPhoto.photos;
 
     let filePath = "";
-    const { content, img, file } = payload;
+    const { id, title, content, img, file, userId } = payload;
+    let uploadFile = new FormData();
+    uploadFile.append("file", file);
     if (file) {
-      filePath = await customAxios("/upload", "photo", file);
+      filePath = await fileAxios("/upload", "post", uploadFile);
     }
 
     const photo = {
+      id,
+      title,
       content,
       img: filePath ? filePath : img,
-      userId: Number(myId),
+      userId,
     };
 
-    const myPhoto = await postPhoto(photos, photo);
+    const myPhoto = await putPhoto(photo, payload);
     return myPhoto;
   }
 );
@@ -74,8 +76,21 @@ export const updatePhoto = createAsyncThunk(
 export const deletePhoto = createAsyncThunk(
   DELETE_PHOTO,
   async (payload, thunkAPI) => {
-    return await deletePhoto(payload);
-    /* const isDelete = await deletePhoto(payload); */
+    const { photos } = thunkAPI.getState().photos.allPhoto.photos;
+    return await deletePhotos(photos, payload);
+  }
+);
+
+export const selectPhoto = createAsyncThunk(
+  SELECT_PHOTO,
+  async (payload, thunkAPI) => {
+    if (payload) {
+      const allPhoto = await getPhotoById(Number(payload));
+      return allPhoto;
+    } else if (payload === undefined) {
+      const allPhoto = await getPhotoById(1);
+      return allPhoto;
+    }
   }
 );
 
@@ -86,14 +101,44 @@ export const photosSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(insertPhoto.fulfilled, (state, { payload }) => {
-        return { ...state, photos: payload };
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        if (payload) {
+          newPhoto.photos = payload;
+        }
+        return { ...state, allPhoto: newPhoto };
       })
       .addCase(updatePhoto.fulfilled, (state, { payload }) => {
-        const { newPhoto } = payload;
-        return { ...state, myPhoto: newPhoto };
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        if (payload) {
+          newPhoto.photos = payload;
+        }
+        return { ...state, allPhoto: newPhoto };
       })
       .addCase(deletePhoto.fulfilled, (state, { payload }) => {
-        return { ...state, photos: payload };
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        if (payload) {
+          newPhoto.photos = payload;
+        }
+        return { ...state, allPhoto: newPhoto };
+      })
+      .addCase(selectPhoto.fulfilled, (state, { payload }) => {
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        if (payload) {
+          newPhoto.photos = payload;
+        } else {
+          newPhoto.message = "사진이 없습니다";
+        }
+        return { ...state, allPhoto: newPhoto };
+      })
+      .addCase(selectPhoto.rejected, (state, { error }) => {
+        const newPhoto = { ...state.allPhoto };
+        newPhoto.loading = false;
+        newPhoto.message = error.message;
+        return { ...state, allPhoto: newPhoto };
       });
   },
 });

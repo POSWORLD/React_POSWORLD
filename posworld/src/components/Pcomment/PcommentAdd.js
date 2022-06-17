@@ -1,34 +1,51 @@
-import { Button, Input } from "reactstrap";
+import { Button } from "reactstrap";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { insertComments } from "../../store/pComments";
-
-function PcommentAdd() {
-  const dispatch = useDispatch();
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+const AddComment = styled.section`
+  margin-top: 1rem;
+  #inputs {
+    margin-left: 0.5rem;
+  }
+  #confirm {
+    margin-left: 0.5rem;
+  }
+`;
+function PcommentAdd({ onSubmit, pid }) {
+  const myUser = useSelector((state) => state.users.me);
   const [form, setForm] = useState({
     content: "",
+    pid: pid,
   });
-  const onSubmit = async () => {
-    await dispatch(insertComments(form));
-  };
 
   const onChangeContent = (e) => {
     const { value } = e.target;
     setForm({ ...form, content: value });
   };
+
   return (
     <>
-      <div className="addComment">
-        <p>사용자 이름</p>
-        <Input
-          type="text"
-          value={form.content}
-          onChange={(e) => onChangeContent(e)}
-        ></Input>
-        <Button type="button" outline onClick={onSubmit}>
-          확인
-        </Button>
-      </div>
+      <AddComment>
+        <div className="addComment">
+          <p>
+            {myUser.name}
+            <input
+              type="text"
+              id="inputs"
+              value={form.content}
+              onChange={(e) => onChangeContent(e)}
+            ></input>
+            <Button
+              id="confirm"
+              type="button"
+              outline
+              onClick={() => onSubmit(form)}
+            >
+              확인
+            </Button>
+          </p>
+        </div>
+      </AddComment>
     </>
   );
 }
