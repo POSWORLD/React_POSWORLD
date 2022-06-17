@@ -46,6 +46,7 @@ export const deleteBoard = createAsyncThunk(DELETE_BOARD, async (payload, thunkA
 });
 export const updateBoard = createAsyncThunk(UPDATE_BOARD, async (payload, thunkAPI) => {
    const { myId } = thunkAPI.getState().users.me.id;
+   console.log(payload);
    const { boards } = thunkAPI.getState().boards.allBoard.boards;
    const homeId = '2';
    const { num, content } = payload;

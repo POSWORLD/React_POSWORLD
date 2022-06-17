@@ -17,13 +17,13 @@ const FlexWrapper = styled.div`
    justify-content: space-between;
    height: 100%;
 `;
-const BoardUpdate = () => {
+const BoardUpdate = board => {
    const location = useLocation();
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const myId = useSelector(state => state.users.me.id);
    const myBoard = useSelector(state => state.boards.allBoard.boards);
-   const num = location.state;
+   const num = board.myNum;
    const [form, setForm] = useState({
       num,
       content: '',
@@ -35,14 +35,13 @@ const BoardUpdate = () => {
       setForm({ ...form, content: value });
    };
    const onSubmit = async () => {
-      await dispatch(updateBoard(form));
-
-      alert('방명록이 수정되었습니다.');
-      navigate('/Board');
-      await dispatch(selectBoards());
+      await dispatch(updateBoard(form)).unwrap().then(alert('방명록이 수정되었습니다.'));
+      //alert('방명록이 수정되었습니다.');
+      //await dispatch(selectBoards());
+      //navigate('/Board');
    };
    return (
-      <>
+      /*  <>
          <Layout>
             <Sidebar>
                <Card>
@@ -52,34 +51,36 @@ const BoardUpdate = () => {
                </Card>
             </Sidebar>
             <Contents>
-               <Card>
-                  <>
-                     <div className="row4">
-                        <div className="comment">
-                           {/* {viewContent.map(element => (
-               <div>{element.content}</div>
-            ))} */}
-                           <div className="main">
-                              <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
+               <Card> */
+      <>
+         <div className="row4">
+            <div className="comment">
+               {/* {viewContent.map(element => (
+                      <div>{element.content}</div>
+                          ))} */}
+               <div className="main">
+                  <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
 
-                              <textarea
-                                 className="text-area"
-                                 type="text"
-                                 placeholder="남기고 싶은 말을 작성해주세요"
-                                 onChange={e => onChangeContent(e)}
-                                 name="content"></textarea>
-                           </div>
-                           <button type="submit" className="submit-button" onClick={onSubmit}>
-                              저장
-                           </button>
-                        </div>
-                     </div>
-                     <AuthRouter></AuthRouter>
-                  </>
-               </Card>
+                  <textarea
+                     className="text-area"
+                     type="text"
+                     placeholder="남기고 싶은 말을 작성해주세요"
+                     onChange={e => onChangeContent(e)}
+                     name="content"></textarea>
+               </div>
+               <form onSubmit={onSubmit}>
+                  <button type="submit" className="submit-button">
+                     저장
+                  </button>
+               </form>
+            </div>
+         </div>
+         <AuthRouter></AuthRouter>
+      </>
+      /*       </Card>
             </Contents>
          </Layout>
-      </>
+      </> */
    );
 };
 export default BoardUpdate;
