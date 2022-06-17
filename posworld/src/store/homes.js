@@ -26,7 +26,9 @@ export const updateHome = createAsyncThunk(
   UPDATE_HOME,
   async (payload, thunkAPI) => {
     let filePath = "";
-    const { myToken } = thunkAPI.getState().users;
+
+    const id = thunkAPI.getState().users.me.id;
+    console.log(id);
     const { title, content, photo, file } = payload;
     let uploadFile = new FormData();
     uploadFile.append("file", file);
@@ -38,7 +40,8 @@ export const updateHome = createAsyncThunk(
       content,
       photo: filePath ? filePath : photo,
     };
-    const response = await updateHomeApi(home, Number(myToken));
+    const response = await updateHomeApi(home, Number(id));
+    console.log(response);
     return response;
   }
 );

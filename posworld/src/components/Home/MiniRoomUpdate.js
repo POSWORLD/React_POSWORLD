@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, InputGroup, InputGroupText, Modal } from "reactstrap";
-import { updateHome } from "../../store/homes";
+import { getHome, updateHome } from "../../store/homes";
 import { loginCheck } from "../../store/users";
 import "./ProfileUpdate.css";
 
 const HomeUpdate = ({ title, photo, content, isOpen, modalClose }) => {
   const dispatch = useDispatch();
+  const myId = useSelector((state) => state.users.me.myId);
   const [form, setForm] = useState({
     title: "",
     photo: "",
@@ -38,9 +39,14 @@ const HomeUpdate = ({ title, photo, content, isOpen, modalClose }) => {
     const { value } = e.target;
     setForm({ ...form, content: value });
   };
-  const onSubmit = async () => {
-    await dispatch(updateHome(form));
-    //    await dispatch(loginCheck());
+  const onSubmit = () => {
+    dispatch(loginCheck())
+      .unwrap()
+      .then(() => {
+        dispatch(updateHome(form));
+        dispatch(getHome(myId));
+      });
+
     modalClose();
   };
 

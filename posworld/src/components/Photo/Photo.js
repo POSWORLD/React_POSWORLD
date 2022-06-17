@@ -24,8 +24,8 @@ const Photos = styled.section`
   }
 
   .PhotoImg {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 70%;
     aspect-ratio: 1;
     margin: 4px;
   }
