@@ -11,7 +11,8 @@ const SELECT_HOME = "SELECT_HOME";
 const UPDATE_HOME = "UPDATE_HOME";
 const SELECT_OHTER_HOME = "SELECT_OHTER_HOME";
 
-export const getHome = createAsyncThunk(SELECT_HOME, async (id) => {
+export const getHome = createAsyncThunk(SELECT_HOME, async (thunkAPI) => {
+  const id = thunkAPI.getState().users.me.id;
   return await getHomeApi(id);
 });
 export const updateHome = createAsyncThunk(

@@ -14,7 +14,6 @@ const BoardWrite = () => {
   const [content, setContent] = useState("");
   const [viewContent, setViewContent] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const myId = useSelector((state) => state.users.me);
   const dispatch = useDispatch();
   const closeModal = () => {
     setIsOpen(false);

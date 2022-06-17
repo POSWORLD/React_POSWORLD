@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCommentByPid, insertComment, deleteComment } from "./pCommentsApi";
 const initialState = {
+  pid: 0,
   comments: [],
   allPComment: {
     comments: [],
@@ -12,6 +13,7 @@ const initialState = {
 const INSERT_PCOMMENT = "INSERT_PCOMMENT";
 const SELECT_PCOMMENT = "SELECT_PCOMMENT";
 const DELETE_PCOMMENT = "DELETE_PCOMMENT";
+const SET_PID = "SET_PID";
 
 export const insertComments = createAsyncThunk(
   INSERT_PCOMMENT,
@@ -47,6 +49,11 @@ export const deleteComments = createAsyncThunk(
   }
 );
 
+export const setPids = createAsyncThunk(SET_PID, async (payload, thunkAPI) => {
+  const pid = payload;
+  return pid;
+});
+
 export const commentSlice = createSlice({
   name: "comments",
   initialState,
@@ -66,8 +73,8 @@ export const commentSlice = createSlice({
         if (isExist) {
           return { ...state, comments: newComment };
         } else {
-          newComment.push(payload);
-          return { ...state, comments: newComment };
+          const array1 = newComment.concat(payload);
+          return { ...state, comments: array1 };
         }
       })
       .addCase(selectComments.rejected, (state, { error }) => {
@@ -83,6 +90,9 @@ export const commentSlice = createSlice({
           newComment.comments = payload;
         }
         return { ...state, allPComment: newComment };
+      })
+      .addCase(setPids.fulfilled, (state, { payload }) => {
+        return { ...state, pid: payload };
       });
   },
 });

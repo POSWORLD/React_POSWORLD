@@ -26,20 +26,20 @@ export const insertPhoto = createAsyncThunk(
   async (payload, thunkAPI) => {
     const { myId } = thunkAPI.getState().users.me;
     const { photos } = thunkAPI.getState().photos.allPhoto.photos;
-    let filePath = '';
+    let filePath = "";
     const { title, content, img, file, userId } = payload;
 
     let uploadFile = new FormData();
     uploadFile.append("file", file);
     if (file) {
-        filePath = await fileAxios('/upload', 'post', uploadFile);
+      filePath = await fileAxios("/upload", "post", uploadFile);
     }
 
     const photo = {
-        title,
-        content,
-        img: filePath ? filePath : img,
-        userId,
+      title,
+      content,
+      img: filePath ? filePath : img,
+      userId,
     };
     const myPhoto = await postPhoto(photo);
     return myPhoto;
@@ -84,11 +84,9 @@ export const deletePhoto = createAsyncThunk(
 export const selectPhoto = createAsyncThunk(
   SELECT_PHOTO,
   async (payload, thunkAPI) => {
-    if (payload) {
-      const allPhoto = await getPhotoById(Number(payload));
-      return allPhoto;
-    } else if (payload === undefined) {
-      const allPhoto = await getPhotoById(1);
+    const id = thunkAPI.getState().users.me.id;
+    if (id) {
+      const allPhoto = await getPhotoById(Number(id));
       return allPhoto;
     }
   }
@@ -125,16 +123,19 @@ export const photosSlice = createSlice({
         return { ...state, allPhoto: newPhoto };
       })
       .addCase(selectPhoto.fulfilled, (state, { payload }) => {
+        console.log("success");
         const newPhoto = { ...state.allPhoto };
         newPhoto.loading = false;
         if (payload) {
           newPhoto.photos = payload;
+          newPhoto.message = "사진이 있습니다.";
         } else {
           newPhoto.message = "사진이 없습니다";
         }
         return { ...state, allPhoto: newPhoto };
       })
       .addCase(selectPhoto.rejected, (state, { error }) => {
+        console.log("rejected");
         const newPhoto = { ...state.allPhoto };
         newPhoto.loading = false;
         newPhoto.message = error.message;

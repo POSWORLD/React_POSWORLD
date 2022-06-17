@@ -62,6 +62,7 @@ function PhotoList({ photo, onClickDelete, onSubmit }) {
     await dispatch(deleteComments(ids));
     await dispatch(selectComments(ids.pid));
   };
+  console.log("pid", comment);
   useEffect(() => {
     commentPatch(photo.id);
   }, []);
@@ -91,7 +92,7 @@ function PhotoList({ photo, onClickDelete, onSubmit }) {
       <PcommentSection>
         {comment.map((index) => (
           <>
-            <Pcomment pid={photo?.id} comment={index}></Pcomment>
+            <Pcomment pid={photo.id} comment={index}></Pcomment>
           </>
         ))}
       </PcommentSection>

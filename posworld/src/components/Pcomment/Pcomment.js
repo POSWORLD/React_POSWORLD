@@ -21,14 +21,14 @@ const Wrap = styled.div`
   overflow-y: inherit;
 `;
 
-function Pcomment({ pid, comment, deleteComments }) {
+function Pcomment({ pid = 1, comment, deleteComments }) {
   const dispatch = useDispatch();
 
   const [idx, setIdx] = useState(0);
-
   const commentPatch = async (pid) => {
     await dispatch(selectComments(pid));
   };
+
   const onSubmit = async (form, pid) => {
     await dispatch(insertComments(form));
     await dispatch(selectComments(pid));
@@ -38,38 +38,48 @@ function Pcomment({ pid, comment, deleteComments }) {
   }, []);
   return (
     <>
-      {comment[idx].pid === pid ? (
+      {comment !== undefined && pid !== undefined ? (
         <>
-          <Wrap>
-            <div>
-              <ImPencil></ImPencil> 댓글 {comment.length}
-            </div>
-            <Container>
-              {comment.loading ? (
-                <Spinner>loading...</Spinner>
-              ) : (
-                <>
-                  {comment.map((coms) => (
-                    <>
-                      <PcommentList
-                        key={coms.id}
-                        comment={coms}
-                        onClickDelete={deleteComments}
-                        pid={pid}
-                      ></PcommentList>
-                    </>
-                  ))}
-                </>
-              )}
-              <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
-            </Container>
-          </Wrap>
+          {comment[idx]?.pid === pid ? (
+            <Wrap>
+              <div>
+                <ImPencil></ImPencil> 댓글 {comment.length}
+              </div>
+              <Container>
+                {comment.loading ? (
+                  <Spinner>loading...</Spinner>
+                ) : (
+                  <>
+                    {/* {comment.map((coms) => (
+                      <>
+                        <PcommentList
+                          key={coms.id}
+                          comment={coms}
+                          onClickDelete={deleteComments}
+                          pid={pid}
+                        ></PcommentList>
+                      </>
+                    ))} */}
+                  </>
+                )}
+                <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
+              </Container>
+            </Wrap>
+          ) : (
+            <></>
+          )}
         </>
       ) : (
-        <></>
+        <Wrap>
+          <div>
+            <ImPencil></ImPencil> 댓글 {0}
+          </div>
+          <Container>
+            <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
+          </Container>
+        </Wrap>
       )}
     </>
   );
-
 }
 export default Pcomment;
