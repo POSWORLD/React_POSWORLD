@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import MainMenu from "../Menu/MainMenu";
+import { useSelector } from "react-redux";
+import AuthRouter from "../../components/AuthRouter";
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -13,12 +15,17 @@ const ContentWrapper = styled.div`
 `;
 
 const Contents = ({ children }) => {
+  const home = useSelector((state) => state.homes.home);
+  console.log(home);
   return (
-    <ContentWrapper>
-      <h1>현민이의 미니룸</h1>
-      {children}
-      <MainMenu></MainMenu>
-    </ContentWrapper>
+    <>
+      <ContentWrapper>
+        <h1>{home?.title}</h1>
+        {children}
+        <MainMenu></MainMenu>
+      </ContentWrapper>
+      <AuthRouter></AuthRouter>
+    </>
   );
 };
 

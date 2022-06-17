@@ -54,8 +54,8 @@ function BoardList({ board, boardDelete, /* boardUpdate, */ index }) {
             </div>
          </div>
 
-         <AuthRouter></AuthRouter>
-      </>
-   );
+      <AuthRouter></AuthRouter>
+    </>
+  );
 }
 export default BoardList;

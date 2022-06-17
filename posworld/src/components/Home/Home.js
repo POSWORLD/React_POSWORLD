@@ -5,14 +5,27 @@ import Contents from "../../styles/Layout/Contents";
 import styled from "styled-components";
 import Profile from "./Profile";
 import MiniRoom from "./MiniRoom";
-const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
+import { useDispatch, useSelector } from "react-redux";
+import { getHome } from "../../store/homes";
+import AuthRouter from "../AuthRouter";
+import { useEffect } from "react";
+import { loginCheck } from "../../store/users";
+import FlexWrapper from "../../styles/Layout/FlexWrapper";
 
 function Home() {
+  const dispatch = useDispatch();
+  const getHomeCommand = () => {
+    dispatch(loginCheck())
+      .unwrap()
+      .then((data) => {
+        dispatch(getHome(data.id));
+      });
+  };
+  useEffect(() => {
+    console.log("되었댜");
+    getHomeCommand();
+  }, []);
+
   return (
     <>
       <Layout>
@@ -29,6 +42,7 @@ function Home() {
           </Card>
         </Contents>
       </Layout>
+      <AuthRouter></AuthRouter>
     </>
   );
 }

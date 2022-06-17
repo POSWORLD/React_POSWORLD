@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, InputGroup, InputGroupText, Modal } from "reactstrap";
-import { IMG_PATH } from "../../http/CustomAxios";
-import { loginCheck, updateUser } from "../../store/users";
+import { getHome, updateHome } from "../../store/homes";
+import { loginCheck } from "../../store/users";
 import "./ProfileUpdate.css";
 
-const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
+const HomeUpdate = ({ title, photo, content, isOpen, modalClose }) => {
   const dispatch = useDispatch();
+  const myId = useSelector((state) => state.users.me.myId);
   const [form, setForm] = useState({
-    name: "",
-    proPhoto: "",
+    title: "",
+    photo: "",
+    content: "",
     file: "",
   });
 
@@ -19,51 +21,61 @@ const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
     reader.readAsDataURL(file);
     return new Promise((resolve) => {
       reader.onload = () => {
-        setForm({ ...form, proPhoto: reader.result, file });
+        setForm({ ...form, photo: reader.result, file });
         resolve();
       };
     });
   };
 
   useEffect(() => {
-    setForm({ name, proPhoto });
-  }, [name, proPhoto]);
+    setForm({ title, photo, content });
+  }, [title, photo, content]);
 
-  const onChangeName = (e) => {
+  const onChangeTitle = (e) => {
     const { value } = e.target;
-    setForm({ ...form, name: value });
+    setForm({ ...form, title: value });
   };
+  const onChangeContent = (e) => {
+    const { value } = e.target;
+    setForm({ ...form, content: value });
+  };
+  const onSubmit = () => {
+    dispatch(loginCheck())
+      .unwrap()
+      .then(() => {
+        dispatch(updateHome(form));
+        dispatch(getHome(myId));
+      });
 
-  const onSubmit = async () => {
-    await dispatch(updateUser(form));
-    //  await dispatch(loginCheck());
     modalClose();
   };
 
   return (
     <div className="profileUpdatePage">
       <Modal isOpen={isOpen}>
-        <ProfileUpdateHeader
+        <HomeUpdateHeader
           modalClose={modalClose}
           onSubmit={onSubmit}
-        ></ProfileUpdateHeader>
-        <ProfileUpdateBody
-          onChangeName={onChangeName}
+        ></HomeUpdateHeader>
+
+        <HomeUpdateBody
+          onChangeTitle={onChangeTitle}
+          onChangeContent={onChangeContent}
           onChangeFile={onChangeFile}
           form={form}
-        ></ProfileUpdateBody>
+        ></HomeUpdateBody>
       </Modal>
     </div>
   );
 };
 
-const ProfileUpdateHeader = ({ modalClose, onSubmit }) => {
+const HomeUpdateHeader = ({ modalClose, onSubmit }) => {
   return (
     <div className="profileUpdateHeaer">
       <Button outline color="secondary" onClick={modalClose}>
         취소
       </Button>
-      <b>프로필 수정</b>
+      <b>홈피 수정</b>
       <Button outline color="primary" onClick={onSubmit}>
         수정
       </Button>
@@ -71,7 +83,12 @@ const ProfileUpdateHeader = ({ modalClose, onSubmit }) => {
   );
 };
 
-const ProfileUpdateBody = ({ onChangeFile, onChangeName, form }) => {
+const HomeUpdateBody = ({
+  onChangeTitle,
+  onChangeFile,
+  onChangeContent,
+  form,
+}) => {
   return (
     <div className="profileUpdateForm">
       <Input
@@ -85,7 +102,7 @@ const ProfileUpdateBody = ({ onChangeFile, onChangeName, form }) => {
         <div className="profileImgBox">
           <img
             className="profileImg"
-            src={`${form.proPhoto}`}
+            src={`${form.photo}`}
             alt="myProfileImg"
             onError={(e) => {
               e.target.src = "/img/uploadImg.png";
@@ -95,15 +112,21 @@ const ProfileUpdateBody = ({ onChangeFile, onChangeName, form }) => {
       </label>
 
       <InputGroup>
-        <InputGroupText>이름</InputGroupText>
+        <InputGroupText>홈피 제목</InputGroupText>
         <Input
           type="text"
-          value={form.name}
-          onChange={(e) => onChangeName(e)}
+          value={form.title}
+          onChange={(e) => onChangeTitle(e)}
+        ></Input>
+        <InputGroupText>한 줄 감성</InputGroupText>
+        <Input
+          type="text"
+          value={form.content}
+          onChange={(e) => onChangeContent(e)}
         ></Input>
       </InputGroup>
     </div>
   );
 };
 
-export default ProfileUpdate;
+export default HomeUpdate;
