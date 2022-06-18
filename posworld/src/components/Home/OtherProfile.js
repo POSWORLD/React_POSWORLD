@@ -52,20 +52,13 @@ const ProfileSection = styled.section`
     color: #eb8f11;
   }
 `;
-function Profile() {
+function OtherProfile() {
   const dispatch = useDispatch();
-  const { id, userid, name, gender, prophoto } = useSelector(
-    (state) => state.users.me
+  const { id } = useSelector((state) => state.users.me);
+  const { userid, name, gender, prophoto } = useSelector(
+    (state) => state.users.other
   );
   const genderSign = gender === "m" ? "♀" : "♂";
-
-  const [isOpen, setIsOpen] = useState(false);
-  const modalClose = () => {
-    setIsOpen(false);
-  };
-  const modalOpen = () => {
-    setIsOpen(true);
-  };
 
   const wave = async () => {
     const countUserNum = await dispatch(countUser());
@@ -77,6 +70,10 @@ function Profile() {
       alert(rand);
       window.location.href = `/Home?id=${rand}`;
     }
+  };
+
+  const myHome = () => {
+    window.location.href = "/";
   };
 
   return (
@@ -91,8 +88,8 @@ function Profile() {
         <p>
           <span className="my-name">{name}</span>
           <span className="my-sex">({genderSign})</span>
-          <Button onClick={modalOpen} color="primary" size="sm">
-            edit
+          <Button onClick={myHome} color="primary" size="sm">
+            마이홈
           </Button>
         </p>
         <p className="my-email">
@@ -103,15 +100,8 @@ function Profile() {
           <button onClick={wave}>파도타기</button>
         </p>
         <AuthRouter></AuthRouter>
-        <ProfileUpdate
-          userid={userid}
-          name={name}
-          proPhoto={prophoto}
-          isOpen={isOpen}
-          modalClose={modalClose}
-        ></ProfileUpdate>
       </ProfileSection>
     </>
   );
 }
-export default Profile;
+export default OtherProfile;

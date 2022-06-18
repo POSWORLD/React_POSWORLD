@@ -23,6 +23,7 @@ const Join = () => {
     pw: "",
     name: "",
     gender: "m",
+    prophoto: "/img/minimi.png",
   });
 
   const onChangeHandler = (e) => {

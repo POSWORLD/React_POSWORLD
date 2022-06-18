@@ -67,6 +67,7 @@ export const updatePhoto = createAsyncThunk(
       filePath = await fileAxios("/upload", "post", uploadFile);
     }
 
+    console.log("update");
     const photo = {
       id,
       title,

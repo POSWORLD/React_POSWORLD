@@ -14,6 +14,7 @@ import Boards from "./components/Board/Boards";
 import BoardUpdate from "./components/Board/BoardUpdate";
 import BoardWrite from "./components/Board/BoardWrite";
 import PhotoDetail from "./components/Photo/PhotoDetail";
+import Wave from "./components/Home/Wave";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           path="/PhotoDetail"
           element={<PhotoDetail></PhotoDetail>}
         ></Route>
+        <Route path="/Home" element={<Wave></Wave>}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -22,6 +22,18 @@ export const getHome = createAsyncThunk(
     }
   }
 );
+
+export const getOtherHome = createAsyncThunk(
+  SELECT_OHTER_HOME,
+  async (payload, thunkAPI) => {
+    console.log("파도타기", payload);
+    if (payload) {
+      const myOtherhome = await getHomeApi(Number(payload));
+      return myOtherhome;
+    }
+  }
+);
+
 export const updateHome = createAsyncThunk(
   UPDATE_HOME,
   async (payload, thunkAPI) => {
@@ -56,6 +68,9 @@ export const homeSlice = createSlice({
       })
       .addCase(updateHome.fulfilled, (state, { payload }) => {
         return { ...state, home: payload };
+      })
+      .addCase(getOtherHome.fulfilled, (state, { payload }) => {
+        return { ...state, otherhome: payload };
       });
   },
 });
