@@ -7,7 +7,8 @@ import "./Profile.css";
 import styled from "styled-components";
 import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
-import { countUser } from "../../store/users";
+import { countUser, logout } from "../../store/users";
+import { useNavigate } from "react-router-dom";
 
 const ProfileSection = styled.section`
   height: fit-content !important;
@@ -54,6 +55,7 @@ const ProfileSection = styled.section`
 `;
 function Profile() {
   const dispatch = useDispatch();
+  const nevigate = useNavigate();
 
   const { userid, name, gender, prophoto } = useSelector(
     (state) => state.users.me

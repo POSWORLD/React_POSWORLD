@@ -14,6 +14,7 @@ import { IMG_PATH } from "../../http/CustomAxios";
 import { Spinner } from "react-bootstrap";
 import styled from "styled-components";
 import { setPids } from "../../store/pComments";
+import { rea } from "reactstrap";
 
 const Photos = styled.section`
   display: grid;
