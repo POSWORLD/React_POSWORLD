@@ -16,9 +16,11 @@ function BoardList({ board, boardDelete, /* boardUpdate, */ index }) {
    const list = useSelector(state => state.boards.allBoard.boards);
    const myId = useSelector(state => state.users.me.id);
    const [visible, setVisible] = useState(false);
+
    const moveTo = () => {
-      //setVisible(!visible);
-      navigate('/BoardUpdate', { state: board.num });
+      setVisible(!visible);
+
+      //navigate('/BoardUpdate', { state: board.num });
    };
 
    return (
@@ -31,11 +33,11 @@ function BoardList({ board, boardDelete, /* boardUpdate, */ index }) {
                      <input
                         type="button"
                         className="btn"
-                        onClick={() => moveTo()}
                         value="수정"
-                        /* onClick={() => boardUpdate(board?.content , board?.num)} */
+                        onClick={() => moveTo()}
+                        /* onClick={() => BoardUpdate(board?.content , board?.num)} */
                      />
-                     {visible && <BoardUpdate />}
+                     {visible && <BoardUpdate myNum={board?.num} />}
                   </>
                ) : (
                   <div></div>
