@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fileAxios } from "../http/CustomAxios";
 import {
+  getUserApi,
   getUserCountApi,
   idCheckApi,
   insertUserApi,
@@ -14,6 +15,7 @@ const initialState = {
   myToken: localStorage.getItem("token"),
   isLogin: localStorage.getItem("token") === undefined ? true : false,
   me: {},
+  other: {},
 };
 
 const LOGIN = "LOGIN";
@@ -86,6 +88,15 @@ export const logout = createAsyncThunk(LOGOUT, async (payload, thunkAPI) => {
   return isLogout;
 });
 
+export const getUser = createAsyncThunk(
+  SELECT_USER_BY_ID,
+  async (id, thunkAPI) => {
+    const response = await getUserApi(id);
+    console.log(response);
+    return response;
+  }
+);
+
 export const usersSlice = createSlice({
   name: "users",
   initialState,
@@ -122,6 +133,13 @@ export const usersSlice = createSlice({
       .addCase(logout.fulfilled, (state, { payload }) => {
         localStorage.removeItem("token");
         return { ...state, isLogin: false, me: {}, myToken: "" };
+      })
+      .addCase(getUser.fulfilled, (state, { payload }) => {
+        if (payload) {
+          return { ...state, other: payload };
+        } else {
+          return 0;
+        }
       });
   },
 });

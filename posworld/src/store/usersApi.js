@@ -48,7 +48,6 @@ export const insertUserApi = async (user) => {
 };
 
 export const updateUserApi = async (user) => {
-  console.log("apibfUser", user);
   const response = await axios({
     url: "http://localhost:8001/member/name",
     method: "post",
@@ -62,7 +61,7 @@ export const updateUserApi = async (user) => {
 
 export const getUserCountApi = async () => {
   const response = await axios({
-    url: "http://localhost:8001/user/count",
+    url: "http://localhost:8001/member/count",
     method: "get",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -73,4 +72,15 @@ export const getUserCountApi = async () => {
 
 export const logoutApi = async (userId) => {
   return true;
+};
+
+export const getUserApi = async (id) => {
+  const response = await axios({
+    url: `http://localhost:8001/member/${id}`,
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
 };
