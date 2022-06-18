@@ -19,7 +19,7 @@ const Join = () => {
   const [isFail, setIsFail] = useState(false);
   const [text, setText] = useState("");
   const [user, setUser] = useState({
-    userId: "",
+    userid: "",
     pw: "",
     name: "",
     gender: "m",
@@ -35,7 +35,7 @@ const Join = () => {
 
   const onSubmitLogin = async (e) => {
     e.preventDefault();
-    if (user.userId === "") {
+    if (user.userid === "") {
       openAlert("아이디를 입력해주세요.");
       return;
     } else if (user.pw === "") {
@@ -88,7 +88,7 @@ const Join = () => {
           <Input
             type="text"
             placeholder="아이디"
-            name="userId"
+            name="userid"
             onChange={(e) => onChangeHandler(e)}
             style={{ borderRadius: 20 }}
           ></Input>

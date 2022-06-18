@@ -54,10 +54,10 @@ const ProfileSection = styled.section`
 `;
 function Profile() {
   const dispatch = useDispatch();
-  const { id, userId, name, gender, proPhoto } = useSelector(
+  const { userid, name, gender, prophoto } = useSelector(
     (state) => state.users.me
   );
-  const genderSign = gender == "m" ? "♀" : "♂";
+  const genderSign = gender === "m" ? "♀" : "♂";
 
   const [isOpen, setIsOpen] = useState(false);
   const modalClose = () => {
@@ -77,7 +77,7 @@ function Profile() {
   return (
     <>
       <ProfileSection>
-        <img src={`${IMG_PATH}${proPhoto}`} alt="proPhoto"></img>
+        <img src={`${IMG_PATH}${prophoto}`} alt="proPhoto"></img>
         <p>
           <input value={"TODAY IS..."} readOnly></input>
         </p>
@@ -99,8 +99,9 @@ function Profile() {
         </p>
         <AuthRouter></AuthRouter>
         <ProfileUpdate
+          userid={userid}
           name={name}
-          proPhoto={proPhoto}
+          proPhoto={prophoto}
           isOpen={isOpen}
           modalClose={modalClose}
         ></ProfileUpdate>
