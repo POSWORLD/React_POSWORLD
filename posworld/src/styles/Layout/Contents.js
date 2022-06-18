@@ -14,7 +14,7 @@ const ContentWrapper = styled.div`
 `;
 
 const Contents = ({ children }) => {
-  const home = useSelector((state) => state.homes.myhome);
+  const home = useSelector((state) => state.homes.home);
 
   return (
     <ContentWrapper>

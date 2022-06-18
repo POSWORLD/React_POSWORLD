@@ -9,7 +9,7 @@ import "./Login.css";
 const Login = () => {
   const [isFail, setIsFail] = useState(false);
   const [user, setUser] = useState({
-    userId: "",
+    userid: "",
     pw: "",
   });
   const onChangeHandler = (e) => {
@@ -55,7 +55,7 @@ const Login = () => {
           <Input
             type="text"
             placeholder="아이디"
-            name="userId"
+            name="userid"
             onChange={(e) => onChangeHandler(e)}
             style={{ borderRadius: 20 }}
           ></Input>
