@@ -61,11 +61,11 @@ const ProfileUpdate = ({ userid, prophoto, name, isOpen, modalClose }) => {
 const ProfileUpdateHeader = ({ modalClose, onSubmit }) => {
   return (
     <div className="profileUpdateHeaer">
-      <Button outline color="secondary" onClick={modalClose}>
+      <Button id="cancelBtn" outline color="secondary" onClick={modalClose}>
         취소
       </Button>
       <b>프로필 수정</b>
-      <Button outline color="primary" onClick={onSubmit}>
+      <Button id="updateBtn" outline color="primary" onClick={onSubmit}>
         수정
       </Button>
     </div>

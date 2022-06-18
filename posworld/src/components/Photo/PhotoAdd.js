@@ -74,7 +74,7 @@ function PhotoAdd() {
                 id="title"
                 onChange={(e) => onChangeTitle(e)}
               ></Input>
-              <div className="profileImgBox">
+              <div className="profileImgBoxs">
                 <label htmlFor="imgUpload">이미지</label>
                 <Input
                   type="file"
