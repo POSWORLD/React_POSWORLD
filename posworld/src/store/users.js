@@ -6,6 +6,7 @@ import {
   insertUserApi,
   loginApi,
   loginCheckApi,
+  logoutApi,
   updateUserApi,
 } from "./usersApi";
 
@@ -27,16 +28,17 @@ const SELECT_USER_BY_KEY = "SELECT_USER_BY_KEY";
 const SELECT_COUNT_USER = "SELECT_COUNT_USER";
 
 export const login = createAsyncThunk(LOGIN, async (user) => {
-  return await loginApi(user);
+  const response = await loginApi(user);
+  // console.log(response);
+  return response;
 });
 
 export const loginCheck = createAsyncThunk(
   LOGIN_CHECK,
-  async (payload, thunkAPI) => {
-    const { myToken } = thunkAPI.getState().users;
+  async (user, thunkAPI) => {
+    const myToken = thunkAPI.getState().users;
     if (myToken) {
       const me = await loginCheckApi();
-      console.log(me);
       return me;
     }
     return;
@@ -54,29 +56,34 @@ export const insertUser = createAsyncThunk(INSERT_USER, async (user) => {
 export const updateUser = createAsyncThunk(
   UPDATE_USERS,
   async (payload, thunkAPI) => {
-    const { myToken } = thunkAPI.getState().users;
+    const myToken = thunkAPI.getState().users;
 
     let filePath = "";
-    const { name, proPhoto, file } = payload;
+    const { userid, name, prophoto, file } = payload;
     let uploadFile = new FormData();
     uploadFile.append("file", file);
     if (file) {
       filePath = await fileAxios("/upload", "post", uploadFile);
     }
     const user = {
+      userid,
       name,
-      proPhoto: filePath ? filePath : proPhoto,
+      prophoto: filePath ? filePath : prophoto,
     };
+
     const response = await updateUserApi(user);
-    if (response == 1) {
-      return user;
-    }
-    return;
+    return response;
   }
 );
 
 export const countUser = createAsyncThunk(SELECT_COUNT_USER, async () => {
   return await getUserCountApi();
+});
+
+export const logout = createAsyncThunk(LOGOUT, async (payload, thunkAPI) => {
+  const { myToken } = thunkAPI.getState().users;
+  const isLogout = await logoutApi(myToken);
+  return isLogout;
 });
 
 export const usersSlice = createSlice({
@@ -87,14 +94,15 @@ export const usersSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
         if (payload.isLogin) {
-          localStorage.setItem("token", payload.user.token);
-          console.log(payload.user);
-          return { ...state, isLogin: payload.login, me: payload.user };
+          console.log(payload);
+          localStorage.setItem("token", payload.user.accessToken);
+          return { ...state, isLogin: true };
         } else {
           return { ...state, isLogin: false };
         }
       })
       .addCase(login.rejected, (state, { payload }) => {
+        console.log(payload);
         return { ...state, isLogin: false };
       })
       .addCase(loginCheck.fulfilled, (state, { payload }) => {
@@ -110,18 +118,12 @@ export const usersSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         const user = payload;
         return { ...state, me: { ...state.me, ...user } };
+      })
+      .addCase(logout.fulfilled, (state, { payload }) => {
+        localStorage.removeItem("token");
+        return { ...state, isLogin: false, me: {}, myToken: "" };
       });
-    // .addCase(logout.fulfilled, (state, { payload }) => {
-    //   localStorage.removeItem("token");
-    //   return { ...state, isLogin: false, me: {}, myId: "" };
-    // });
   },
 });
-
-// export const logout = createAsyncThunk(LOGOUT, async (payload, thunkAPI) => {
-//   const { myId } = thunkAPI.getState().users;
-//   const isLogout = await logoutApi(myId);
-//   return isLogout;
-// });
 
 export default usersSlice.reducer;

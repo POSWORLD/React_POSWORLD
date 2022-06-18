@@ -5,11 +5,12 @@ import { IMG_PATH } from "../../http/CustomAxios";
 import { loginCheck, updateUser } from "../../store/users";
 import "./ProfileUpdate.css";
 
-const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
+const ProfileUpdate = ({ userid, prophoto, name, isOpen, modalClose }) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState({
+    userid: userid,
     name: "",
-    proPhoto: "",
+    prophoto: "",
     file: "",
   });
 
@@ -19,15 +20,15 @@ const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
     reader.readAsDataURL(file);
     return new Promise((resolve) => {
       reader.onload = () => {
-        setForm({ ...form, proPhoto: reader.result, file });
+        setForm({ ...form, prophoto: reader.result, file });
         resolve();
       };
     });
   };
 
   useEffect(() => {
-    setForm({ name, proPhoto });
-  }, [name, proPhoto]);
+    setForm({ userid, name, prophoto });
+  }, [userid, name, prophoto]);
 
   const onChangeName = (e) => {
     const { value } = e.target;
@@ -36,7 +37,7 @@ const ProfileUpdate = ({ proPhoto, name, isOpen, modalClose }) => {
 
   const onSubmit = async () => {
     await dispatch(updateUser(form));
-    //  await dispatch(loginCheck());
+    await dispatch(loginCheck());
     modalClose();
   };
 
@@ -85,7 +86,7 @@ const ProfileUpdateBody = ({ onChangeFile, onChangeName, form }) => {
         <div className="profileImgBox">
           <img
             className="profileImg"
-            src={`${form.proPhoto}`}
+            src={`${form.prophoto}`}
             alt="myProfileImg"
             onError={(e) => {
               e.target.src = "/img/uploadImg.png";

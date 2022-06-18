@@ -28,6 +28,12 @@ const Photos = styled.section`
     height: 70%;
     aspect-ratio: 1;
     margin: 4px;
+    text-align: center;
+  }
+
+  .PhotoTitle {
+    text-align: center;
+    margin: 4px;
   }
 `;
 
@@ -88,6 +94,7 @@ function Photo() {
                       src={`${IMG_PATH}${photo.img}`}
                       alt={photo.content}
                     ></img>
+                    <p className="PhotoTitle">{photo.title}</p>
                   </div>
                 ))
               )}

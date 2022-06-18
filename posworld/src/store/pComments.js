@@ -37,6 +37,7 @@ export const selectComments = createAsyncThunk(
     const pid = thunkAPI.getState().pComments.pid;
     if (pid) {
       const comments = await getCommentByPid(Number(pid));
+      console.log(comments);
       return comments;
     }
   }

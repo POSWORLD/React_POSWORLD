@@ -2,7 +2,6 @@ import Layout from "../../styles/Layout/Layout";
 import Sidebar from "../../styles/Layout/Sidebar";
 import Card from "../../styles/Layout/Card";
 import Contents from "../../styles/Layout/Contents";
-import styled from "styled-components";
 import Profile from "./Profile";
 import MiniRoom from "./MiniRoom";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +21,6 @@ function Home() {
       });
   };
   useEffect(() => {
-    console.log("되었댜");
     getHomeCommand();
   }, []);
 

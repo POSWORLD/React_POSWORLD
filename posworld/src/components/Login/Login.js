@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Form, Input, Button, Alert } from "reactstrap";
+import { Container, Form, Input, Button, Alert } from "reactstrap";
 import { login } from "../../store/users";
 import AuthRouter from "../AuthRouter";
 import "./Login.css";
@@ -9,7 +9,7 @@ import "./Login.css";
 const Login = () => {
   const [isFail, setIsFail] = useState(false);
   const [user, setUser] = useState({
-    userId: "",
+    userid: "",
     pw: "",
   });
   const onChangeHandler = (e) => {
@@ -55,7 +55,7 @@ const Login = () => {
           <Input
             type="text"
             placeholder="아이디"
-            name="userId"
+            name="userid"
             onChange={(e) => onChangeHandler(e)}
             style={{ borderRadius: 20 }}
           ></Input>
