@@ -7,9 +7,7 @@ import "./Profile.css";
 import styled from "styled-components";
 import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
-import { countUser, logout } from "../../store/users";
-import { getHome, getOtherHome } from "../../store/homes";
-import { useNavigate } from "react-router-dom";
+import { countUser } from "../../store/users";
 
 const ProfileSection = styled.section`
   height: fit-content !important;
@@ -56,12 +54,11 @@ const ProfileSection = styled.section`
 `;
 function Profile() {
   const dispatch = useDispatch();
-  const nevigate = useNavigate();
-  console.log(useSelector((state) => state.users.me));
-  const { id, userid, name, gender, prophoto } = useSelector(
+
+  const { userid, name, gender, prophoto } = useSelector(
     (state) => state.users.me
   );
-  const genderSign = gender == "m" ? "♀" : "♂";
+  const genderSign = gender === "m" ? "♀" : "♂";
 
   const [isOpen, setIsOpen] = useState(false);
   const modalClose = () => {
@@ -76,9 +73,6 @@ function Profile() {
     const userNum = countUserNum.payload;
     const rand = Math.floor(Math.random() * userNum) + 1;
     alert(rand);
-
-    const data = await dispatch(getOtherHome(rand));
-    console.log(data);
   };
 
   const logoutFunc = async () => {
@@ -90,7 +84,6 @@ function Profile() {
     <>
       <ProfileSection>
         <img src={`${IMG_PATH}${prophoto}`} alt="proPhoto"></img>
-        {/* <img src={`/img/minimi.png`} alt="proPhoto"></img> */}
         <p>
           <input value={"TODAY IS..."} readOnly></input>
         </p>

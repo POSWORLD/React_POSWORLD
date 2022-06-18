@@ -1,47 +1,97 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import { Spinner } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { deleteBoard, insertBoards, selectBoards, updateBoard } from '../../store/boards';
+import users, { idCheck } from '../../store/users';
+import BoardWrite from './BoardWrite';
+import BoardList from './BoardList';
+import AuthRouter from '../AuthRouter';
+import Layout from '../../styles/Layout/Layout';
+import Sidebar from '../../styles/Layout/Sidebar';
+import Profile from '../Home/Profile';
+import Card from '../../styles/Layout/Card';
+import Contents from '../../styles/Layout/Contents';
+import styled from 'styled-components';
+import './BoardList.css';
+const FlexWrapper = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   height: 100%;
+`;
 
-import BoardWrite from "./BoardWrite";
+const Boards = ({ boardState, boards }) => {
+   const homeBoards = useSelector(state => state.boards.allBoard);
+   const myId = useSelector(state => state.users.me);
+   const boardPatch = async () => {
+      await dispatch(selectBoards());
+   };
+   useEffect(() => {
+      boardPatch();
+   }, []);
 
-function Boards() {
-  const [mode, setMode] = useState("read");
-  const [contents, setContents] = useState([
-    {
-      title: "공지사항",
-      content: "공지입니다.",
-      id: "관리자",
-      write_date: "2020. 7. 8. 오전 9:49:23",
-      pw: "1",
-    },
-  ]);
-  const modeHandler = async (e) => {
-    e.preventDefault();
-    const nowMode = null;
+   const dispatch = useDispatch();
+   const [mode, setMode] = useState('read');
 
-    if (mode === "read") {
-      setMode("write");
-      nowMode = <Boards></Boards>;
-    } else {
-      setMode("read");
-      nowMode = <BoardWrite></BoardWrite>;
-    }
-    return nowMode;
-  };
-  const onClickwrite = () => {};
+   const boardDelete = async boardNum => {
+      await dispatch(deleteBoard(boardNum));
+      await dispatch(selectBoards());
+   };
+   // const boardUpdate = async (content, num) => {
+   //    await dispatch(updateBoard(content, num));
+   // };
 
-  return (
-    <div className="Boards">
-      <h1>방명록</h1>
-      <p>
-        <input type="button" value="작성하기" onClick={onClickwrite}></input>
-      </p>
+   const [visible, setVisible] = useState(false);
+   return (
+      <>
+         <Layout>
+            <Sidebar>
+               <Card>
+                  <FlexWrapper>
+                     <Profile></Profile>
+                  </FlexWrapper>
+               </Card>
+            </Sidebar>
+            <Contents>
+               <Card>
+                  <>
+                     <span className="tap"></span>
+                     <span className="boards">{myId.name} 님의 방명록</span>
+                     <span>
+                        <button
+                           className="btn2"
+                           onClick={() => {
+                              setVisible(!visible);
+                           }}>
+                           {visible ? '취소' : '작성'}
+                        </button>
+                     </span>
+                     {visible && <BoardWrite />}
 
-      <div className="Boards">
-        <div className="PostsImgBox">
-          <img className="PostsImg"></img>
-        </div>
-      </div>
-    </div>
-  );
-}
+                     {homeBoards.loading ? (
+                        <Spinner>loading...</Spinner>
+                     ) : (
+                        homeBoards.boards
+                           .slice(0)
+                           .reverse()
+                           .map((board, index) => (
+                              <BoardList
+                                 key={board.num}
+                                 board={board}
+                                 num={board.num}
+                                 boardDelete={boardDelete}
+                                 //boardUpdate={boardUpdate}
+                                 index={index}></BoardList>
+                           ))
+                     )}
+                     <AuthRouter></AuthRouter>
+                  </>
+               </Card>
+            </Contents>
+         </Layout>
+      </>
+   );
+};
 
 export default Boards;

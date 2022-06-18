@@ -1,7 +1,10 @@
-import { publicUrl } from "../../utils/utils";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { IMG_PATH } from "../../http/CustomAxios";
+import { Button } from "reactstrap";
+import HomeUpdate from "./MiniRoomUpdate";
+import AuthRouter from "../AuthRouter";
 const ContentSection = styled.section`
   height: fit-content !important;
   h6 {
@@ -38,25 +41,40 @@ const ContentSection = styled.section`
     }
   }
 `;
-function MiniRoom({ title, content }) {
+
+function MiniRoom(title, content, photo) {
   const home = useSelector((state) => state.homes.home);
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     title: "",
     content: "",
+    photo: "",
   });
 
   useEffect(() => {
-    setForm({ title, content });
-  }, [title, content]);
+    setForm({ title, content, photo });
+  }, [title, photo, content]);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const modalClose = () => {
+    setIsOpen(false);
+  };
+  const modalOpen = () => {
+    setIsOpen(true);
+  };
   return (
     <>
       <ContentSection>
         <div>
-          <h6>미니홈</h6>
+          <p>
+            <h6>미니룸</h6>
+            <Button onClick={modalOpen} color="primary" size="sm">
+              edit
+            </Button>
+          </p>
           <div>
-            <img src={"img/uploadImg.png"} alt="miniroom" />
+            <img src={`${IMG_PATH}${home.photo}`} alt="miniroom"></img>
           </div>
         </div>
       </ContentSection>
@@ -66,6 +84,14 @@ function MiniRoom({ title, content }) {
           <li>{home.content}</li>
         </ul>
       </ContentSection>
+      <AuthRouter></AuthRouter>
+      <HomeUpdate
+        title={home.title}
+        photo={home.photo}
+        content={home.content}
+        isOpen={isOpen}
+        modalClose={modalClose}
+      ></HomeUpdate>
     </>
   );
 }

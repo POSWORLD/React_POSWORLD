@@ -10,6 +10,10 @@ import MiniRoom from "./components/Home/MiniRoom";
 import Profile from "./components/Home/Profile";
 import PhotoAdd from "./components/Photo/PhotoAdd";
 import PhotoUpdate from "./components/Photo/PhotoUpdate";
+import Boards from "./components/Board/Boards";
+import BoardUpdate from "./components/Board/BoardUpdate";
+import BoardWrite from "./components/Board/BoardWrite";
+import PhotoDetail from "./components/Photo/PhotoDetail";
 
 function App() {
   return (
@@ -27,6 +31,15 @@ function App() {
         ></Route>
         <Route path="/MiniRoom" element={<MiniRoom></MiniRoom>}></Route>
         <Route path="/Profile" element={<Profile></Profile>}></Route>
+        <Route path="/Board" element={<Boards></Boards>}></Route>
+        <Route
+          path="/BoardUpdate"
+          element={<BoardUpdate></BoardUpdate>}
+        ></Route>
+        <Route
+          path="/PhotoDetail"
+          element={<PhotoDetail></PhotoDetail>}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

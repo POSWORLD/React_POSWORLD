@@ -74,12 +74,3 @@ export const getUserCountApi = async () => {
 export const logoutApi = async (userId) => {
   return true;
 };
-
-// export const getUserById = async (id) => {
-//   return await customAxios(`/user/${id}`, "get");
-// };
-
-// export const getUserByKey = async (users, key) => {
-//   const findUserByUserId = await users.find((user) => key.test(user.name));
-//   return findUserByUserId;
-// };

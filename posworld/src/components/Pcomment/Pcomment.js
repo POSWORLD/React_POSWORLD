@@ -2,13 +2,41 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PcommentAdd from "./PcommentAdd";
 import PcommentList from "./PcommentList";
-import pComments, { selectComments } from "../../store/pComments";
+import pComments, {
+  deleteComments,
+  insertComments,
+  selectComments,
+} from "../../store/pComments";
 import { Container, Spinner } from "reactstrap";
+import { ImPencil } from "react-icons/im";
+import styled from "styled-components";
+
+const Wrap = styled.div`
+  margin-top: 10px;
+  z-index: 10;
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 10px;
+  text-align: left;
+  overflow-y: inherit;
+`;
 
 function Pcomment() {
-  const myComments = useSelector((state) => state.pComments.allPComment);
   const dispatch = useDispatch();
-  const commentPatch = async () => {
+  const pid = useSelector((state) => state.pComments.pid);
+  const pcomment = useSelector((state) => state.pComments.comments);
+
+  const commentPatch = () => {
+    dispatch(selectComments());
+  };
+
+  const commentsDelete = async (ids) => {
+    await dispatch(deleteComments(ids));
+    await dispatch(selectComments(ids.pid));
+  };
+
+  const onSubmit = async (form) => {
+    await dispatch(insertComments(form));
     await dispatch(selectComments());
   };
   useEffect(() => {
@@ -16,18 +44,26 @@ function Pcomment() {
   }, []);
   return (
     <>
-      <div>댓글 {myComments.comments.length}</div>
-      <Container>
-        {myComments.loading ? (
-          <Spinner>loading...</Spinner>
-        ) : (
-          myComments.comments.map((comment) => (
-            <PcommentList key={comment.id} comment={comment}></PcommentList>
-          ))
-        )}
-
-        <PcommentAdd></PcommentAdd>
-      </Container>
+      <Wrap>
+        <div>
+          <ImPencil></ImPencil> 댓글
+        </div>
+        <Container>
+          {pcomment !== undefined ? (
+            pcomment.map((coms) => (
+              <PcommentList
+                key={coms.id}
+                comment={coms}
+                onClickDelete={commentsDelete}
+                pid={pid}
+              ></PcommentList>
+            ))
+          ) : (
+            <></>
+          )}
+          <PcommentAdd onSubmit={onSubmit} pid={pid}></PcommentAdd>
+        </Container>
+      </Wrap>
     </>
   );
 }
