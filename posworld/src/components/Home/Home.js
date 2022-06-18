@@ -20,7 +20,10 @@ const FlexWrapper = styled.div`
 function Home() {
   const dispatch = useDispatch();
   const { id } = useSelector((state) => state.users.me);
-  dispatch(getHome(id));
+
+  useEffect(() => {
+    dispatch(getHome(id));
+  });
 
   return (
     <>

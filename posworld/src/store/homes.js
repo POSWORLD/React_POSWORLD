@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getHomeApi } from "./homesApi";
 
 const initialState = {
-  myhome: {},
+  home: {},
   otherhome: {},
 };
 
@@ -24,7 +24,7 @@ export const homesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getHome.fulfilled, (state, { payload }) => {
       console.log("홈바뀜", payload);
-      return { ...state, myhome: payload };
+      return { ...state, home: payload };
     });
   },
 });

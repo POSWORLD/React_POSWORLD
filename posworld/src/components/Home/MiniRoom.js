@@ -39,10 +39,8 @@ const ContentSection = styled.section`
   }
 `;
 function MiniRoom({ title, content }) {
-  const home = useSelector((state) => state.homes.myhome);
-  console.log(home);
+  const home = useSelector((state) => state.homes.home);
 
-  const dispatch = useDispatch();
   const [form, setForm] = useState({
     title: "",
     content: "",
