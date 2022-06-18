@@ -106,7 +106,7 @@ function Profile() {
         <ProfileUpdate
           userid={userid}
           name={name}
-          proPhoto={prophoto}
+          prophoto={prophoto}
           isOpen={isOpen}
           modalClose={modalClose}
         ></ProfileUpdate>

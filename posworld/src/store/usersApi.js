@@ -48,7 +48,6 @@ export const insertUserApi = async (user) => {
 };
 
 export const updateUserApi = async (user) => {
-  console.log("apibfUser", user);
   const response = await axios({
     url: "http://localhost:8001/member/name",
     method: "post",

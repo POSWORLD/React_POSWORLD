@@ -40,7 +40,8 @@ const Photos = styled.section`
 function Photo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const myId = useSelector((state) => state.users.me);
+  console.log(useSelector((state) => state.photos.allPhoto));
+  const id = useSelector((state) => state.users.me);
   const myPhoto = useSelector((state) => state.photos.allPhoto);
 
   const photoDispatch = async () => {
@@ -64,7 +65,7 @@ function Photo() {
   }, []);
 
   const moveTo = () => {
-    return navigate("/PhotoAdd", { state: myId.id });
+    return navigate("/PhotoAdd", { state: id });
   };
   return (
     <>

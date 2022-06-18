@@ -10,7 +10,7 @@ const ProfileUpdate = ({ userid, prophoto, name, isOpen, modalClose }) => {
   const [form, setForm] = useState({
     userid: userid,
     name: "",
-    prophoto: "",
+    prophoto: prophoto,
     file: "",
   });
 

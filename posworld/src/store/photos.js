@@ -41,6 +41,7 @@ export const insertPhoto = createAsyncThunk(
     if (file) {
       filePath = await fileAxios("/upload", "post", uploadFile);
     }
+    console.log(photo);
 
     const photo = {
       title,
