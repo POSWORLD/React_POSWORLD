@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PcommentAdd from "./PcommentAdd";
 import PcommentList from "./PcommentList";
-import pComments, {
+import {
   deleteComments,
   insertComments,
   selectComments,
 } from "../../store/pComments";
-import { Container, Spinner } from "reactstrap";
+import { Container } from "reactstrap";
 import { ImPencil } from "react-icons/im";
 import styled from "styled-components";
 
