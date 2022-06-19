@@ -15,11 +15,11 @@ const ContentWrapper = styled.div`
 `;
 
 const Contents = ({ children }) => {
-  const home = useSelector((state) => state.homes.home);
+  const {title} = useSelector((state) => state.homes.home);
   return (
     <>
       <ContentWrapper>
-        <h1>{home?.title}</h1>
+        <h1>{title}</h1>
         {children}
         <MainMenu></MainMenu>
       </ContentWrapper>

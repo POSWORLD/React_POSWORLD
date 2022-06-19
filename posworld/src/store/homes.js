@@ -53,8 +53,10 @@ export const updateHome = createAsyncThunk(
       photo: filePath ? filePath : photo,
     };
     const response = await updateHomeApi(home, Number(id));
-    console.log(response);
-    return response;
+    if(response==1){
+      return home;
+    }
+    return;
   }
 );
 export const homeSlice = createSlice({

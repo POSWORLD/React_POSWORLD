@@ -42,18 +42,11 @@ const ContentSection = styled.section`
   }
 `;
 
-function MiniRoom(title, content, photo) {
-  const home = useSelector((state) => state.homes.home);
-  const dispatch = useDispatch();
-  const [form, setForm] = useState({
-    title: "",
-    content: "",
-    photo: "",
-  });
-
-  useEffect(() => {
-    setForm({ title, content, photo });
-  }, [title, photo, content]);
+function MiniRoom() {
+  const { title, content, photo } = useSelector(
+    (state) => state.homes.home
+  );
+  
 
   const [isOpen, setIsOpen] = useState(false);
   const modalClose = () => {
@@ -73,21 +66,21 @@ function MiniRoom(title, content, photo) {
             </Button>
           </p>
           <div>
-            <img src={`${IMG_PATH}${home.photo}`} alt="miniroom"></img>
+            <img src={`${IMG_PATH}${photo}`} alt="miniroom"></img>
           </div>
         </div>
       </ContentSection>
       <ContentSection>
         <h6>한 줄 감성</h6>
         <ul>
-          <li>{home.content}</li>
+          <li>{content}</li>
         </ul>
       </ContentSection>
       <AuthRouter></AuthRouter>
       <HomeUpdate
-        title={home.title}
-        photo={home.photo}
-        content={home.content}
+        title={title}
+        photo={photo}
+        content={content}
         isOpen={isOpen}
         modalClose={modalClose}
       ></HomeUpdate>
