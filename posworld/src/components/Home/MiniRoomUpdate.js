@@ -46,7 +46,7 @@ const HomeUpdate = ({ title, photo, content, isOpen, modalClose }) => {
       .unwrap()
       .then(() => {
         dispatch(updateHome(form));
-        dispatch(getHome(myId));
+        
       });
     modalClose();
   };
