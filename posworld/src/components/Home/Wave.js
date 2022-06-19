@@ -12,6 +12,7 @@ import { getUser, loginCheck } from "../../store/users";
 import FlexWrapper from "../../styles/Layout/FlexWrapper";
 import { useState } from "react";
 import OtherProfile from "./OtherProfile";
+import OtherMiniRoom from "./OtherMiniRoom";
 
 function Wave() {
   // console.log(new URLSearchParams(window.location.search).get("id"));
@@ -43,7 +44,7 @@ function Wave() {
         </Sidebar>
         <Contents>
           <Card>
-            <MiniRoom></MiniRoom>
+            <OtherMiniRoom></OtherMiniRoom>
           </Card>
         </Contents>
       </Layout>

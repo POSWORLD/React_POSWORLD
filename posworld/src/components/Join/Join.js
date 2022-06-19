@@ -10,7 +10,6 @@ import {
   FormGroup,
   Label,
 } from "reactstrap";
-import { insertHome } from "../../store/homes";
 import { idCheck, insertUser } from "../../store/users";
 import AuthRouter from "../AuthRouter";
 import "./Join.css";

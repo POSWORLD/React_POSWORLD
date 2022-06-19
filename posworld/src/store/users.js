@@ -123,6 +123,7 @@ export const usersSlice = createSlice({
           localStorage.setItem("myId", payload.id);
           return { ...state, isLogin: true, me: payload, myId: payload.id };
         } else {
+          localStorage.removeItem("myId");
           return { ...state, isLogin: false };
         }
       })

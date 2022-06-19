@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Button, Input, InputGroup, InputGroupText, Modal } from "reactstrap";
 import { getHome, updateHome } from "../../store/homes";
 import { loginCheck } from "../../store/users";
@@ -7,6 +8,7 @@ import "./ProfileUpdate.css";
 
 const HomeUpdate = ({ title, photo, content, isOpen, modalClose }) => {
   const dispatch = useDispatch();
+  const nevigate = useNavigate();
   const myId = useSelector((state) => state.users.me.myId);
   const [form, setForm] = useState({
     title: "",
@@ -46,7 +48,6 @@ const HomeUpdate = ({ title, photo, content, isOpen, modalClose }) => {
         dispatch(updateHome(form));
         dispatch(getHome(myId));
       });
-
     modalClose();
   };
 
