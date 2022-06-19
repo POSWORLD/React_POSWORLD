@@ -56,11 +56,14 @@ export const insertPhoto = createAsyncThunk(
 export const updatePhoto = createAsyncThunk(
   UPDATE_PHOTO,
   async (payload, thunkAPI) => {
-    const { myToken } = thunkAPI.getState().users;
-    const { photos } = thunkAPI.getState().photos.allPhoto.photos;
-
+    const myId = thunkAPI.getState().users.myId;
+    const pid = thunkAPI.getState().pComments.pid;
+    const photoInfo = {
+      myId: myId,
+      id: pid,
+    };
     let filePath = "";
-    const { id, title, content, img, file, userId } = payload;
+    const { id, title, content, img, file, userid } = payload;
     let uploadFile = new FormData();
     uploadFile.append("file", file);
     if (file) {
@@ -72,10 +75,10 @@ export const updatePhoto = createAsyncThunk(
       title,
       content,
       img: filePath ? filePath : img,
-      userId: Number(myToken),
+      userid: Number(myId),
     };
 
-    const myPhoto = await putPhoto(photos, photo);
+    const myPhoto = await putPhoto(photo, photoInfo);
     return myPhoto;
   }
 );

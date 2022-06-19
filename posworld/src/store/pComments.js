@@ -48,7 +48,6 @@ export const deleteComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     const myId = thunkAPI.getState().users.myId;
     const comments = thunkAPI.getState().pComments.comments;
-    const id = payload;
     const ids = {
       myId: myId,
       id: payload,

@@ -11,9 +11,14 @@ export const postPhoto = async (photo, userid) => {
   }
 };
 
-export const putPhoto = async (photo, id) => {
+export const putPhoto = async (photo, photoinfo) => {
   try {
-    const data = await customAxios(`photo/${photo.id}`, "put", photo);
+    console.log(photo);
+    const data = await customAxios(
+      `photo/${photoinfo.id}/${photoinfo.myId}`,
+      "put",
+      photo
+    );
     return data;
   } catch (error) {
     throw error;
