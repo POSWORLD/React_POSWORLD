@@ -24,23 +24,22 @@ const FlexWrapper = styled.div`
 const Boards = ({ boardState, boards }) => {
    const homeBoards = useSelector(state => state.boards.allBoard);
    const myId = useSelector(state => state.users.me);
+   // const homeId = useSelector(state => state.users.other)
+   const myhome = useSelector(state => state.users.other);
+
    const boardPatch = async () => {
       await dispatch(selectBoards());
    };
    useEffect(() => {
       boardPatch();
-   }, []);
+   }, [boardState]);
 
    const dispatch = useDispatch();
-   const [mode, setMode] = useState('read');
 
    const boardDelete = async boardNum => {
       await dispatch(deleteBoard(boardNum));
       await dispatch(selectBoards());
    };
-   // const boardUpdate = async (content, num) => {
-   //    await dispatch(updateBoard(content, num));
-   // };
 
    const [visible, setVisible] = useState(false);
    return (
@@ -57,7 +56,7 @@ const Boards = ({ boardState, boards }) => {
                <Card>
                   <>
                      <span className="tap"></span>
-                     <span className="boards">{myId.name} 님의 방명록</span>
+                     <span className="boards">{/* {myId.name}님의 방명록 */}</span>
                      <span>
                         <button
                            className="btn2"
