@@ -18,13 +18,14 @@ const SET_PID = "SET_PID";
 export const insertComments = createAsyncThunk(
   INSERT_PCOMMENT,
   async (payload, thunkAPI) => {
-    const myId = thunkAPI.getState().users.me.id;
+    const myId = thunkAPI.getState().users.myId;
     const pid = payload.pid;
     const content = payload.content;
+    console.log(content);
     const pComment = {
-      content,
-      userid: Number(myId),
       pid: Number(pid),
+      userid: Number(myId),
+      content,
     };
     const newComment = await insertComment(pComment);
     return newComment;
@@ -45,8 +46,14 @@ export const selectComments = createAsyncThunk(
 export const deleteComments = createAsyncThunk(
   DELETE_PCOMMENT,
   async (payload, thunkAPI) => {
+    const myId = thunkAPI.getState().users.myId;
     const comments = thunkAPI.getState().pComments.comments;
-    return await deleteComment(comments, payload);
+    const id = payload;
+    const ids = {
+      myId: myId,
+      id: payload,
+    };
+    return await deleteComment(comments, ids);
   }
 );
 

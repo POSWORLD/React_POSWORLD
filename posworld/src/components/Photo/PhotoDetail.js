@@ -75,7 +75,6 @@ function PhotoDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pid = useSelector((state) => state.pComments.pid);
-
   const photo = useSelector((state) => state.photos.photos);
 
   const moveTo = () => {
@@ -86,17 +85,21 @@ function PhotoDetail() {
     navigate("/Photo");
   };
 
-  const onClickDelete = async (id) => {
-    await dispatch(deletePhoto(id));
+  const onClickDelete = async () => {
+    await dispatch(deletePhoto())
+      .unwrap()
+      .then(() => alert("삭제되었습니다."));
+
+    navigate("/Photo");
     await dispatch(selectPhoto());
   };
 
-  const photoDispatch = async (pid) => {
-    await dispatch(selectPhotoById(pid));
+  const photoDispatch = async () => {
+    await dispatch(selectPhotoById());
   };
 
   useEffect(() => {
-    photoDispatch(pid);
+    photoDispatch();
   }, []);
 
   return (
