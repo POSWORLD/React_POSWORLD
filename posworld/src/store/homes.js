@@ -4,20 +4,20 @@ import { customAxios, fileAxios } from "../http/CustomAxios";
 import { getHomeApi, updateHomeApi } from "./homesApi";
 
 const initialState = {
+  homeId: 0,
   home: {},
   otherhome: {},
 };
 const SELECT_HOME = "SELECT_HOME";
 const UPDATE_HOME = "UPDATE_HOME";
 const SELECT_OHTER_HOME = "SELECT_OHTER_HOME";
+const SET_HOME_ID = "SET_HOME_ID";
 
 export const getHome = createAsyncThunk(
   SELECT_HOME,
   async (payload, thunkAPI) => {
-    console.log("시작해볼까", payload);
     if (payload) {
       const myhome = await getHomeApi(Number(payload));
-      console.log("myhome", myhome);
       return myhome;
     }
   }
@@ -29,6 +29,7 @@ export const getOtherHome = createAsyncThunk(
     console.log("파도타기", payload);
     if (payload) {
       const myOtherhome = await getHomeApi(Number(payload));
+      console.log("myotherhome", myOtherhome);
       return myOtherhome;
     }
   }
@@ -40,7 +41,7 @@ export const updateHome = createAsyncThunk(
     let filePath = "";
 
     const id = thunkAPI.getState().users.me.id;
-    console.log(id);
+    //console.log(id);
     const { title, content, photo, file } = payload;
     let uploadFile = new FormData();
     uploadFile.append("file", file);
@@ -57,6 +58,16 @@ export const updateHome = createAsyncThunk(
     return response;
   }
 );
+
+export const setHomeId = createAsyncThunk(
+  SET_HOME_ID,
+  async (payload, thunkAPI) => {
+    console.log("change", payload);
+    const homeId = payload;
+    return homeId;
+  }
+);
+
 export const homeSlice = createSlice({
   name: "homes",
   initialState,
@@ -70,7 +81,10 @@ export const homeSlice = createSlice({
         return { ...state, home: payload };
       })
       .addCase(getOtherHome.fulfilled, (state, { payload }) => {
-        return { ...state, otherhome: payload };
+        return { ...state, otherhome: payload, homeId: payload.id };
+      })
+      .addCase(setHomeId.fulfilled, (state, { payload }) => {
+        return { ...state, homeId: payload };
       });
   },
 });
