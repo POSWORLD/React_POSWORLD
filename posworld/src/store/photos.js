@@ -32,7 +32,6 @@ export const insertPhoto = createAsyncThunk(
   INSERT_PHOTO,
   async (payload, thunkAPI) => {
     const myId = thunkAPI.getState().users.myId;
-    console.log("myId", myId);
     const { photos } = thunkAPI.getState().photos.allPhoto.photos;
     let filePath = "";
     const { title, content, img, file, userid } = payload;
@@ -68,7 +67,6 @@ export const updatePhoto = createAsyncThunk(
       filePath = await fileAxios("/upload", "post", uploadFile);
     }
 
-    console.log("update");
     const photo = {
       id,
       title,
@@ -85,8 +83,14 @@ export const updatePhoto = createAsyncThunk(
 export const deletePhoto = createAsyncThunk(
   DELETE_PHOTO,
   async (payload, thunkAPI) => {
+    const myId = thunkAPI.getState().users.myId;
+    const pid = thunkAPI.getState().pComments.pid;
+    const ids = {
+      myId: myId,
+      id: pid,
+    };
     const { photos } = thunkAPI.getState().photos.allPhoto.photos;
-    return await deletePhotos(photos, payload);
+    return await deletePhotos(photos, ids);
   }
 );
 
@@ -104,8 +108,9 @@ export const selectPhoto = createAsyncThunk(
 export const selectPhotoById = createAsyncThunk(
   SELECT_PHOTO_BY_ID,
   async (payload, thunkAPI) => {
-    if (payload) {
-      const onePhoto = await getPhotoByPhotoId(Number(payload));
+    const pid = thunkAPI.getState().pComments.pid;
+    if (pid) {
+      const onePhoto = await getPhotoByPhotoId(Number(pid));
       return onePhoto;
     }
   }

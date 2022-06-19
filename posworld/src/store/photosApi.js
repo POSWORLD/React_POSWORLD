@@ -20,12 +20,15 @@ export const putPhoto = async (photo, id) => {
   }
 };
 
-export const deletePhotos = async (photos, id) => {
+export const deletePhotos = async (photos, ids) => {
   try {
-    const photoId = Number(id);
-    const response = await customAxios(`photo/${photoId}`, "delete");
+    const photoId = Number(ids.id);
+    const response = await customAxios(
+      `photo/${photoId}/${ids.myId}`,
+      "delete"
+    );
     if (response === true) {
-      const delPhoto = await photos.filter((photo) => photo.id !== id);
+      const delPhoto = await photos.filter((photo) => photo.id !== ids.id);
       return [...delPhoto];
     }
   } catch (error) {
