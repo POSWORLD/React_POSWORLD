@@ -44,11 +44,13 @@ export const updateHome = createAsyncThunk(UPDATE_HOME, async (payload, thunkAPI
       title,
       content,
       photo: filePath ? filePath : photo,
-   };
-   const response = await updateHomeApi(home, Number(id));
-   console.log(response);
-   return response;
-});
+    };
+    const response = await updateHomeApi(home, Number(id));
+    if(response==1){
+      return home;
+    }return;
+  }
+);
 
 export const setHomeId = createAsyncThunk(SET_HOME_ID, async (payload, thunkAPI) => {
    console.log('change', payload);
