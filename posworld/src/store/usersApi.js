@@ -84,3 +84,14 @@ export const getUserApi = async (id) => {
   });
   return response.data;
 };
+
+export const deleteUserApi = async (id) => {
+  const response = await axios({
+    url: `http://localhost:8001/member/${id}`,
+    method: "delete",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
+};
