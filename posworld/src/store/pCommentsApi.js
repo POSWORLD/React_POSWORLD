@@ -11,19 +11,25 @@ export const insertComment = async (pComment) => {
 
 export const getCommentByPid = async (pid) => {
   try {
-    const response = await customAxios(`pComment/${Number(pid)}`, "get");
+    const response = await customAxios(`pComment/${pid}`, "get");
     return response;
   } catch (error) {
     throw error;
   }
 };
 
-export const deleteComment = async (comments, id) => {
+export const deleteComment = async (comments, ids) => {
   try {
-    const commentid = Number(id);
-    const response = await customAxios(`pComment/${commentid}`, "delete");
+    console.log(ids);
+    const commentid = Number(ids.id);
+    const response = await customAxios(
+      `pComment/${commentid}/${ids.myId}`,
+      "delete"
+    );
     if (response === true) {
-      const delComment = await comments.filter((comment) => comment.id !== id);
+      const delComment = await comments.filter(
+        (comment) => comment.id !== ids.id
+      );
       return [...delComment];
     }
   } catch (error) {

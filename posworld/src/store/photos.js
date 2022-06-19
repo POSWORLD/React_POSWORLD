@@ -31,25 +31,25 @@ const SELECT_PHOTO_BY_ID = "SELECT_PHOTO_BY_ID";
 export const insertPhoto = createAsyncThunk(
   INSERT_PHOTO,
   async (payload, thunkAPI) => {
-    const { myToken } = thunkAPI.getState().users;
+    const myId = thunkAPI.getState().users.myId;
+    console.log("myId", myId);
     const { photos } = thunkAPI.getState().photos.allPhoto.photos;
     let filePath = "";
-    const { title, content, img, file, userId } = payload;
+    const { title, content, img, file, userid } = payload;
 
     let uploadFile = new FormData();
     uploadFile.append("file", file);
     if (file) {
       filePath = await fileAxios("/upload", "post", uploadFile);
     }
-    console.log(photo);
 
     const photo = {
       title,
       content,
       img: filePath ? filePath : img,
-      userId: Number(myToken),
+      userid: Number(myId),
     };
-    const myPhoto = await postPhoto(photo);
+    const myPhoto = await postPhoto(photo, myId);
     return myPhoto;
   }
 );
@@ -93,7 +93,7 @@ export const deletePhoto = createAsyncThunk(
 export const selectPhoto = createAsyncThunk(
   SELECT_PHOTO,
   async (payload, thunkAPI) => {
-    const myId = thunkAPI.getState().users.me.id;
+    const myId = thunkAPI.getState().users.myId;
     if (myId) {
       const allPhoto = await getPhotoById(Number(myId));
       return allPhoto;

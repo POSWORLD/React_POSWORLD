@@ -14,7 +14,7 @@ import {
 const initialState = {
   myToken: localStorage.getItem("token"),
   isLogin: localStorage.getItem("token") === undefined ? true : false,
-  myId: "",
+  myId: localStorage.getItem("id"),
   me: {},
   other: {},
 };
@@ -93,7 +93,7 @@ export const getUser = createAsyncThunk(
   SELECT_USER_BY_ID,
   async (id, thunkAPI) => {
     const response = await getUserApi(id);
-    console.log(response);
+    //console.log(response);
     return response;
   }
 );

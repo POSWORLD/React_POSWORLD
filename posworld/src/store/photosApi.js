@@ -1,8 +1,10 @@
 import { customAxios } from "../http/CustomAxios";
 
-export const postPhoto = async (photo) => {
+export const postPhoto = async (photo, userid) => {
   try {
-    const data = await customAxios("photo/", "post", photo);
+    console.log("photo", photo);
+    const data = await customAxios(`photo/${userid}`, "post", photo);
+    console.log("data", data);
     return data;
   } catch (error) {
     throw error;
