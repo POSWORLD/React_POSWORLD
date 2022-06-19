@@ -8,6 +8,7 @@ import styled from "styled-components";
 import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
 import { countUser } from "../../store/users";
+import { setHomeId } from "../../store/homes";
 
 const ProfileSection = styled.section`
   height: fit-content !important;
@@ -67,6 +68,7 @@ function OtherProfile() {
     const rand = Math.floor(Math.random() * userNum) + 1;
 
     if (rand != id) {
+      dispatch(setHomeId(rand));
       alert(rand);
       window.location.href = `/Home?id=${rand}`;
     }

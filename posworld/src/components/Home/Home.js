@@ -5,7 +5,7 @@ import Contents from "../../styles/Layout/Contents";
 import Profile from "./Profile";
 import MiniRoom from "./MiniRoom";
 import { useDispatch, useSelector } from "react-redux";
-import { getHome } from "../../store/homes";
+import { getHome, setHomeId } from "../../store/homes";
 import AuthRouter from "../AuthRouter";
 import { useEffect } from "react";
 import { loginCheck } from "../../store/users";
@@ -18,8 +18,10 @@ function Home() {
       .unwrap()
       .then((data) => {
         dispatch(getHome(data.id));
+        dispatch(setHomeId(data.id));
       });
   };
+
   useEffect(() => {
     getHomeCommand();
   }, []);
