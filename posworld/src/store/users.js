@@ -14,6 +14,7 @@ import {
 const initialState = {
   myToken: localStorage.getItem("token"),
   isLogin: localStorage.getItem("token") === undefined ? true : false,
+  myId: "",
   me: {},
   other: {},
 };
@@ -118,7 +119,9 @@ export const usersSlice = createSlice({
       })
       .addCase(loginCheck.fulfilled, (state, { payload }) => {
         if (payload) {
-          return { ...state, isLogin: true, me: payload };
+          console.log(payload.id);
+          localStorage.setItem("myId", payload.id);
+          return { ...state, isLogin: true, me: payload, myId: payload.id };
         } else {
           return { ...state, isLogin: false };
         }
@@ -132,7 +135,8 @@ export const usersSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state, { payload }) => {
         localStorage.removeItem("token");
-        return { ...state, isLogin: false, me: {}, myToken: "" };
+        localStorage.removeItem("myId");
+        return { ...state, isLogin: false, me: {}, myToken: "", myId: "" };
       })
       .addCase(getUser.fulfilled, (state, { payload }) => {
         if (payload) {
