@@ -7,7 +7,8 @@ import "./Profile.css";
 import styled from "styled-components";
 import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
-import { countUser } from "../../store/users";
+import { countUser, logout } from "../../store/users";
+import { useNavigate } from "react-router-dom";
 
 const ProfileSection = styled.section`
   height: fit-content !important;
@@ -54,6 +55,7 @@ const ProfileSection = styled.section`
 `;
 function Profile() {
   const dispatch = useDispatch();
+  const nevigate = useNavigate();
   const { id, userid, name, gender, prophoto } = useSelector(
     (state) => state.users.me
   );
@@ -79,6 +81,11 @@ function Profile() {
     }
   };
 
+  const logoutBtn = async () => {
+    dispatch(logout());
+    nevigate("/login");
+  };
+
   return (
     <>
       <ProfileSection>
@@ -91,8 +98,16 @@ function Profile() {
         <p>
           <span className="my-name">{name}</span>
           <span className="my-sex">({genderSign})</span>
-          <Button onClick={modalOpen} color="primary" size="sm">
+          <Button
+            onClick={modalOpen}
+            color="primary"
+            size="sm"
+            style={{ margin: "3px" }}
+          >
             edit
+          </Button>
+          <Button onClick={logoutBtn} color="primary" size="sm">
+            logout
           </Button>
         </p>
         <p className="my-email">
