@@ -23,7 +23,7 @@ export const insertComments = createAsyncThunk(
     const content = payload.content;
     const pComment = {
       content,
-      userId: Number(myId),
+      userid: Number(myId),
       pid: Number(pid),
     };
     const newComment = await insertComment(pComment);
@@ -37,7 +37,6 @@ export const selectComments = createAsyncThunk(
     const pid = thunkAPI.getState().pComments.pid;
     if (pid) {
       const comments = await getCommentByPid(Number(pid));
-      console.log(comments);
       return comments;
     }
   }

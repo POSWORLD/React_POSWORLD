@@ -13,6 +13,7 @@ import Sidebar from "../../styles/Layout/Sidebar";
 import AuthRouter from "../AuthRouter";
 import Profile from "../Home/Profile";
 import Pcomment from "../Pcomment/Pcomment";
+import changeTime from "../Pcomment/changeTime";
 
 const PhotoSection = styled.section`
   height: fit-content !important;
@@ -20,15 +21,27 @@ const PhotoSection = styled.section`
   height: 100%;
   img {
     margin: 0.5rem;
+    text-align: center;
   }
   Button {
     border: 1px solid black;
     color: black;
     background: white;
   }
+  .photoContent {
+    text-align: center;
+  }
+
   .contents {
     width: 100%;
     height: auto;
+    text-align: center;
+  }
+
+  #listBtn {
+    float: left;
+    margin-bottom: 30px;
+    margin-right: 0.5rem;
   }
 
   #editBtn {
@@ -47,6 +60,7 @@ const Title = styled.div`
   height: auto;
   width: 100%;
   padding: 1px;
+  font-size: 1.4rem;
   background: ${(props) => props.color || "#F0F0F0"};
   text-align: center;
   font-weight: bold;
@@ -54,7 +68,7 @@ const Title = styled.div`
 
 const PcommentSection = styled.section`
   height: auto;
-  margin-top: 40px;
+  margin-top: 50px;
 `;
 
 function PhotoDetail() {
@@ -66,6 +80,10 @@ function PhotoDetail() {
 
   const moveTo = () => {
     navigate("/PhotoUpdate");
+  };
+
+  const linkTo = () => {
+    navigate("/Photo");
   };
 
   const onClickDelete = async (id) => {
@@ -95,12 +113,18 @@ function PhotoDetail() {
           <Card>
             <PhotoSection>
               <Title>{photo.title} </Title>
-              <p id="editDate">changeTime({photo.wdate})</p>
+              <p id="editDate">{changeTime(photo.wdate)}</p>
+              <div className="photoContent">
+                <p>
+                  <img src={`${IMG_PATH}${photo?.img}`} alt="이미지"></img>
+                </p>
+                <div className="contents">{photo.content}</div>
+              </div>
               <p>
-                <img src={`${IMG_PATH}${photo?.img}`} alt="이미지"></img>
-              </p>
-              <div className="contents">{photo.content}</div>
-              <p>
+                <Button id="listBtn" onClick={linkTo}>
+                  목록
+                </Button>
+
                 <Button id="editBtn" onClick={moveTo}>
                   수정
                 </Button>
@@ -111,9 +135,6 @@ function PhotoDetail() {
             </PhotoSection>
             <PcommentSection>
               <Pcomment></Pcomment>
-              <Link to="/Photo">
-                <Button id="listBtn">목록</Button>
-              </Link>
             </PcommentSection>
           </Card>
         </Contents>

@@ -93,9 +93,9 @@ export const deletePhoto = createAsyncThunk(
 export const selectPhoto = createAsyncThunk(
   SELECT_PHOTO,
   async (payload, thunkAPI) => {
-    const { myToken } = thunkAPI.getState().users;
-    if (myToken) {
-      const allPhoto = await getPhotoById(Number(myToken));
+    const myId = thunkAPI.getState().users.me.id;
+    if (myId) {
+      const allPhoto = await getPhotoById(Number(myId));
       return allPhoto;
     }
   }

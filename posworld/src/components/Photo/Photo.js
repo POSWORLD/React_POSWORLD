@@ -15,24 +15,32 @@ import { Spinner } from "react-bootstrap";
 import styled from "styled-components";
 import { setPids } from "../../store/pComments";
 
+const Photolist = styled.h5`
+  color: #238db3;
+  font-weight: bold;
+`;
 const Photos = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 
   .PhotoImgBox {
     cursor: pointer;
+    text-align: center;
   }
 
   .PhotoImg {
     width: 80%;
-    height: 70%;
+    height: 30%;
     aspect-ratio: 1;
-    margin: 4px;
+    margin: 2px;
+    border: 1px solid black;
     text-align: center;
+    object-fit: cover;
   }
 
   .PhotoTitle {
     text-align: center;
+    border: 1px solid black;
     margin: 4px;
   }
 `;
@@ -40,7 +48,6 @@ const Photos = styled.section`
 function Photo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(useSelector((state) => state.photos.allPhoto));
   const id = useSelector((state) => state.users.me);
   const myPhoto = useSelector((state) => state.photos.allPhoto);
 
@@ -79,6 +86,7 @@ function Photo() {
         </Sidebar>
         <Contents>
           <Card>
+            <Photolist>사진목록</Photolist>
             <Button onClick={moveTo}>사진등록</Button>
             <Photos>
               {myPhoto.loading ? (
