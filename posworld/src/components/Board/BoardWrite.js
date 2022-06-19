@@ -8,6 +8,7 @@ import { Button, Container, Input, Modal } from 'reactstrap';
 import { insertBoards, selectBoards } from '../../store/boards';
 import { getMyBoards } from '../../store/boardsApi';
 import AuthRouter from '../AuthRouter';
+import { setHomeId } from '../../store/homes';
 import './BoardList.css';
 const BoardWrite = () => {
    const navigate = useNavigate();
