@@ -13,6 +13,7 @@ import FlexWrapper from "../../styles/Layout/FlexWrapper";
 import { useState } from "react";
 import OtherProfile from "./OtherProfile";
 import OtherMiniRoom from "./OtherMiniRoom";
+import OtherContents from "../../styles/Layout/OtherContents";
 
 function Wave() {
   // console.log(new URLSearchParams(window.location.search).get("id"));
@@ -42,11 +43,11 @@ function Wave() {
             </FlexWrapper>
           </Card>
         </Sidebar>
-        <Contents>
+        <OtherContents>
           <Card>
             <OtherMiniRoom></OtherMiniRoom>
           </Card>
-        </Contents>
+        </OtherContents>
       </Layout>
       <AuthRouter></AuthRouter>
     </>
