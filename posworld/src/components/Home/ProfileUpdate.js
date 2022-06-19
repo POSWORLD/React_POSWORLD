@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Button, Input, InputGroup, InputGroupText, Modal } from "reactstrap";
 import { IMG_PATH } from "../../http/CustomAxios";
-import { loginCheck, updateUser } from "../../store/users";
+import { deleteUser, loginCheck, logout, updateUser } from "../../store/users";
 import "./ProfileUpdate.css";
 
-const ProfileUpdate = ({ userid, prophoto, name, isOpen, modalClose }) => {
+const ProfileUpdate = ({ id, userid, prophoto, name, isOpen, modalClose }) => {
   const dispatch = useDispatch();
+  const neviate = useNavigate();
   const [form, setForm] = useState({
     userid: userid,
     name: "",
@@ -41,6 +43,18 @@ const ProfileUpdate = ({ userid, prophoto, name, isOpen, modalClose }) => {
     modalClose();
   };
 
+  const withdrawal = async () => {
+    const deleteResult = await dispatch(deleteUser(id));
+    if (deleteResult.payload == 1) {
+      alert("회원탈퇴에 성공했습니다.");
+      await dispatch(logout());
+      modalClose();
+      neviate("/login");
+    } else {
+      alert("회원탈퇴에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="profileUpdatePage">
       <Modal isOpen={isOpen}>
@@ -53,6 +67,9 @@ const ProfileUpdate = ({ userid, prophoto, name, isOpen, modalClose }) => {
           onChangeFile={onChangeFile}
           form={form}
         ></ProfileUpdateBody>
+        <Button color="danger" style={{ margin: "5px" }} onClick={withdrawal}>
+          회원탈퇴
+        </Button>
       </Modal>
     </div>
   );

@@ -9,6 +9,7 @@ import {
   loginCheckApi,
   logoutApi,
   updateUserApi,
+  deleteUserApi,
 } from "./usersApi";
 
 const initialState = {
@@ -24,11 +25,10 @@ const LOGIN_CHECK = "LOGIN_CHECK";
 const CHECK_ID = "CHECK_ID";
 const INSERT_USER = "INSERT_USER";
 const SELECT_USER_BY_ID = "SELECT_USER_BY_ID";
-const SELECT_USER_BY_USERID = "SELECT_USER_BY_USERID";
 const LOGOUT = "LOGOUT";
 const UPDATE_USERS = "UPDATE_USERS";
-const SELECT_USER_BY_KEY = "SELECT_USER_BY_KEY";
 const SELECT_COUNT_USER = "SELECT_COUNT_USER";
+const DELETE_USER = "DELETE_USER";
 
 export const login = createAsyncThunk(LOGIN, async (user) => {
   const response = await loginApi(user);
@@ -93,8 +93,14 @@ export const getUser = createAsyncThunk(
   SELECT_USER_BY_ID,
   async (id, thunkAPI) => {
     const response = await getUserApi(id);
-    //console.log(response);
     return response;
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  DELETE_USER,
+  async (payload, thunkAPI) => {
+    return await deleteUserApi(payload);
   }
 );
 

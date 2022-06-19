@@ -119,6 +119,7 @@ function Profile() {
         </p>
         <AuthRouter></AuthRouter>
         <ProfileUpdate
+          id={id}
           userid={userid}
           name={name}
           prophoto={prophoto}
