@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Container, Input } from "reactstrap";
+import { Button } from "reactstrap";
 import { IMG_PATH } from "../../http/CustomAxios";
 import AuthRouter from "../AuthRouter";
 import "./Profile.css";
 import styled from "styled-components";
 import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
-import { countUser, logout } from "../../store/users";
+import { countUser, getUser, logout } from "../../store/users";
 import { useNavigate } from "react-router-dom";
 import homes from "../../store/homes";
 
@@ -57,15 +57,23 @@ const ProfileSection = styled.section`
 function Profile() {
   const homeId = useSelector((state) => state.homes.homeId);
   console.log("my homeid", homeId);
+  const id = useSelector((state) => state.users.myId);
+  const profiles = useSelector((state) => state.users.myProfile.profiles);
+  console.log(profiles);
+  console.log(profiles.name);
 
   const dispatch = useDispatch();
   const nevigate = useNavigate();
-  const { id, userid, name, gender, prophoto } = useSelector(
-    (state) => state.users.me
-  );
 
-  console.log("id ", id);
-  const genderSign = gender === "m" ? "♀" : "♂";
+  const profileDispatch = async () => {
+    await dispatch(getUser(homeId));
+  };
+
+  useEffect(() => {
+    profileDispatch();
+  }, []);
+
+  const genderSign = profiles.gender === "m" ? "♀" : "♂";
 
   const [isOpen, setIsOpen] = useState(false);
   const modalClose = () => {
@@ -92,33 +100,45 @@ function Profile() {
     nevigate("/login");
   };
 
+  const myHome = () => {
+    window.location.href = "/";
+  };
+
   return (
     <>
       <ProfileSection>
-        <img src={`${IMG_PATH}${prophoto}`} alt="proPhoto"></img>
+        <img src={`${IMG_PATH}${profiles.prophoto}`} alt="proPhoto"></img>
         <p>
           <input value={"TODAY IS..."} readOnly></input>
         </p>
       </ProfileSection>
       <ProfileSection>
         <p>
-          <span className="my-name">{name}</span>
+          <span className="my-name">{profiles.name}</span>
           <span className="my-sex">({genderSign})</span>
-          <Button
-            onClick={modalOpen}
-            color="primary"
-            size="sm"
-            style={{ margin: "3px" }}
-          >
-            edit
-          </Button>
-          <Button onClick={logoutBtn} color="primary" size="sm">
-            logout
-          </Button>
+          {homeId === id ? (
+            <>
+              <Button
+                onClick={modalOpen}
+                color="primary"
+                size="sm"
+                style={{ margin: "3px" }}
+              >
+                edit
+              </Button>
+              <Button onClick={logoutBtn} color="primary" size="sm">
+                logout
+              </Button>
+            </>
+          ) : (
+            <Button onClick={myHome} color="primary" size="sm">
+              마이홈
+            </Button>
+          )}
         </p>
         <p className="my-email">
           <MdMailOutline color="#EB8F11" />
-          {userid}@posworld.com
+          {profiles.userid}@posworld.com
         </p>
         <p>
           <button onClick={wave}>파도타기</button>
@@ -126,9 +146,9 @@ function Profile() {
         <AuthRouter></AuthRouter>
         <ProfileUpdate
           id={id}
-          userid={userid}
-          name={name}
-          prophoto={prophoto}
+          userid={profiles.userid}
+          name={profiles.name}
+          prophoto={profiles.prophoto}
           isOpen={isOpen}
           modalClose={modalClose}
         ></ProfileUpdate>
