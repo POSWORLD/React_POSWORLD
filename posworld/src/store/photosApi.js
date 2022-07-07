@@ -43,7 +43,7 @@ export const deletePhotos = async (photos, ids) => {
 
 export const getPhotoById = async (id) => {
   try {
-    const response = await customAxios(`photo/${id}`, "get");
+    const response = await customAxios(`photo-select/${id}`, "get");
     return response;
   } catch (error) {
     throw error;
@@ -52,7 +52,7 @@ export const getPhotoById = async (id) => {
 
 export const getPhotoByPhotoId = async (id) => {
   try {
-    const response = await customAxios(`photo/detail/${id}`, "get");
+    const response = await customAxios(`photo-select/detail/${id}`, "get");
 
     return response;
   } catch (error) {
