@@ -27,7 +27,7 @@ export const insertBoards = createAsyncThunk(
    INSERT_BOARD, //
    async (payload, thunkAPI) => {
       const myId = thunkAPI.getState().users.myId;
-      const homeId = 1; //thunkAPI.getState().homes.homeId;
+      const homeId = 2; //thunkAPI.getState().homes.homeId;
       const { content } = payload;
       const board = {
          friendId: Number(myId),
@@ -84,6 +84,14 @@ export const boardSlice = createSlice({
             newBoard.loading = false;
             newBoard.message = error.message;
             return { ...state, allBoard: newBoard };
+         })
+         .addCase(insertBoards.fulfilled, (state, { payload }) => {
+            const newBoard = { ...state.allBoard };
+            newBoard.loading = false;
+            if (payload) {
+               newBoard.boards = payload;
+            }
+            return { ...state, boards: payload };
          })
          .addCase(deleteBoard.fulfilled, (state, { payload }) => {
             const newBoard = { ...state.allBoard };

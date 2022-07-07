@@ -38,7 +38,6 @@ const BoardWrite = () => {
 
    const submitBoard = async () => {
       await dispatch(insertBoards(form));
-      console.log('여기');
       alert('등록완료');
    };
 
