@@ -4,19 +4,21 @@ import { useEffect, useState } from 'react';
 import { GoDiffAdded } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Container, Input, Modal } from 'reactstrap';
+import { Button, Card, Container, Input, Modal } from 'reactstrap';
 import { insertBoards, selectBoards } from '../../store/boards';
 import { getMyBoards } from '../../store/boardsApi';
 import AuthRouter from '../AuthRouter';
 import { setHomeId } from '../../store/homes';
 import './BoardList.css';
-const BoardWrite = () => {
+import { IMG_PATH } from '../../http/CustomAxios';
+const BoardWrite = myId => {
    const navigate = useNavigate();
    const location = useLocation();
    const userId = location.state;
+   console.log('유저아이디', myId);
    const [form, setForm] = useState({
       content: '',
-      userId: userId,
+      userId: myId,
    });
    const [viewContent, setViewContent] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +51,7 @@ const BoardWrite = () => {
                   <div>{element.content}</div>
                ))}
                <div className="main">
-                  <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
+                  <img id="main_img1" src={`${IMG_PATH}${myId?.myId.prophoto}`} alt="작성자사진"></img>
 
                   <textarea
                      className="text-area"
