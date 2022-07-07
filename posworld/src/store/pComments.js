@@ -21,7 +21,6 @@ export const insertComments = createAsyncThunk(
     const myId = thunkAPI.getState().users.myId;
     const pid = payload.pid;
     const content = payload.content;
-    console.log(content);
     const pComment = {
       pid: Number(pid),
       userid: Number(myId),

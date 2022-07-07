@@ -39,7 +39,7 @@ function Pcomment() {
   const onSubmit = async (form) => {
     await dispatch(insertComments(form));
     await dispatch(selectComments());
-    form.content = "";
+    form.reset();
   };
   useEffect(() => {
     commentPatch();

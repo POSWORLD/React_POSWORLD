@@ -20,9 +20,7 @@ export const getCommentByPid = async (pid) => {
 
 export const deleteComment = async (comments, ids) => {
   try {
-    console.log(ids);
     const commentid = Number(ids.id);
-    console.log();
     const response = await customAxios(
       `pComment/${commentid}/${ids.myId}`,
       "delete"

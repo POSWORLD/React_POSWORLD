@@ -36,7 +36,6 @@ const DELETE_USER = "DELETE_USER";
 
 export const login = createAsyncThunk(LOGIN, async (user) => {
   const response = await loginApi(user);
-  // console.log(response);
   return response;
 });
 
@@ -116,7 +115,6 @@ export const usersSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
         if (payload.isLogin) {
-          console.log(payload);
           localStorage.setItem("token", payload.user.accessToken);
           return { ...state, isLogin: true };
         } else {
@@ -124,7 +122,6 @@ export const usersSlice = createSlice({
         }
       })
       .addCase(login.rejected, (state, { payload }) => {
-        console.log(payload);
         return { ...state, isLogin: false };
       })
       .addCase(loginCheck.fulfilled, (state, { payload }) => {
