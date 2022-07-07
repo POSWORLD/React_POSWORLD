@@ -26,7 +26,6 @@ export const getHome = createAsyncThunk(
 export const getOtherHome = createAsyncThunk(
   SELECT_OHTER_HOME,
   async (payload, thunkAPI) => {
-    console.log("파도타기", payload);
     if (payload) {
       const myOtherhome = await getHomeApi(Number(payload));
       return myOtherhome;
@@ -38,9 +37,7 @@ export const updateHome = createAsyncThunk(
   UPDATE_HOME,
   async (payload, thunkAPI) => {
     let filePath = "";
-
     const id = thunkAPI.getState().users.me.id;
-    //console.log(id);
     const { title, content, photo, file } = payload;
     let uploadFile = new FormData();
 
@@ -64,8 +61,8 @@ export const updateHome = createAsyncThunk(
 export const setHomeId = createAsyncThunk(
   SET_HOME_ID,
   async (payload, thunkAPI) => {
-    console.log("change", payload);
     const homeId = payload;
+    localStorage.setItem("homeId", payload);
     return homeId;
   }
 );

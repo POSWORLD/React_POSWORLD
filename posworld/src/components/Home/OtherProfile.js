@@ -75,6 +75,7 @@ function OtherProfile() {
   };
 
   const myHome = () => {
+    dispatch(setHomeId(id));
     window.location.href = "/";
   };
 

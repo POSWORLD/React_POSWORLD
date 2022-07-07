@@ -2,9 +2,7 @@ import { customAxios } from "../http/CustomAxios";
 
 export const postPhoto = async (photo, userid) => {
   try {
-    console.log("photo", photo);
     const data = await customAxios(`photo/${userid}`, "post", photo);
-    console.log("data", data);
     return data;
   } catch (error) {
     throw error;
@@ -13,7 +11,6 @@ export const postPhoto = async (photo, userid) => {
 
 export const putPhoto = async (photo, photoinfo) => {
   try {
-    console.log(photo);
     const data = await customAxios(
       `photo/${photoinfo.id}/${photoinfo.myId}`,
       "put",
@@ -44,7 +41,6 @@ export const deletePhotos = async (photos, ids) => {
 export const getPhotoById = async (id) => {
   try {
     const response = await customAxios(`photo-select/${id}`, "get");
-    console.log(response);
     return response;
   } catch (error) {
     throw error;

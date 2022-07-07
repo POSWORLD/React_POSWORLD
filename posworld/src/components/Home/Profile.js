@@ -56,11 +56,8 @@ const ProfileSection = styled.section`
 `;
 function Profile() {
   const homeId = useSelector((state) => state.homes.homeId);
-  console.log("my homeid", homeId);
   const id = useSelector((state) => state.users.myId);
   const profiles = useSelector((state) => state.users.myProfile.profiles);
-  console.log(profiles);
-  console.log(profiles.name);
 
   const dispatch = useDispatch();
   const nevigate = useNavigate();
