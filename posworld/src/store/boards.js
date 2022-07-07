@@ -27,7 +27,7 @@ export const insertBoards = createAsyncThunk(
    INSERT_BOARD, //
    async (payload, thunkAPI) => {
       const myId = thunkAPI.getState().users.myId;
-      const homeId = thunkAPI.getState().homes.homeId;
+      const homeId = 1; //thunkAPI.getState().homes.homeId;
       const { content } = payload;
       const board = {
          friendId: Number(myId),
