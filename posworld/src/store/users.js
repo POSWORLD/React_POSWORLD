@@ -15,9 +15,13 @@ import {
 const initialState = {
   myToken: localStorage.getItem("token"),
   isLogin: localStorage.getItem("token") === undefined ? true : false,
-  myId: localStorage.getItem("id"),
+  myId: localStorage.getItem("myId"),
   me: {},
   other: {},
+  myProfile: {
+    profiles: [],
+    loading: false,
+  },
 };
 
 const LOGIN = "LOGIN";
@@ -137,16 +141,31 @@ export const usersSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         const user = payload;
-        return { ...state, me: { ...state.me, ...user } };
+        const newProfile = { ...state.myProfile };
+        newProfile.loading = true;
+        if (payload) {
+          newProfile.profiles = payload;
+          newProfile.loading = false;
+        }
+        return {
+          ...state,
+          me: { ...state.me, ...user },
+          myProfile: newProfile,
+        };
       })
       .addCase(logout.fulfilled, (state, { payload }) => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("myId");
+        localStorage.clear();
         return { ...state, isLogin: false, me: {}, myToken: "", myId: "" };
       })
       .addCase(getUser.fulfilled, (state, { payload }) => {
         if (payload) {
-          return { ...state, other: payload };
+          const newProfile = { ...state.myProfile };
+          newProfile.loading = false;
+          if (payload) {
+            newProfile.profiles = payload;
+          }
+
+          return { ...state, other: payload, myProfile: newProfile };
         } else {
           return 0;
         }

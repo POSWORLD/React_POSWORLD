@@ -55,7 +55,7 @@ export const updatePhoto = createAsyncThunk(UPDATE_PHOTO, async (payload, thunkA
     let uploadFile = new FormData();
     uploadFile.append('file', file);
     if (file) {
-        filePath = await fileAxios('/upload', 'post', uploadFile);
+      filePath = await fileAxios("/img/upload", "post", uploadFile);
     }
 
     const photo = {
@@ -83,6 +83,7 @@ export const deletePhoto = createAsyncThunk(DELETE_PHOTO, async (payload, thunkA
 
 export const selectPhoto = createAsyncThunk(SELECT_PHOTO, async (payload, thunkAPI) => {
     const homeId = thunkAPI.getState().homes.homeId;
+    console.log("homeId+", homeId);
     if (homeId) {
         const allPhoto = await getPhotoById(Number(homeId));
         return allPhoto;
