@@ -44,9 +44,7 @@ const ContentSection = styled.section`
 
 function OtherMiniRoom(title, content, photo) {
   const home = useSelector((state) => state.homes.otherhome);
-  console.log("otherhome", home);
   const homeId = useSelector((state) => state.homes.homeId);
-  console.log("homeid", homeId);
   //   useEffect(() => {
   //     setForm({ title, content, photo });
   //   }, [title, photo, content]);

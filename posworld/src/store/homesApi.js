@@ -4,7 +4,6 @@ export const getHomeApi = async (id) => {
   try {
     const numberId = Number(id);
     const response = await customAxios(`home/${numberId}`, "get");
-    console.log("response", response);
     return response;
   } catch (error) {
     throw error;
