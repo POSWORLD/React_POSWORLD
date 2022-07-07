@@ -5,7 +5,7 @@ export const loginApi = async (user) => {
   console.log(user);
   try {
     const response = await axios({
-      url: "http://localhost:8001/auth/login",
+      url: "http://localhost:8000/auth/login",
       method: "post",
       data: user,
     });
@@ -22,7 +22,7 @@ export const loginApi = async (user) => {
 export const loginCheckApi = async () => {
   try {
     const response = await axios({
-      url: "http://localhost:8001/member/me",
+      url: "http://localhost:8000/member/me",
       method: "get",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -36,7 +36,7 @@ export const loginCheckApi = async () => {
 
 export const idCheckApi = async (user) => {
   const response = await axios({
-    url: "http://localhost:8001/auth/checkId",
+    url: "http://localhost:8000/auth/checkId",
     method: "post",
     data: user,
   });
@@ -49,7 +49,7 @@ export const insertUserApi = async (user) => {
 
 export const updateUserApi = async (user) => {
   const response = await axios({
-    url: "http://localhost:8001/member/name",
+    url: "http://localhost:8000/member/name",
     method: "post",
     data: user,
     headers: {
@@ -61,7 +61,7 @@ export const updateUserApi = async (user) => {
 
 export const getUserCountApi = async () => {
   const response = await axios({
-    url: "http://localhost:8001/member/count",
+    url: "http://localhost:8000/member/count",
     method: "get",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -76,7 +76,7 @@ export const logoutApi = async (userId) => {
 
 export const getUserApi = async (id) => {
   const response = await axios({
-    url: `http://localhost:8001/member/${id}`,
+    url: `http://localhost:8000/member/${id}`,
     method: "get",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -87,7 +87,7 @@ export const getUserApi = async (id) => {
 
 export const deleteUserApi = async (id) => {
   const response = await axios({
-    url: `http://localhost:8001/member/${id}`,
+    url: `http://localhost:8000/member/${id}`,
     method: "delete",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
