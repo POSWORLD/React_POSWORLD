@@ -38,7 +38,7 @@ function BoardList({ board, boardDelete, /* boardUpdate, */ index }) {
                         onClick={() => moveTo()}
                         /* onClick={() => BoardUpdate(board?.content , board?.num)} */
                      />
-                     {visible && <BoardUpdate myNum={board?.num} />}
+                     {visible && <BoardUpdate board={board} />}
                   </>
                ) : (
                   <div></div>

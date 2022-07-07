@@ -16,7 +16,7 @@ const DELETE_BOARD = 'DELETE_BOARD';
 const UPDATE_BOARD = 'UPDATE_BOARD';
 
 export const selectBoards = createAsyncThunk(SELECT_BOARD, async (payload, thunkAPI) => {
-   const homeId = thunkAPI.getState().homes.homeId;
+   const homeId = localStorage.getItem(`homeId`);
    if (homeId) {
       const boards = await getBoardByHomeId(Number(homeId));
       return boards;
@@ -27,7 +27,7 @@ export const insertBoards = createAsyncThunk(
    INSERT_BOARD, //
    async (payload, thunkAPI) => {
       const myId = thunkAPI.getState().users.myId;
-      const homeId = 2; //thunkAPI.getState().homes.homeId;
+      const homeId = localStorage.getItem(`homeId`);
       const { content } = payload;
       const board = {
          friendId: Number(myId),
