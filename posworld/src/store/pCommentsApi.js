@@ -22,11 +22,12 @@ export const deleteComment = async (comments, ids) => {
   try {
     console.log(ids);
     const commentid = Number(ids.id);
+    console.log();
     const response = await customAxios(
       `pComment/${commentid}/${ids.myId}`,
       "delete"
     );
-    if (response === true) {
+    if (response === 1) {
       const delComment = await comments.filter(
         (comment) => comment.id !== ids.id
       );
