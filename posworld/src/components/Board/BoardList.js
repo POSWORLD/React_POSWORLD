@@ -8,6 +8,7 @@ import changeTime from '../Pcomment/changeTime';
 import AuthRouter from '../AuthRouter';
 import './BoardList.css';
 import BoardUpdate from './BoardUpdate';
+import { IMG_PATH } from '../../http/CustomAxios';
 function BoardList({ board, boardDelete, /* boardUpdate, */ index }) {
    const navigate = useNavigate();
    const dispatch = useDispatch();
@@ -47,7 +48,7 @@ function BoardList({ board, boardDelete, /* boardUpdate, */ index }) {
                   <img id="home_img" src="img/logo.png"></img> <span id="s3">( {changeTime(board?.wdate)})</span>
                </div>
                <div className="main">
-                  <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
+                  <img id="main_img1" src={`${IMG_PATH}${board?.friendimg}`} alt="프로필사진"></img>
                   <div className="main_text">{board?.content}</div>
                   {/* 이거 이미지에 넣기 <div className="FriendImg">{board?.friendImg}</div> */}
                </div>
