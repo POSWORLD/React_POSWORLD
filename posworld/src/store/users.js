@@ -66,7 +66,7 @@ export const updateUser = createAsyncThunk(
     let uploadFile = new FormData();
     uploadFile.append("file", file);
     if (file) {
-      filePath = await fileAxios("/upload", "post", uploadFile);
+      filePath = await fileAxios("/member/upload", "post", uploadFile);
     }
     const user = {
       userid,
@@ -125,7 +125,6 @@ export const usersSlice = createSlice({
       })
       .addCase(loginCheck.fulfilled, (state, { payload }) => {
         if (payload) {
-          console.log(payload.id);
           localStorage.setItem("myId", payload.id);
           return { ...state, isLogin: true, me: payload, myId: payload.id };
         } else {
