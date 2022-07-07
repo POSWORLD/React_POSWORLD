@@ -3,7 +3,7 @@ import { Spinner } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteBoard, insertBoards, selectBoards, updateBoard } from '../../store/boards';
-import users, { idCheck } from '../../store/users';
+import users, { getUser, idCheck } from '../../store/users';
 import BoardWrite from './BoardWrite';
 import BoardList from './BoardList';
 import AuthRouter from '../AuthRouter';
@@ -14,6 +14,7 @@ import Card from '../../styles/Layout/Card';
 import Contents from '../../styles/Layout/Contents';
 import styled from 'styled-components';
 import './BoardList.css';
+import { getUserApi, getUserApi2 } from '../../store/usersApi';
 const FlexWrapper = styled.div`
    display: flex;
    flex-direction: column;
@@ -22,19 +23,21 @@ const FlexWrapper = styled.div`
 `;
 
 const Boards = ({ boardState, boards }) => {
+   const dispatch = useDispatch();
+
    const homeBoards = useSelector(state => state.boards.allBoard);
-   const friend = useSelector(state => state.users.me);
-   // const homeId = useSelector(state => state.users.other)
-   const myhome = useSelector(state => state.users.other);
+   const friend = useSelector(state => state.users.other);
+   const myId = useSelector(state => state.users.me);
+   const homeId = localStorage.getItem('homeId');
 
    const boardPatch = async () => {
       await dispatch(selectBoards());
+      await dispatch(getUser(homeId));
    };
+
    useEffect(() => {
       boardPatch();
    }, [boardState]);
-
-   const dispatch = useDispatch();
 
    const boardDelete = async boardNum => {
       await dispatch(deleteBoard(boardNum));
@@ -66,7 +69,7 @@ const Boards = ({ boardState, boards }) => {
                            {visible ? '취소' : '작성'}
                         </button>
                      </span>
-                     {visible && <BoardWrite friend={friend} />}
+                     {visible && <BoardWrite myId={myId} />}
 
                      {homeBoards.loading ? (
                         <Spinner>loading...</Spinner>

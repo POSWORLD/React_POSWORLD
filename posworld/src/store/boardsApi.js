@@ -25,11 +25,8 @@ export const putBoards = async board => {
 
 export const insertBoard = async (board, myId) => {
    try {
-      console.log(board);
       const response = await customAxios(`/board/${board.homeId}/${myId}`, 'post', board);
-      console.log(response);
-      // const newPost = { ...post, id: posts.length };
-      // return [...posts, newPost];
+
       return response;
    } catch (error) {
       throw error;
