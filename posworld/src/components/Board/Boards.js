@@ -23,7 +23,7 @@ const FlexWrapper = styled.div`
 
 const Boards = ({ boardState, boards }) => {
    const homeBoards = useSelector(state => state.boards.allBoard);
-   const myId = useSelector(state => state.users.me);
+   const friend = useSelector(state => state.users.me);
    // const homeId = useSelector(state => state.users.other)
    const myhome = useSelector(state => state.users.other);
 
@@ -56,7 +56,7 @@ const Boards = ({ boardState, boards }) => {
                <Card>
                   <>
                      <span className="tap"></span>
-                     <span className="boards">{/* {myId.name}님의 방명록 */}</span>
+                     <span className="boards">{friend.name}님의 방명록</span>
                      <span>
                         <button
                            className="btn2"
@@ -66,7 +66,7 @@ const Boards = ({ boardState, boards }) => {
                            {visible ? '취소' : '작성'}
                         </button>
                      </span>
-                     {visible && <BoardWrite />}
+                     {visible && <BoardWrite friend={friend} />}
 
                      {homeBoards.loading ? (
                         <Spinner>loading...</Spinner>

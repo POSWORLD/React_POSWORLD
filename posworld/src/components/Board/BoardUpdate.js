@@ -11,6 +11,7 @@ import Card from '../../styles/Layout/Card';
 import Contents from '../../styles/Layout/Contents';
 import styled from 'styled-components';
 import './BoardList.css';
+import { IMG_PATH } from '../../http/CustomAxios';
 const FlexWrapper = styled.div`
    display: flex;
    flex-direction: column;
@@ -23,7 +24,7 @@ const BoardUpdate = board => {
    const navigate = useNavigate();
    const myId = useSelector(state => state.users.me.id);
    const myBoard = useSelector(state => state.boards.allBoard.boards);
-   const num = board.myNum;
+   const num = board.board.num;
    const [form, setForm] = useState({
       num,
       content: '',
@@ -59,12 +60,12 @@ const BoardUpdate = board => {
                       <div>{element.content}</div>
                           ))} */}
                <div className="main">
-                  <img id="main_img1" src="img/kim.png" alt="배경2사진"></img>
+                  <img id="main_img1" src={`${IMG_PATH}${board?.friendimg}`} alt="프로필사진"></img>
 
                   <textarea
                      className="text-area"
                      type="text"
-                     placeholder="남기고 싶은 말을 작성해주세요"
+                     placeholder={`${board.board.content}`}
                      onChange={e => onChangeContent(e)}
                      name="content"></textarea>
                </div>
