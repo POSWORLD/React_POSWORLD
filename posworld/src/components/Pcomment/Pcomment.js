@@ -9,6 +9,7 @@ import {
 } from "../../store/pComments";
 import { Container } from "reactstrap";
 import { ImPencil } from "react-icons/im";
+
 import styled from "styled-components";
 
 const Wrap = styled.div`
@@ -38,6 +39,7 @@ function Pcomment() {
   const onSubmit = async (form) => {
     await dispatch(insertComments(form));
     await dispatch(selectComments());
+    form.content = "";
   };
   useEffect(() => {
     commentPatch();
@@ -45,7 +47,7 @@ function Pcomment() {
   return (
     <>
       <Wrap>
-        <div>
+        <div style={{ textAlign: "right" }}>
           <ImPencil></ImPencil> 댓글
         </div>
         <Container>
