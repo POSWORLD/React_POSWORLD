@@ -4,14 +4,17 @@ import { customAxios, fileAxios } from "../http/CustomAxios";
 import { getHomeApi, updateHomeApi } from "./homesApi";
 
 const initialState = {
-  homeId: 0,
-  home: {},
-  otherhome: {},
+
+    homeId: 0,
+    home: {},
+    otherhome: {},
+
 };
 const SELECT_HOME = "SELECT_HOME";
 const UPDATE_HOME = "UPDATE_HOME";
 const SELECT_OHTER_HOME = "SELECT_OHTER_HOME";
 const SET_HOME_ID = "SET_HOME_ID";
+
 
 export const getHome = createAsyncThunk(
   SELECT_HOME,
@@ -39,54 +42,54 @@ export const updateHome = createAsyncThunk(
   async (payload, thunkAPI) => {
     let filePath = "";
 
+
     const id = thunkAPI.getState().users.me.id;
     //console.log(id);
     const { title, content, photo, file } = payload;
     let uploadFile = new FormData();
-    uploadFile.append("file", file);
+
+    uploadFile.append('file', file);
     if (file) {
-      filePath = await fileAxios("/upload", "post", uploadFile);
+        filePath = await fileAxios('/img/upload', 'post', uploadFile);
     }
     const home = {
-      title,
-      content,
-      photo: filePath ? filePath : photo,
+        title,
+        content,
+        photo: filePath ? filePath : photo,
     };
     const response = await updateHomeApi(home, Number(id));
     if (response == 1) {
-      return home;
+        return home;
     }
     return;
-  }
-);
+});
 
-export const setHomeId = createAsyncThunk(
-  SET_HOME_ID,
-  async (payload, thunkAPI) => {
+export const setHomeId = createAsyncThunk(SET_HOME_ID, async (payload, thunkAPI) => {
+    console.log('change', payload);
     const homeId = payload;
     return homeId;
-  }
-);
+});
 
 export const homeSlice = createSlice({
-  name: "homes",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(getHome.fulfilled, (state, { payload }) => {
-        return { ...state, home: payload, homeId: payload.id };
-      })
-      .addCase(updateHome.fulfilled, (state, { payload }) => {
-        return { ...state, home: payload };
-      })
-      .addCase(getOtherHome.fulfilled, (state, { payload }) => {
-        localStorage.setItem("homeId", payload.id);
-        return { ...state, otherhome: payload, homeId: payload.id };
-      })
-      .addCase(setHomeId.fulfilled, (state, { payload }) => {
-        return { ...state, homeId: payload };
-      });
-  },
+    name: 'homes',
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(getHome.fulfilled, (state, { payload }) => {
+                return { ...state, home: payload, homeId: payload.id };
+            })
+            .addCase(updateHome.fulfilled, (state, { payload }) => {
+                return { ...state, home: payload };
+            })
+            .addCase(getOtherHome.fulfilled, (state, { payload }) => {
+                localStorage.setItem("homeId", payload.id);
+                return { ...state, otherhome: payload, homeId: payload.id };
+            })
+            .addCase(setHomeId.fulfilled, (state, { payload }) => {
+                return { ...state, homeId: payload };
+            });
+    },
+
 });
 export default homeSlice.reducer;
