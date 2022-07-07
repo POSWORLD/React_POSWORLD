@@ -15,7 +15,7 @@ import {
 const initialState = {
   myToken: localStorage.getItem("token"),
   isLogin: localStorage.getItem("token") === undefined ? true : false,
-  myId: localStorage.getItem("id"),
+  myId: localStorage.getItem("myId"),
   me: {},
   other: {},
 };
@@ -66,7 +66,7 @@ export const updateUser = createAsyncThunk(
     let uploadFile = new FormData();
     uploadFile.append("file", file);
     if (file) {
-      filePath = await fileAxios("/member/upload", "post", uploadFile);
+      filePath = await fileAxios("/img/upload", "post", uploadFile);
     }
     const user = {
       userid,

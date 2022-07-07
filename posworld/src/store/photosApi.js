@@ -44,6 +44,7 @@ export const deletePhotos = async (photos, ids) => {
 export const getPhotoById = async (id) => {
   try {
     const response = await customAxios(`photo-select/${id}`, "get");
+    console.log(response);
     return response;
   } catch (error) {
     throw error;

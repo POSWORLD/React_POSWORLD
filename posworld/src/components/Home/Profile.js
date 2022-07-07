@@ -9,6 +9,7 @@ import ProfileUpdate from "./ProfileUpdate";
 import { MdLink, MdMailOutline } from "react-icons/md";
 import { countUser, logout } from "../../store/users";
 import { useNavigate } from "react-router-dom";
+import homes from "../../store/homes";
 
 const ProfileSection = styled.section`
   height: fit-content !important;
@@ -54,11 +55,16 @@ const ProfileSection = styled.section`
   }
 `;
 function Profile() {
+  const homeId = useSelector((state) => state.homes.homeId);
+  console.log("my homeid", homeId);
+
   const dispatch = useDispatch();
   const nevigate = useNavigate();
   const { id, userid, name, gender, prophoto } = useSelector(
     (state) => state.users.me
   );
+
+  console.log("id ", id);
   const genderSign = gender === "m" ? "♀" : "♂";
 
   const [isOpen, setIsOpen] = useState(false);
